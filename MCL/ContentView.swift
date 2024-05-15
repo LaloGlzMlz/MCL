@@ -9,16 +9,10 @@ import SwiftUI
 import SwiftData
 import MusicKit
 
-struct Track: Identifiable, Hashable {
-    var id = UUID()
-    let name: String
-    let artist: String
-    let imageURL: URL?
-}
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @State var songs = [Track]()
+    @State var songs = [SongFromCatalog]()
 
     var body: some View {
         NavigationView {
