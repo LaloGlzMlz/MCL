@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2E71E5542BF5077900F80405 /* SongModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5532BF5077900F80405 /* SongModel.swift */; };
+		2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5572BF5110800F80405 /* MusicSearchBar.swift */; };
 		2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C797F2BF3803B008C13C3 /* MCLApp.swift */; };
 		2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C79812BF3803B008C13C3 /* ContentView.swift */; };
 		2E8C79862BF3803C008C13C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C79852BF3803C008C13C3 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		2E71E5532BF5077900F80405 /* SongModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongModel.swift; sourceTree = "<group>"; };
+		2E71E5572BF5110800F80405 /* MusicSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSearchBar.swift; sourceTree = "<group>"; };
 		2E8C797C2BF3803B008C13C3 /* MCL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C797F2BF3803B008C13C3 /* MCLApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCLApp.swift; sourceTree = "<group>"; };
 		2E8C79812BF3803B008C13C3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 				2E8C79852BF3803C008C13C3 /* Assets.xcassets */,
 				2E8C79872BF3803C008C13C3 /* Preview Content */,
 				2E71E5532BF5077900F80405 /* SongModel.swift */,
+				2E71E5572BF5110800F80405 /* MusicSearchBar.swift */,
 			);
 			path = MCL;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 				2E71E5542BF5077900F80405 /* SongModel.swift in Sources */,
 				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
+				2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
