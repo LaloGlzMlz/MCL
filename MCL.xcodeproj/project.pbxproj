@@ -10,6 +10,7 @@
 		17471D782BF6397E006EEF3D /* FirstScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D772BF6397E006EEF3D /* FirstScreenView.swift */; };
 		17471D7A2BF6398F006EEF3D /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D792BF6398F006EEF3D /* AlbumDetailView.swift */; };
 		17471D7C2BF6399D006EEF3D /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D7B2BF6399D006EEF3D /* AlbumModel.swift */; };
+		2E1A20962BF7A61800B2C396 /* AddAlbumSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1A20952BF7A61800B2C396 /* AddAlbumSheet.swift */; };
 		2E71E5542BF5077900F80405 /* SongModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5532BF5077900F80405 /* SongModel.swift */; };
 		2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5572BF5110800F80405 /* MusicSearchBar.swift */; };
 		2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C797F2BF3803B008C13C3 /* MCLApp.swift */; };
@@ -22,6 +23,7 @@
 		17471D772BF6397E006EEF3D /* FirstScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreenView.swift; sourceTree = "<group>"; };
 		17471D792BF6398F006EEF3D /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		17471D7B2BF6399D006EEF3D /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		2E1A20952BF7A61800B2C396 /* AddAlbumSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlbumSheet.swift; sourceTree = "<group>"; };
 		2E71E5532BF5077900F80405 /* SongModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongModel.swift; sourceTree = "<group>"; };
 		2E71E5572BF5110800F80405 /* MusicSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSearchBar.swift; sourceTree = "<group>"; };
 		2E8C797C2BF3803B008C13C3 /* MCL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCL.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				2E8C79812BF3803B008C13C3 /* ContentView.swift */,
+				2E1A20952BF7A61800B2C396 /* AddAlbumSheet.swift */,
 				17471D772BF6397E006EEF3D /* FirstScreenView.swift */,
 				17471D792BF6398F006EEF3D /* AlbumDetailView.swift */,
 			);
@@ -179,6 +182,7 @@
 				2E71E5542BF5077900F80405 /* SongModel.swift in Sources */,
 				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
+				2E1A20962BF7A61800B2C396 /* AddAlbumSheet.swift in Sources */,
 				2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */,
 				17471D782BF6397E006EEF3D /* FirstScreenView.swift in Sources */,
 				17471D7C2BF6399D006EEF3D /* AlbumModel.swift in Sources */,
