@@ -40,10 +40,11 @@ struct FirstScreenView: View {
                                         .padding(.vertical)
                                 }
                                 Text(album.name)
+                                    .font(.title3)
                                     .padding(.top, 50)
                                 
                                 Text(album.date.formatted(date: .abbreviated, time: .omitted))
-                                
+                                    .font(.footnote)
                             }
                         }
                         .padding(.bottom, 50)
