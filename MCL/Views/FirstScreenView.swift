@@ -10,6 +10,7 @@ struct FirstScreenView: View {
     @State var Album: AlbumModel?
     @State var albumTitle: String = ""
     @State var name: String?
+    @State private var showingAddAlbumSheet = false
     
     var AlbumArray: [AlbumModel] = [AlbumModel(id: UUID(), image: Image("street"), name: "Last Sunday", date: Date()), AlbumModel(id: UUID(), image: Image("metro"), name: "Last Monday", date: Date()), AlbumModel(id: UUID(), image: Image("man"), name: "Last Kitemmuort", date: Date()), AlbumModel(id: UUID(), image: Image("vesuvio"), name: "Last Suca", date: Date()), AlbumModel(id: UUID(), image: Image("sea"), name: "Last Paolo", date: Date()),]
     
@@ -53,19 +54,24 @@ struct FirstScreenView: View {
                     .padding(.leading, 60)
                     .padding(.trailing, 50)
                 }
+                .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumSheet() }
                 .safeAreaPadding(.horizontal, 25)
                 .scrollTargetBehavior(.viewAligned)
                 .defaultScrollAnchor(.center)
                 .scrollPosition(id: $Album)
             }
-            .navigationTitle("Album")
-            .searchable(text: $albumTitle)
+            .navigationTitle("Albums")
             .onAppear {
                 Album = AlbumArray[2]
             }
             .toolbar {
-                ToolbarItem(){
-                    Image(systemName: "plus")
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button(action: {
+                        showingAddAlbumSheet = true
+                    }) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.blue) // Adjust color if needed
+                    }
                 }
             }
         }
