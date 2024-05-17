@@ -16,13 +16,12 @@ struct ContentView: View {
     @State private var searchString: String = ""
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 MusicSearchBar()
             }
             .navigationTitle("Albums")
             .navigationBarTitleDisplayMode(.large)
-            
         }
     }
 }

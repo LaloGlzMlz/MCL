@@ -17,22 +17,25 @@ struct MusicSearchBar: View {
     
     var body: some View {
         Section {
-            TextField("Search", text: $searchString)
+            TextField("Search songs", text: $searchString)
                 .onChange(of: searchString) { newValue in
                     fetchMusic()
                 }
+                .onAppear {
+                    fetchMusic()
+                }
         }
+        .listSectionSpacing(5)
         
         Section {
             List(songs) { song in
                 HStack {
                     AsyncImage(url: song.imageURL)
-                        .frame(width: 75, height: 75, alignment: .center)
-                    VStack {
+                        .frame(width: 40, height: 40, alignment: .leading)
+                    VStack (alignment: .leading) {
                         Text(song.name)
-                            .font(.title3)
                         Text(song.artist)
-                            .font(.footnote )
+                            .font(.footnote)
                     }
                 }
             }
@@ -41,7 +44,7 @@ struct MusicSearchBar: View {
     
     private var request: MusicCatalogSearchRequest {
         var request = MusicCatalogSearchRequest(term: searchString, types: [Song.self])
-        request.limit = 20
+        request.limit = 6
         return request
     }
     
@@ -56,7 +59,7 @@ struct MusicSearchBar: View {
                     self.songs = result.songs.compactMap({
                         return .init(name: $0.title,
                                      artist: $0.artistName,
-                                     imageURL: $0.artwork?.url(width: 75, height: 75))
+                                     imageURL: $0.artwork?.url(width: 40, height: 40))
                     })
                 } catch {
                     print(String(describing: error))
