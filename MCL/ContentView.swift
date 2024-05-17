@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  MCL
+//  Flamingo
 //
-//  Created by Eduardo Gonzalez Melgoza on 14/05/24.
+//  Created by Fernando Sensenhauser on 13/05/24.
 //
 
 import SwiftUI
@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var searchString: String = ""
     
     var body: some View {
+        FirstScreenView()
         NavigationStack {
             Form {
                 MusicSearchBar()
