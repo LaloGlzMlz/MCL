@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
+import MusicKit
+
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State var songs = [SongFromCatalog]()
+    @State private var searchString: String = ""
+    
     var body: some View {
-        FirstScreenView()
+        NavigationStack {
+            FirstScreenView()
+//                .navigationTitle("Albums")
+//                .navigationBarTitleDisplayMode(.large)
+        }
     }
-}
-
-#Preview {
-    ContentView()
 }

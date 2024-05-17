@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E71E5542BF5077900F80405 /* SongModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5532BF5077900F80405 /* SongModel.swift */; };
+		2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5572BF5110800F80405 /* MusicSearchBar.swift */; };
 		17471D782BF6397E006EEF3D /* FirstScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D772BF6397E006EEF3D /* FirstScreenView.swift */; };
 		17471D7A2BF6398F006EEF3D /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D792BF6398F006EEF3D /* AlbumDetailView.swift */; };
 		17471D7C2BF6399D006EEF3D /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D7B2BF6399D006EEF3D /* AlbumModel.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E71E5532BF5077900F80405 /* SongModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongModel.swift; sourceTree = "<group>"; };
+		2E71E5572BF5110800F80405 /* MusicSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSearchBar.swift; sourceTree = "<group>"; };
 		17471D772BF6397E006EEF3D /* FirstScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreenView.swift; sourceTree = "<group>"; };
 		17471D792BF6398F006EEF3D /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
 		17471D7B2BF6399D006EEF3D /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
@@ -64,6 +68,8 @@
 				17471D7B2BF6399D006EEF3D /* AlbumModel.swift */,
 				2E8C79852BF3803C008C13C3 /* Assets.xcassets */,
 				2E8C79872BF3803C008C13C3 /* Preview Content */,
+				2E71E5532BF5077900F80405 /* SongModel.swift */,
+				2E71E5572BF5110800F80405 /* MusicSearchBar.swift */,
 			);
 			path = MCL;
 			sourceTree = "<group>";
@@ -146,6 +152,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E71E5542BF5077900F80405 /* SongModel.swift in Sources */,
+				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
+				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
+				2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */,
 				17471D782BF6397E006EEF3D /* FirstScreenView.swift in Sources */,
 				17471D7C2BF6399D006EEF3D /* AlbumModel.swift in Sources */,
 				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
@@ -287,6 +297,7 @@
 				DEVELOPMENT_TEAM = 8FW56V9S55;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -316,6 +327,7 @@
 				DEVELOPMENT_TEAM = 8FW56V9S55;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
