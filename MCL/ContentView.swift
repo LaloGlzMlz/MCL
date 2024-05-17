@@ -16,13 +16,10 @@ struct ContentView: View {
     @State private var searchString: String = ""
     
     var body: some View {
-        FirstScreenView()
         NavigationStack {
-            Form {
-                MusicSearchBar()
-            }
-            .navigationTitle("Albums")
-            .navigationBarTitleDisplayMode(.large)
+            FirstScreenView()
+//                .navigationTitle("Albums")
+//                .navigationBarTitleDisplayMode(.large)
         }
     }
 }
