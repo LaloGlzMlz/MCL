@@ -13,3 +13,7 @@ struct SongFromCatalog: Identifiable, Hashable {
     let artist: String
     let imageURL: URL?
 }
+
+class SongStore: ObservableObject {
+    @Published var addedSongs: [SongFromCatalog] = []
+}

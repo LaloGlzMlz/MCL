@@ -14,7 +14,7 @@ struct MusicSearchBar: View {
     @Environment(\.modelContext) private var modelContext
     @State var songs = [SongFromCatalog]()
     @State private var searchString: String = ""
-    //@State private var addSongs: [SongFromCatalog] = []
+    @ObservedObject var songStore: SongStore
     
     var body: some View {
         NavigationStack{
@@ -31,6 +31,7 @@ struct MusicSearchBar: View {
                     }
                     .swipeActions(edge: .trailing) {
                         Button(){
+                            addSong(song)
                         } label: {
                             Label("Add", systemImage: "plus")
                         }
@@ -79,4 +80,7 @@ struct MusicSearchBar: View {
             }
         }
     }
+    private func addSong(_ song: SongFromCatalog) {
+           songStore.addedSongs.append(song)
+       }
 }
