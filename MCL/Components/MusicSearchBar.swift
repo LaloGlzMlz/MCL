@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import MusicKit
+import SimpleToast
 
 
 struct MusicSearchBar: View {
@@ -15,6 +16,17 @@ struct MusicSearchBar: View {
     @State var songs = [SongFromCatalog]()
     @State private var searchString: String = ""
     @ObservedObject var songStore: SongStore
+    @State private var showToast = false
+    @State private var value = 0
+    
+    var toastOptions = SimpleToastOptions(
+        alignment: .bottom,
+        hideAfter: 2,
+        backdrop: Color.black.opacity(0),
+        animation: .default,
+        modifierType: .slide
+        
+    )
     
     var body: some View {
         NavigationStack{
@@ -32,6 +44,7 @@ struct MusicSearchBar: View {
                     .swipeActions(edge: .trailing) {
                         Button(){
                             addSong(song)
+                            showToast.toggle()
                         } label: {
                             Label("Add", systemImage: "plus")
                         }
@@ -49,6 +62,21 @@ struct MusicSearchBar: View {
                 .onAppear {
                     fetchMusic()
                 }
+        }
+        .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
+            value += 1
+        }){
+            HStack{
+                Image(systemName: "checkmark")
+                Text("Song added")
+                    .bold()
+            }
+            .padding()
+            .background(Color.green)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 14.0))
+            .shadow(radius: 10)
+            
         }
     }
     

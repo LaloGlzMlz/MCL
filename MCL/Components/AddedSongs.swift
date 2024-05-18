@@ -23,8 +23,6 @@ struct AddedSongs: View {
                         }
                     }
                 }
-                .listStyle(PlainListStyle())
-                .navigationTitle("Added Songs")
             }
         }
     }
