@@ -14,31 +14,40 @@ struct MusicSearchBar: View {
     @Environment(\.modelContext) private var modelContext
     @State var songs = [SongFromCatalog]()
     @State private var searchString: String = ""
+    //@State private var addSongs: [SongFromCatalog] = []
     
     var body: some View {
-        Section {
-            TextField("Search songs", text: $searchString)
-                .onChange(of: searchString) { newValue in
+        NavigationStack{
+            Section {
+                List(songs) { song in
+                    HStack {
+                        AsyncImage(url: song.imageURL)
+                            .frame(width: 40, height: 40, alignment: .leading)
+                        VStack (alignment: .leading) {
+                            Text(song.name)
+                            Text(song.artist)
+                                .font(.footnote)
+                        }
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button(){
+                        } label: {
+                            Label("Add", systemImage: "plus")
+                        }
+                        .tint(.green)
+                    }
+                }
+                .listStyle(PlainListStyle())
+            }
+            .searchable(text: $searchString, prompt: "Search songs")
+                .onChange(of: searchString) { oldValue, newValue in
                     fetchMusic()
+                    print(newValue)
+                    print(oldValue)
                 }
                 .onAppear {
                     fetchMusic()
                 }
-        }
-        .listSectionSpacing(5)
-        
-        Section {
-            List(songs) { song in
-                HStack {
-                    AsyncImage(url: song.imageURL)
-                        .frame(width: 40, height: 40, alignment: .leading)
-                    VStack (alignment: .leading) {
-                        Text(song.name)
-                        Text(song.artist)
-                            .font(.footnote)
-                    }
-                }
-            }
         }
     }
     
