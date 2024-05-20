@@ -11,7 +11,6 @@ import SwiftData
 
 @main
 struct MCLApp: App {
-    
     let modelContainer: ModelContainer
     
     init() {
