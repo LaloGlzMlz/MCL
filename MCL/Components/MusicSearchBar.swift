@@ -14,7 +14,6 @@ import SimpleToast
 struct MusicSearchBar: View {
     @Environment(\.modelContext) private var modelContext
     @State var songs = [SongFromCatalog]()
-    //@State private var searchString: String = ""
     @ObservedObject var songStore: SongStore
     @State private var showToast = false
     @State private var value = 0
