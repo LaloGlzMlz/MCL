@@ -93,12 +93,12 @@
 		2E8C797E2BF3803B008C13C3 /* MCL */ = {
 			isa = PBXGroup;
 			children = (
-				08F4D4922BF7A19A001F7279 /* Models */,
 				2E8C797F2BF3803B008C13C3 /* MCLApp.swift */,
+				08F4D4922BF7A19A001F7279 /* Models */,
+				08F4D4902BF7A142001F7279 /* Views */,
+				08F4D4912BF7A180001F7279 /* Components */,
 				2E8C79852BF3803C008C13C3 /* Assets.xcassets */,
 				2E8C79872BF3803C008C13C3 /* Preview Content */,
-				08F4D4912BF7A180001F7279 /* Components */,
-				08F4D4902BF7A142001F7279 /* Views */,
 			);
 			path = MCL;
 			sourceTree = "<group>";

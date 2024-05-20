@@ -60,13 +60,13 @@ struct MusicSearchBar: View {
             }
             .searchable(text: $searchString.currentValue, prompt: "Search songs")
             .onChange(of: searchString.debouncedValue) { oldValue, newValue in
-                    fetchMusic()
-                    print(newValue)
-                    print(oldValue)
-                }
-                .onAppear {
-                    fetchMusic()
-                }
+                fetchMusic()
+                print(newValue)
+                print(oldValue)
+            }
+            .onAppear {
+                fetchMusic()
+            }
         }
         .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
             value += 1
@@ -114,6 +114,6 @@ struct MusicSearchBar: View {
         }
     }
     private func addSong(_ song: SongFromCatalog) {
-           songStore.addedSongs.append(song)
-       }
+        songStore.addedSongs.append(song)
+    }
 }
