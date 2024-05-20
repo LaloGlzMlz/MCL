@@ -54,7 +54,7 @@ struct FirstScreenView: View {
                     .padding(.leading, 60)
                     .padding(.trailing, 50)
                 }
-                .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumSheet() }
+                .sheet(isPresented: $showingAddAlbumSheet) { NewAlbumFormView() }
                 .safeAreaPadding(.horizontal, 25)
                 .scrollTargetBehavior(.viewAligned)
                 .defaultScrollAnchor(.center)

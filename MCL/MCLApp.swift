@@ -11,7 +11,7 @@ import SwiftUI
 struct MCLApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FirstScreenView()
         }
     }
 }
