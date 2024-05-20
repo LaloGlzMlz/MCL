@@ -8,7 +8,6 @@
 import SwiftUI
 import SwiftData
 
-
 @main
 struct MCLApp: App {
     let modelContainer: ModelContainer
