@@ -15,9 +15,6 @@ final class SongFromCatalog : Identifiable {
     let artist: String
     let imageURL: URL?
     
-//    @Relationship(inverse: \Album.songs)
-//    var customAlbum: Album?
-    
     init(name: String, artist: String, imageURL: URL?) {
         self.name = name
         self.artist = artist

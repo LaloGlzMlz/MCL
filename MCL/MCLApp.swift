@@ -26,7 +26,7 @@ struct MCLApp: App {
     
     var body: some Scene {
         WindowGroup {
-            FirstScreenView()
+            AlbumShelfView()
         }
         .modelContainer(modelContainer)
     }

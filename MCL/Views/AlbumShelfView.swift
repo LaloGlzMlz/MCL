@@ -1,12 +1,12 @@
 //
-//  FirstScreenView.swift
+//  AlbumShelfView.swift
 //
 //  Created by Fernando Sensenhauser on 13/05/24.
 //
 
 import SwiftUI
 
-struct FirstScreenView: View {
+struct AlbumShelfView: View {
     @State var albumTitle: String = ""
     @State var name: String?
     @State private var showingAddAlbumSheet = false
@@ -27,11 +27,11 @@ struct FirstScreenView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingAddAlbumSheet) { NewAlbumFormView() }
+            .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumSheetView() }
         }
     }
 }
 
 #Preview {
-    FirstScreenView()
+    AlbumShelfView()
 }

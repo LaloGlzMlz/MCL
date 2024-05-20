@@ -1,5 +1,5 @@
 //
-//  NewAlbumFormView.swift
+//  AddAlbumSheetView.swift
 //  MCL
 //
 //  Created by Francesca Ferrini on 15/05/24.
@@ -11,7 +11,7 @@ import PhotosUI
 //Creo una struct per gestire il picker delle foto
 
 
-struct NewAlbumFormView: View {
+struct AddAlbumSheetView: View {
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
@@ -117,5 +117,5 @@ struct NewAlbumFormView: View {
 
 
 #Preview {
-    NewAlbumFormView()
+    AddAlbumSheetView()
 }
