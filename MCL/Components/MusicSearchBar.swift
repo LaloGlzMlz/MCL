@@ -18,6 +18,7 @@ struct MusicSearchBar: View {
     @ObservedObject var songStore: SongStore
     @State private var showToast = false
     @State private var value = 0
+    @State private var showAlert = false
     
     @StateObject private var searchString = DebouncedState(initialValue: "", delay: 0.3)
     
@@ -49,7 +50,7 @@ struct MusicSearchBar: View {
                     .swipeActions(edge: .trailing) {
                         Button(){
                             addSong(song)
-                            showToast.toggle()
+//                            showToast.toggle()
                         } label: {
                             Label("Add", systemImage: "plus")
                         }
@@ -67,6 +68,9 @@ struct MusicSearchBar: View {
             .onAppear {
                 fetchMusic()
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
         }
         .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
             value += 1
@@ -114,6 +118,12 @@ struct MusicSearchBar: View {
         }
     }
     private func addSong(_ song: SongFromCatalog) {
-        songStore.addedSongs.append(song)
+        if songStore.addedSongs.contains(where: { $0.name == song.name && $0.artist == song.artist }) {
+            showAlert = true
+        } else {
+            songStore.addedSongs.append(song)
+            showToast.toggle()
+        }
+        
     }
 }
