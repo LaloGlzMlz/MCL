@@ -6,13 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct MCLApp: App {
-    @StateObject private var songStore = SongStore()
+    let modelContainer: ModelContainer
+    
+    init() {
+        
+        do {
+            modelContainer = try ModelContainer(for: Album.self, SongFromCatalog.self)
+        } catch {
+            fatalError("ModelContainer has not been initialized.")
+        }
+        
+    }
+    
     var body: some Scene {
         WindowGroup {
-            FirstScreenView()
+            AlbumShelfView()
         }
+        .modelContainer(modelContainer)
     }
 }

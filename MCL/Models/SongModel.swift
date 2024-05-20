@@ -6,13 +6,21 @@
 //
 
 import Foundation
+import SwiftData
 import Combine
 
-struct SongFromCatalog: Identifiable, Hashable {
-    var id = UUID()
+
+@Model
+final class SongFromCatalog : Identifiable {
     let name: String
     let artist: String
     let imageURL: URL?
+    
+    init(name: String, artist: String, imageURL: URL?) {
+        self.name = name
+        self.artist = artist
+        self.imageURL = imageURL
+    }
 }
 
 class SongStore: ObservableObject {

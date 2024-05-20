@@ -8,6 +8,10 @@
 import SwiftUI
 import SimpleToast
 
+// When calling the AddedSongs component and the music search bar component,
+// add the following line first
+//    @StateObject private var songStore = SongStore()
+
 struct AddedSongs: View {
     @ObservedObject var songStore: SongStore
     @State private var showToast = false

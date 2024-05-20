@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AlbumDetailView: View {
-    var album: AlbumModel
+    var album: AlbumAuxModel
     var body: some View {
         VStack {
             
