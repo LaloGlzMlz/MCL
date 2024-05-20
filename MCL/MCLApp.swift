@@ -12,7 +12,7 @@ struct MCLApp: App {
     @StateObject private var songStore = SongStore()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FirstScreenView()
         }
     }
 }
