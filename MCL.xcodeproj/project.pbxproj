@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08F4D4942BF8CBD7001F7279 /* AddedSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F4D4932BF8CBD7001F7279 /* AddedSongs.swift */; };
+		08F4D4992BF8D8CA001F7279 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = 08F4D4982BF8D8CA001F7279 /* SimpleToast */; };
 		27D238112BFB4122006D9BD4 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D238102BFB4122006D9BD4 /* DocumentPicker.swift */; };
 		27F3A6492BF4E80D0029832D /* NewAlbumFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */; };
 		27F3A64F2BF60A860029832D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A64E2BF60A860029832D /* ImagePicker.swift */; };
@@ -23,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08F4D4932BF8CBD7001F7279 /* AddedSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedSongs.swift; sourceTree = "<group>"; };
 		27D238102BFB4122006D9BD4 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlbumFormView.swift; sourceTree = "<group>"; };
 		27F3A64E2BF60A860029832D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08F4D4992BF8D8CA001F7279 /* SimpleToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				2E71E5572BF5110800F80405 /* MusicSearchBar.swift */,
+				08F4D4932BF8CBD7001F7279 /* AddedSongs.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -106,10 +111,11 @@
 				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
 				08F4D4922BF7A19A001F7279 /* Models */,
 				2E8C797F2BF3803B008C13C3 /* MCLApp.swift */,
+				08F4D4922BF7A19A001F7279 /* Models */,
+				08F4D4902BF7A142001F7279 /* Views */,
+				08F4D4912BF7A180001F7279 /* Components */,
 				2E8C79852BF3803C008C13C3 /* Assets.xcassets */,
 				2E8C79872BF3803C008C13C3 /* Preview Content */,
-				08F4D4912BF7A180001F7279 /* Components */,
-				08F4D4902BF7A142001F7279 /* Views */,
 			);
 			path = MCL;
 			sourceTree = "<group>";
@@ -138,6 +144,9 @@
 			dependencies = (
 			);
 			name = MCL;
+			packageProductDependencies = (
+				08F4D4982BF8D8CA001F7279 /* SimpleToast */,
+			);
 			productName = MCL;
 			productReference = 2E8C797C2BF3803B008C13C3 /* MCL.app */;
 			productType = "com.apple.product-type.application";
@@ -166,6 +175,9 @@
 				Base,
 			);
 			mainGroup = 2E8C79732BF3803B008C13C3;
+			packageReferences = (
+				08F4D4972BF8D8CA001F7279 /* XCRemoteSwiftPackageReference "SimpleToast" */,
+			);
 			productRefGroup = 2E8C797D2BF3803B008C13C3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -198,6 +210,7 @@
 				27F3A6492BF4E80D0029832D /* NewAlbumFormView.swift in Sources */,
 				27D238112BFB4122006D9BD4 /* DocumentPicker.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
+				08F4D4942BF8CBD7001F7279 /* AddedSongs.swift in Sources */,
 				2E1A20962BF7A61800B2C396 /* AddAlbumSheet.swift in Sources */,
 				2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */,
 				17471D782BF6397E006EEF3D /* FirstScreenView.swift in Sources */,
@@ -424,6 +437,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		08F4D4972BF8D8CA001F7279 /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sanzaru/SimpleToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		08F4D4982BF8D8CA001F7279 /* SimpleToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08F4D4972BF8D8CA001F7279 /* XCRemoteSwiftPackageReference "SimpleToast" */;
+			productName = SimpleToast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2E8C79742BF3803B008C13C3 /* Project object */;
 }

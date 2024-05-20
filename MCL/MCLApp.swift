@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct MCLApp: App {
+    @StateObject private var songStore = SongStore()
     var body: some Scene {
         WindowGroup {
             FirstScreenView()
