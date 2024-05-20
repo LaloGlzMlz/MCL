@@ -38,55 +38,53 @@ struct AddAlbumSheetView: View {
     var body: some View {
         NavigationView {
             Form {
-                TextField("Name",
-                          text: $title,
-                          prompt: Text("Album title").font(.system(size: 20)))
-                .multilineTextAlignment(.center)
-                //                VStack {
-                //                    Menu {
-                //                        Button(action: {
-                //                            self.showImagePicker = true
-                //
-                //                        }) {
-                //                            Label("Choose Photo", systemImage: "photo.on.rectangle")
-                //                        }
-                //                        Button(action:  {
-                //                            self.showCameraPicker = true
-                //
-                //                        }) {
-                //                            Label("Take Photo", systemImage: "camera")
-                //                        }
-                //                        Button(action:  {
-                //                            isShowingDocumentPicker = true
-                //                        }){
-                //                            Label("Select from file", systemImage: "folder")
-                //                        }
-                //                        Button(action: {
-                //                            self.selectedImage = nil
-                //                        }){
-                //                            Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
-                //                        }
-                //                    } label: {
-                //                        if let selectedImage = selectedImage {
-                //                            Image(uiImage: selectedImage)
-                //                                .resizable()
-                //                                .frame(width: 247, height: 247)
-                //                        } else {
-                //                            Image("chosenImage")
-                //                        }
-                //                    }
-                //                    TextField("Name",
-                //                              text: .constant(""),
-                //                              prompt: Text("Album title").font(.system(size: 20)))
-                //                        .multilineTextAlignment(.center)
-                //                    Divider()
-                //                    HStack{
-                //                        DatePicker("", selection: $startDate, displayedComponents: [.date])
-                //
-                //                        DatePicker("", selection: $endDate, displayedComponents: [.date])
-                //
-                //                    }
-                //                }
+                Section {
+                    VStack {
+                        Menu {
+                            Button(action: {
+                                self.showImagePicker = true
+                                
+                            }) {
+                                Label("Choose Photo", systemImage: "photo.on.rectangle")
+                            }
+                            Button(action:  {
+                                self.showCameraPicker = true
+                                
+                            }) {
+                                Label("Take Photo", systemImage: "camera")
+                            }
+                            Button(action:  {
+                                isShowingDocumentPicker = true
+                            }){
+                                Label("Select from file", systemImage: "folder")
+                            }
+                            Button(action: {
+                                self.selectedImage = nil
+                            }){
+                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
+                            }
+                        } label: {
+                            if let selectedImage = selectedImage {
+                                Image(uiImage: selectedImage)
+                                    .resizable()
+                                    .frame(width: 247, height: 247)
+                            } else {
+                                Image("chosenImage")
+                            }
+                        }
+                        TextField("Name",
+                                  text: $title,
+                                  prompt: Text("Album title").font(.system(size: 20)))
+                        .multilineTextAlignment(.center)
+                        Divider()
+                        HStack{
+                            DatePicker("", selection: $startDate, displayedComponents: [.date])
+                            
+                            DatePicker("", selection: $endDate, displayedComponents: [.date])
+                            
+                        }
+                    }
+                }
             }
             .navigationTitle("New album")
             .navigationBarTitleDisplayMode(.large)
