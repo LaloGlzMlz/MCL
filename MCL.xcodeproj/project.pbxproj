@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27D238112BFB4122006D9BD4 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D238102BFB4122006D9BD4 /* DocumentPicker.swift */; };
+		27F3A6492BF4E80D0029832D /* NewAlbumFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */; };
+		27F3A64F2BF60A860029832D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A64E2BF60A860029832D /* ImagePicker.swift */; };
+		17471D782BF6397E006EEF3D /* FirstScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D772BF6397E006EEF3D /* FirstScreenView.swift */; };
+		17471D7A2BF6398F006EEF3D /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D792BF6398F006EEF3D /* AlbumDetailView.swift */; };
+		17471D7C2BF6399D006EEF3D /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D7B2BF6399D006EEF3D /* AlbumModel.swift */; };
+		2E1A20962BF7A61800B2C396 /* AddAlbumSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1A20952BF7A61800B2C396 /* AddAlbumSheet.swift */; };
+		2E71E5542BF5077900F80405 /* SongModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5532BF5077900F80405 /* SongModel.swift */; };
+		2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71E5572BF5110800F80405 /* MusicSearchBar.swift */; };
 		2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C797F2BF3803B008C13C3 /* MCLApp.swift */; };
 		2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C79812BF3803B008C13C3 /* ContentView.swift */; };
 		2E8C79862BF3803C008C13C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C79852BF3803C008C13C3 /* Assets.xcassets */; };
@@ -14,6 +23,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27D238102BFB4122006D9BD4 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlbumFormView.swift; sourceTree = "<group>"; };
+		27F3A64E2BF60A860029832D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		27F3A6502BF638CD0029832D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		17471D772BF6397E006EEF3D /* FirstScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreenView.swift; sourceTree = "<group>"; };
+		17471D792BF6398F006EEF3D /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
+		17471D7B2BF6399D006EEF3D /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		2E1A20952BF7A61800B2C396 /* AddAlbumSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlbumSheet.swift; sourceTree = "<group>"; };
+		2E71E5532BF5077900F80405 /* SongModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongModel.swift; sourceTree = "<group>"; };
+		2E71E5572BF5110800F80405 /* MusicSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSearchBar.swift; sourceTree = "<group>"; };
 		2E8C797C2BF3803B008C13C3 /* MCL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C797F2BF3803B008C13C3 /* MCLApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCLApp.swift; sourceTree = "<group>"; };
 		2E8C79812BF3803B008C13C3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +51,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08F4D4902BF7A142001F7279 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2E8C79812BF3803B008C13C3 /* ContentView.swift */,
+				2E1A20952BF7A61800B2C396 /* AddAlbumSheet.swift */,
+				17471D772BF6397E006EEF3D /* FirstScreenView.swift */,
+				17471D792BF6398F006EEF3D /* AlbumDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		08F4D4912BF7A180001F7279 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2E71E5572BF5110800F80405 /* MusicSearchBar.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		08F4D4922BF7A19A001F7279 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2E71E5532BF5077900F80405 /* SongModel.swift */,
+				17471D7B2BF6399D006EEF3D /* AlbumModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		2E8C79732BF3803B008C13C3 = {
 			isa = PBXGroup;
 			children = (
@@ -51,10 +98,18 @@
 		2E8C797E2BF3803B008C13C3 /* MCL */ = {
 			isa = PBXGroup;
 			children = (
+				27F3A6502BF638CD0029832D /* Info.plist */,
 				2E8C797F2BF3803B008C13C3 /* MCLApp.swift */,
 				2E8C79812BF3803B008C13C3 /* ContentView.swift */,
+				27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */,
+				27F3A64E2BF60A860029832D /* ImagePicker.swift */,
+				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
+				08F4D4922BF7A19A001F7279 /* Models */,
+				2E8C797F2BF3803B008C13C3 /* MCLApp.swift */,
 				2E8C79852BF3803C008C13C3 /* Assets.xcassets */,
 				2E8C79872BF3803C008C13C3 /* Preview Content */,
+				08F4D4912BF7A180001F7279 /* Components */,
+				08F4D4902BF7A142001F7279 /* Views */,
 			);
 			path = MCL;
 			sourceTree = "<group>";
@@ -137,8 +192,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E71E5542BF5077900F80405 /* SongModel.swift in Sources */,
+				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
+				27F3A64F2BF60A860029832D /* ImagePicker.swift in Sources */,
+				27F3A6492BF4E80D0029832D /* NewAlbumFormView.swift in Sources */,
+				27D238112BFB4122006D9BD4 /* DocumentPicker.swift in Sources */,
+				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
+				2E1A20962BF7A61800B2C396 /* AddAlbumSheet.swift in Sources */,
+				2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */,
+				17471D782BF6397E006EEF3D /* FirstScreenView.swift in Sources */,
+				17471D7C2BF6399D006EEF3D /* AlbumModel.swift in Sources */,
 				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
+				17471D7A2BF6398F006EEF3D /* AlbumDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,14 +338,21 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 8FW56V9S55;
+				DEVELOPMENT_TEAM = Z4SW228TF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MCL/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -301,14 +374,21 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 8FW56V9S55;
+				DEVELOPMENT_TEAM = Z4SW228TF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MCL/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

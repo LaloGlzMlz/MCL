@@ -10,8 +10,15 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-
+    @State private var showingSheet = false
+    
     var body: some View {
-        Text("hi")
+        
+        Button("Show Sheet"){
+            showingSheet.toggle()
+        }
+        .sheet(isPresented: $showingSheet){
+            NewAlbumFormView()
+        }
     }
 }
