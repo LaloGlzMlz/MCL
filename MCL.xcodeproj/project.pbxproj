@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27D238112BFB4122006D9BD4 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D238102BFB4122006D9BD4 /* DocumentPicker.swift */; };
 		27F3A6492BF4E80D0029832D /* NewAlbumFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */; };
 		27F3A64F2BF60A860029832D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A64E2BF60A860029832D /* ImagePicker.swift */; };
 		2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C797F2BF3803B008C13C3 /* MCLApp.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27D238102BFB4122006D9BD4 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAlbumFormView.swift; sourceTree = "<group>"; };
 		27F3A64E2BF60A860029832D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		27F3A6502BF638CD0029832D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				2E8C79812BF3803B008C13C3 /* ContentView.swift */,
 				27F3A6482BF4E80D0029832D /* NewAlbumFormView.swift */,
 				27F3A64E2BF60A860029832D /* ImagePicker.swift */,
+				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
 				2E8C79852BF3803C008C13C3 /* Assets.xcassets */,
 				2E8C79872BF3803C008C13C3 /* Preview Content */,
 			);
@@ -148,6 +151,7 @@
 				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
 				27F3A64F2BF60A860029832D /* ImagePicker.swift in Sources */,
 				27F3A6492BF4E80D0029832D /* NewAlbumFormView.swift in Sources */,
+				27D238112BFB4122006D9BD4 /* DocumentPicker.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +290,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
@@ -319,6 +324,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";

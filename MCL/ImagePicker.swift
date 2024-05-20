@@ -8,38 +8,38 @@
 import Foundation
 import SwiftUI
 
-class ImagePickerCoordinator:NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
+class ImagePickerCoordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    @Binding var selectedImage: UIImage?
+    @Binding var image: UIImage?
     
-    init(image: Binding<UIImage?>){
-        _selectedImage = image
+    init(image: Binding<UIImage?>) {
+        _image = image
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let uiImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            image = uiImage
             
-            selectedImage = uiImage
         }
+        picker.dismiss(animated: true)
     }
 }
 
-struct ImagePicker: UIViewControllerRepresentable{
+
+struct ImagePicker: UIViewControllerRepresentable {
     
     typealias UIViewControllerType = UIImagePickerController
     typealias Coordinator = ImagePickerCoordinator
     
-    @Binding var selectedImage: UIImage?
+    @Binding var image: UIImage?
+    var sourceType: UIImagePickerController.SourceType = .camera
     
-    var sourceType: UIImagePickerController.SourceType     
-    //Se l' immagine cambia
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
-        uiViewController.sourceType = sourceType
     }
     
     func makeCoordinator() -> ImagePicker.Coordinator {
-        return ImagePickerCoordinator(image: $selectedImage)
+        return ImagePickerCoordinator(image: $image)
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
@@ -47,7 +47,8 @@ struct ImagePicker: UIViewControllerRepresentable{
         let picker = UIImagePickerController()
         picker.sourceType = sourceType
         picker.delegate = context.coordinator
-        
         return picker
+        
     }
+    
 }
