@@ -6,10 +6,21 @@
 //
 
 import Foundation
+import SwiftData
 
-struct SongFromCatalog: Identifiable, Hashable {
-    var id = UUID()
+
+@Model
+final class SongFromCatalog : Identifiable {
     let name: String
     let artist: String
     let imageURL: URL?
+    
+//    @Relationship(inverse: \Album.songs)
+//    var customAlbum: Album?
+    
+    init(name: String, artist: String, imageURL: URL?) {
+        self.name = name
+        self.artist = artist
+        self.imageURL = imageURL
+    }
 }
