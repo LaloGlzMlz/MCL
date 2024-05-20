@@ -16,13 +16,13 @@ final class Album {
     var coverImage: String = ""
     var dateOfAlbum: Date
     
-    @Relationship(deleteRule: .cascade)
-    var songs: [SongFromCatalog]
+//    @Relationship(deleteRule: .cascade)
+//    var songs: [SongFromCatalog]
     
-    init(title: String, coverImage: String, dateOfAlbum: Date, songs: [SongFromCatalog]) {
+    init(title: String, coverImage: String, dateOfAlbum: Date) {
         self.title = title
         self.coverImage = coverImage
         self.dateOfAlbum = dateOfAlbum
-        self.songs = songs
+//        self.songs = songs
     }
 }
