@@ -11,8 +11,15 @@ import SwiftUI
 struct MCLApp: App {
     @StateObject private var songStore = SongStore()
     var body: some Scene {
-        WindowGroup {
-            MusicSearchBar(songStore: songStore)
+            WindowGroup {
+                NavigationView {
+                    VStack {
+                        MusicSearchBar(songStore: songStore)
+                        NavigationLink("View Added Songs") {
+                            AddedSongs(songStore: songStore)
+                        }
+                    }
+                }
+            }
         }
-    }
 }

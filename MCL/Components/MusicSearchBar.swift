@@ -14,10 +14,13 @@ import SimpleToast
 struct MusicSearchBar: View {
     @Environment(\.modelContext) private var modelContext
     @State var songs = [SongFromCatalog]()
-    @State private var searchString: String = ""
+    //@State private var searchString: String = ""
     @ObservedObject var songStore: SongStore
     @State private var showToast = false
     @State private var value = 0
+    
+    @StateObject private var searchString = DebouncedState(initialValue: "", delay: 0.3)
+    
     
     var toastOptions = SimpleToastOptions(
         alignment: .bottom,
@@ -37,8 +40,10 @@ struct MusicSearchBar: View {
                             .frame(width: 40, height: 40, alignment: .leading)
                         VStack (alignment: .leading) {
                             Text(song.name)
+                                .fontWeight(.medium)
                             Text(song.artist)
                                 .font(.footnote)
+                                .fontWeight(.light)
                         }
                     }
                     .swipeActions(edge: .trailing) {
@@ -53,8 +58,8 @@ struct MusicSearchBar: View {
                 }
                 .listStyle(PlainListStyle())
             }
-            .searchable(text: $searchString, prompt: "Search songs")
-                .onChange(of: searchString) { oldValue, newValue in
+            .searchable(text: $searchString.currentValue, prompt: "Search songs")
+            .onChange(of: searchString.debouncedValue) { oldValue, newValue in
                     fetchMusic()
                     print(newValue)
                     print(oldValue)
@@ -81,7 +86,7 @@ struct MusicSearchBar: View {
     }
     
     private var request: MusicCatalogSearchRequest {
-        var request = MusicCatalogSearchRequest(term: searchString, types: [Song.self])
+        var request = MusicCatalogSearchRequest(term: searchString.currentValue, types: [Song.self])
         request.limit = 6
         return request
     }

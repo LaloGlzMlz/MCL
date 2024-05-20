@@ -18,8 +18,10 @@ struct AddedSongs: View {
                             .frame(width: 40, height: 40, alignment: .leading)
                         VStack(alignment: .leading) {
                             Text(song.name)
+                                .fontWeight(.medium)
                             Text(song.artist)
                                 .font(.footnote)
+                                .fontWeight(.light)
                         }
                     }
                 }
