@@ -1,5 +1,5 @@
 //
-//  AddAlbumSheetView.swift
+//  AddAlbumView.swift
 //  MCL
 //
 //  Created by Francesca Ferrini on 15/05/24.
@@ -11,7 +11,7 @@ import PhotosUI
 //Creo una struct per gestire il picker delle foto
 
 
-struct AddAlbumSheetView: View {
+struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
     
     @State private var title: String = ""
@@ -130,5 +130,5 @@ struct AddAlbumSheetView: View {
 
 
 #Preview {
-    AddAlbumSheetView()
+    AddAlbumView()
 }

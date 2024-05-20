@@ -45,7 +45,7 @@ struct AlbumShelfView: View {
                         }
                     }
                 }
-                .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumSheetView() }
+                .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
             }
         }
     }
