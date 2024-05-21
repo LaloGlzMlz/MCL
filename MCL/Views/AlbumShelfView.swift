@@ -23,7 +23,7 @@ struct AlbumShelfView: View {
                     ForEach(albums) { album in
                         VStack {
                             Text(album.title)
-                            Text(album.coverImage)
+//                            Text(album.coverImage)
                             
                         }
                         .swipeActions {

@@ -6,11 +6,14 @@
 
 import SwiftUI
 import PhotosUI
+import SwiftData
 
 //Creo una struct per gestire il picker delle foto
 
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) var dismiss
+    
     @State private var title: String = ""
     @State private var coverImage: String = "This is the cover"
     @State var showImagePicker = false
@@ -27,14 +30,55 @@ struct AddAlbumView: View {
     @State private var endDate = Date()
     @State private var isShowingAddSongView = false
     @StateObject private var songStore = SongStore()
-    @Environment(\.dismiss) var dismiss
     
     @State var sideMeasure = UIScreen.main.bounds.width/1.5
+    
+    @State var selectedPhoto: PhotosPickerItem?
+    @State var selectedPhotoData: Data?
+    
     
     
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    PhotosPicker(selection: $selectedPhoto,
+                                 matching: .images,
+                                 photoLibrary: .shared()) {
+                        Label("Add album cover image", systemImage: "photo")
+                    }
+                    
+                    if let photoData = selectedPhotoData,
+                        let uiImage = UIImage(data: photoData) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                    
+                    if selectedPhotoData != nil {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                selectedPhoto = nil
+                                selectedPhotoData = nil
+                            }
+                        } label: {
+                            Label("Clear image selection", systemImage: "xmark")
+                                .foregroundStyle(Color.red)
+                        }
+                    } else {
+//                        ZStack{
+//                            RoundedRectangle(cornerRadius: 5.0)
+//                                .frame(width: sideMeasure, height: sideMeasure)
+//                                .foregroundStyle(Color.gray)
+//                                .opacity(0.5)
+//                            Image(systemName: "camera.circle.fill")
+//                                .resizable()
+//                                .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
+//                                        .foregroundStyle(Color.white)
+//                        }
+                    }
+                }
                 Section {
                     VStack {
                         Menu {
@@ -175,7 +219,7 @@ struct AddAlbumView: View {
                     Button(action: {
                         let album = Album (
                             title: title,
-                            coverImage: coverImage,
+                            coverImage: selectedPhotoData,
                             dateOfAlbum: Date()
                         )
                         context.insert(album)
@@ -184,6 +228,11 @@ struct AddAlbumView: View {
                         Text("Add")
                             .fontWeight(.medium)
                     }
+                }
+            }
+            .task(id: selectedPhoto) {
+                if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                    selectedPhotoData = data
                 }
             }
         }
