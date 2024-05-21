@@ -1,4 +1,3 @@
-//
 //  AddAlbumView.swift
 //  MCL
 //
@@ -10,23 +9,20 @@ import PhotosUI
 
 //Creo una struct per gestire il picker delle foto
 
-
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
     
     @State private var title: String = ""
     @State private var coverImage: String = "This is the cover"
-    
-    
-    
-    
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
-    
+    //variables for file management
     @State private var isShowingDocumentPicker = false
-    
-    
+    //variables for location management
+    @StateObject var locationManager: SearchLocation = .init()
+    @State var showSearchBar = false
+    //variables for datepicker management
     @State private var selectedDates: Set<DateComponents> = []
     @State private var startDate = Date()
     @State private var endDate = Date()
@@ -38,52 +34,97 @@ struct AddAlbumView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section {
-                    VStack {
-                        Menu {
-                            Button(action: {
-                                self.showImagePicker = true
-                                
-                            }) {
-                                Label("Choose Photo", systemImage: "photo.on.rectangle")
-                            }
-                            Button(action:  {
-                                self.showCameraPicker = true
-                                
-                            }) {
-                                Label("Take Photo", systemImage: "camera")
-                            }
-                            Button(action:  {
-                                isShowingDocumentPicker = true
-                            }){
-                                Label("Select from file", systemImage: "folder")
-                            }
-                            Button(action: {
-                                self.selectedImage = nil
-                            }){
-                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
-                            }
-                        } label: {
-                            if let selectedImage = selectedImage {
-                                Image(uiImage: selectedImage)
-                                    .resizable()
-                                    .frame(width: 247, height: 247)
-                            } else {
-                                Image("chosenImage")
-                            }
+                VStack {
+                    Menu {
+                        Button(action: {
+                            self.showImagePicker = true
+                            
+                        }) {
+                            Label("Choose Photo", systemImage: "photo.on.rectangle")
                         }
-                        TextField("Name",
-                                  text: $title,
-                                  prompt: Text("Album title").font(.system(size: 20)))
-                        .multilineTextAlignment(.center)
-                        Divider()
-                        HStack{
-                            DatePicker("", selection: $startDate, displayedComponents: [.date])
+                        Button(action:  {
+                            self.showCameraPicker = true
                             
-                            DatePicker("", selection: $endDate, displayedComponents: [.date])
-                            
+                        }) {
+                            Label("Take Photo", systemImage: "camera")
+                        }
+                        Button(action:  {
+                            isShowingDocumentPicker = true
+                        }){
+                            Label("Select from file", systemImage: "folder")
+                        }
+                        Button(action: {
+                            self.selectedImage = nil
+                        }){
+                            Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
+                        }
+                    } label: {
+                        if let selectedImage = selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .frame(width: 247, height: 247)
+                        } else {
+                            Image("chosenImage")
                         }
                     }
+                    TextField("Name",
+                              text: .constant(""),
+                              prompt: Text("Album title").font(.system(size: 20)))
+                    .multilineTextAlignment(.center)
+                    Divider()
+                    HStack{
+                        DatePicker("", selection: $startDate, displayedComponents: [.date])
+                        
+                        DatePicker("", selection: $endDate, displayedComponents: [.date])
+                        
+                    }
+                    
+                    
+                    
+                    Button(action: {
+                        self.showSearchBar.toggle()
+                       
+                    }) {
+                        Label("Location",systemImage: "location.fill").foregroundColor(.primary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 20)
+                    }
+                    
+                    if showSearchBar {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            TextField("Find location here", text: $locationManager.searchText)
+                        }
+                        .padding(.top, 10)
+                    }
+                    if let places = locationManager.fetchedPlaces,!places.isEmpty{
+                        
+                        List{
+                            ForEach(places, id: \.self){place in
+                                HStack(spacing: 15){
+                                    
+                                    Image(systemName: "mappin.circle.fill")
+                                        .font(.title2)
+                                        .foregroundColor(.gray)
+                                    
+                                    VStack(alignment: .leading, spacing: 6){
+                                        Text(place.name ?? "")
+                                            .font(.title3.bold())
+                                        
+                                        Text(place.locality ?? "")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                            }
+                            
+                            
+                        }.listStyle(.plain)
+                        padding()
+                    }
+                    
+                    
                 }
             }
             .navigationTitle("New album")
@@ -125,10 +166,4 @@ struct AddAlbumView: View {
     }
     
     func selectFromFile() { }
-}
-
-
-
-#Preview {
-    AddAlbumView()
 }
