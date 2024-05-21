@@ -26,17 +26,20 @@ struct AlbumCard: View {
                     .frame(width: frameSideMeasure, height: frameSideMeasure)
                     .foregroundStyle(.white)
                 
-                Image(album.coverImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: imageSideMeasure, height: imageSideMeasure)
-                    .clipShape(RoundedRectangle(cornerRadius: 0))
-                    .opacity(0.9)
+                if let selectedPhotoData = album.coverImage,
+                   let uiImage = UIImage(data: selectedPhotoData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: imageSideMeasure, height: imageSideMeasure)
+                        .clipShape(RoundedRectangle(cornerRadius: 0))
+//                        .opacity(0.9)
+                }
                 
                 VStack {
                     Spacer()
                     HStack {
-                        Text("This is the title")
+                        Text(album.title)
                             .font(.title)
                             .bold()
                             .shadow(color: Color.black.opacity(0.15), radius: 20)

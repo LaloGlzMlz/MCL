@@ -24,7 +24,6 @@ struct AlbumShelfView: View {
                         NavigationLink(destination: BookletView(album: album)){
                             VStack {
                                 Text(album.title)
-                                Text(album.coverImage)
                             }
                         }
                         
