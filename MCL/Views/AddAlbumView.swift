@@ -13,30 +13,21 @@ import PhotosUI
 
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
-    
     @State private var title: String = ""
     @State private var coverImage: String = "This is the cover"
-    
-    
-    
-    
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
-    
     @State private var isShowingDocumentPicker = false
-    
-    
     @State private var selectedDates: Set<DateComponents> = []
     @State private var startDate = Date()
     @State private var endDate = Date()
-    
-    
-    
+    @State private var isShowingAddSongView = false
+    @StateObject private var songStore = SongStore()
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     VStack {
@@ -83,8 +74,28 @@ struct AddAlbumView: View {
                             DatePicker("", selection: $endDate, displayedComponents: [.date])
                             
                         }
+                        Divider()
+                        Button(action: {
+                            self.isShowingAddSongView = true
+                        }){
+                            Label("Add Song",systemImage: "plus")
+                        }
                     }
                 }
+                Section {
+                    List{
+                        AddedSongs(songStore: songStore)
+                    }
+                    
+                    
+                    
+                } header: {
+                    Text("Songs")
+                        .font(.title2)
+                        .bold()
+                }
+                .textCase(nil)
+                
             }
             .navigationTitle("New album")
             .navigationBarTitleDisplayMode(.large)
@@ -121,6 +132,9 @@ struct AddAlbumView: View {
         .sheet(isPresented: $isShowingDocumentPicker) {
             DocumentPicker(selectedImage: $selectedImage)
         }
+        .sheet(isPresented: $isShowingAddSongView) {
+            MusicSearchBar(songStore: songStore)
+        }
         
     }
     
@@ -129,6 +143,6 @@ struct AddAlbumView: View {
 
 
 
-#Preview {
-    AddAlbumView()
-}
+//#Preview {
+//    AddAlbumView()
+//}
