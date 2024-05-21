@@ -24,7 +24,12 @@ struct AlbumShelfView: View {
                         VStack {
                             Text(album.title)
                             Text(album.coverImage)
-                            
+//                            List{
+                                ForEach(album.songs){ song in
+                                    Text(song.name)
+                                    Text(song.artist)
+                                }
+//                            }
                         }
                         .swipeActions {
                             Button("Delete", role: .destructive) {

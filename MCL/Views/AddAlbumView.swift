@@ -176,7 +176,8 @@ struct AddAlbumView: View {
                         let album = Album (
                             title: title,
                             coverImage: coverImage,
-                            dateOfAlbum: Date()
+                            dateOfAlbum: Date(), 
+                            songs: songStore.addedSongs
                         )
                         context.insert(album)
                         dismiss()
