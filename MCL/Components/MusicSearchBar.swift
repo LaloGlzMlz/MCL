@@ -8,42 +8,88 @@
 import SwiftUI
 import SwiftData
 import MusicKit
+import SimpleToast
 
 
 struct MusicSearchBar: View {
     @Environment(\.modelContext) private var modelContext
     @State var songs = [SongFromCatalog]()
-    @State private var searchString: String = ""
+    @ObservedObject var songStore: SongStore
+    @State private var showToast = false
+    @State private var value = 0
+    @State private var showAlert = false
+    
+    @StateObject private var searchString = DebouncedState(initialValue: "", delay: 0.3)
+    
+    
+    var toastOptions = SimpleToastOptions(
+        alignment: .bottom,
+        hideAfter: 2,
+        backdrop: Color.black.opacity(0),
+        animation: .default,
+        modifierType: .slide
+        
+    )
     
     var body: some View {
-        Section {
-            TextField("Search songs", text: $searchString)
-                .onChange(of: searchString) { newValue in
-                    fetchMusic()
-                }
-                .onAppear {
-                    fetchMusic()
-                }
-        }
-        .listSectionSpacing(5)
-        
-        Section {
-            List(songs) { song in
-                HStack {
-                    AsyncImage(url: song.imageURL)
-                        .frame(width: 40, height: 40, alignment: .leading)
-                    VStack (alignment: .leading) {
-                        Text(song.name)
-                        Text(song.artist)
-                            .font(.footnote)
+        NavigationStack{
+            Section {
+                List(songs) { song in
+                    HStack {
+                        AsyncImage(url: song.imageURL)
+                            .frame(width: 40, height: 40, alignment: .leading)
+                        VStack (alignment: .leading) {
+                            Text(song.name)
+                                .fontWeight(.medium)
+                            Text(song.artist)
+                                .font(.footnote)
+                                .fontWeight(.light)
+                        }
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button(){
+                            addSong(song)
+//                            showToast.toggle()
+                        } label: {
+                            Label("Add", systemImage: "plus")
+                        }
+                        .tint(.green)
                     }
                 }
+                .listStyle(PlainListStyle())
             }
+            .searchable(text: $searchString.currentValue, prompt: "Search songs")
+            .onChange(of: searchString.debouncedValue) { oldValue, newValue in
+                fetchMusic()
+                print(newValue)
+                print(oldValue)
+            }
+            .onAppear {
+                fetchMusic()
+            }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
+        }
+        .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
+            value += 1
+        }){
+            HStack{
+                Image(systemName: "checkmark")
+                Text("Song added")
+                    .bold()
+            }
+            .padding()
+            .background(Color.green)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 14.0))
+            .shadow(radius: 10)
+            
         }
     }
     
     private var request: MusicCatalogSearchRequest {
-        var request = MusicCatalogSearchRequest(term: searchString, types: [Song.self])
+        var request = MusicCatalogSearchRequest(term: searchString.currentValue, types: [Song.self])
         request.limit = 6
         return request
     }
@@ -69,5 +115,14 @@ struct MusicSearchBar: View {
                 break
             }
         }
+    }
+    private func addSong(_ song: SongFromCatalog) {
+        if songStore.addedSongs.contains(where: { $0.name == song.name && $0.artist == song.artist }) {
+            showAlert = true
+        } else {
+            songStore.addedSongs.append(song)
+            showToast.toggle()
+        }
+        
     }
 }

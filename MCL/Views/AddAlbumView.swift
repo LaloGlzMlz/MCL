@@ -1,5 +1,4 @@
-//
-//  NewAlbumFormView.swift
+//  AddAlbumView.swift
 //  MCL
 //
 //  Created by Francesca Ferrini on 15/05/24.
@@ -10,21 +9,19 @@ import PhotosUI
 
 //Creo una struct per gestire il picker delle foto
 
-
-struct NewAlbumFormView: View {
+struct AddAlbumView: View {
+    @Environment(\.modelContext) private var context
     
-    //variables for image management
+    @State private var title: String = ""
+    @State private var coverImage: String = "This is the cover"
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
-    
     //variables for file management
     @State private var isShowingDocumentPicker = false
-    
     //variables for location management
     @StateObject var locationManager: SearchLocation = .init()
     @State var showSearchBar = false
-    
     //variables for datepicker management
     @State private var selectedDates: Set<DateComponents> = []
     @State private var startDate = Date()
@@ -129,7 +126,6 @@ struct NewAlbumFormView: View {
                     
                     
                 }
-                
             }
             .navigationTitle("New album")
             .navigationBarTitleDisplayMode(.large)
@@ -143,11 +139,14 @@ struct NewAlbumFormView: View {
                     }
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button(action: {
+                    Button("Add") {
+                        let album = Album (
+                            title: title,
+                            coverImage: coverImage,
+                            dateOfAlbum: Date()
+                        )
+                        context.insert(album)
                         dismiss()
-                        print("Add")
-                    }) {
-                        Text("Add")
                     }
                 }
             }
@@ -167,10 +166,4 @@ struct NewAlbumFormView: View {
     }
     
     func selectFromFile() { }
-}
-
-
-
-#Preview {
-    NewAlbumFormView()
 }
