@@ -12,21 +12,28 @@ import PhotosUI
 
 
 struct NewAlbumFormView: View {
+    
+    //variables for image management
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
     
+    //variables for file management
     @State private var isShowingDocumentPicker = false
-
     
+    //variables for location management
+    @StateObject var locationManager: SearchLocation = .init()
+    @State var showSearchBar = false
+    
+    //variables for datepicker management
     @State private var selectedDates: Set<DateComponents> = []
     @State private var startDate = Date()
     @State private var endDate = Date()
     
     
-
+    
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         NavigationView {
             Form {
@@ -66,15 +73,63 @@ struct NewAlbumFormView: View {
                     TextField("Name",
                               text: .constant(""),
                               prompt: Text("Album title").font(.system(size: 20)))
-                        .multilineTextAlignment(.center)
+                    .multilineTextAlignment(.center)
                     Divider()
                     HStack{
                         DatePicker("", selection: $startDate, displayedComponents: [.date])
-                                   
+                        
                         DatePicker("", selection: $endDate, displayedComponents: [.date])
-                             
+                        
                     }
+                    
+                    
+                    
+                    Button(action: {
+                        self.showSearchBar.toggle()
+                       
+                    }) {
+                        Label("Location",systemImage: "location.fill").foregroundColor(.primary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 20)
+                    }
+                    
+                    if showSearchBar {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            TextField("Find location here", text: $locationManager.searchText)
+                        }
+                        .padding(.top, 10)
+                    }
+                    if let places = locationManager.fetchedPlaces,!places.isEmpty{
+                        
+                        List{
+                            ForEach(places, id: \.self){place in
+                                HStack(spacing: 15){
+                                    
+                                    Image(systemName: "mappin.circle.fill")
+                                        .font(.title2)
+                                        .foregroundColor(.gray)
+                                    
+                                    VStack(alignment: .leading, spacing: 6){
+                                        Text(place.name ?? "")
+                                            .font(.title3.bold())
+                                        
+                                        Text(place.locality ?? "")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                            }
+                            
+                            
+                        }.listStyle(.plain)
+                        padding()
+                    }
+                    
+                    
                 }
+                
             }
             .navigationTitle("New album")
             .navigationBarTitleDisplayMode(.large)
@@ -106,11 +161,11 @@ struct NewAlbumFormView: View {
                 .edgesIgnoringSafeArea(.all)
         }
         .sheet(isPresented: $isShowingDocumentPicker) {
-                   DocumentPicker(selectedImage: $selectedImage)
-               }
+            DocumentPicker(selectedImage: $selectedImage)
+        }
         
     }
-
+    
     func selectFromFile() { }
 }
 
