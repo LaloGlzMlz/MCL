@@ -15,7 +15,6 @@ struct AddAlbumView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var title: String = ""
-    @State private var coverImage: String = "This is the cover"
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
@@ -220,7 +219,8 @@ struct AddAlbumView: View {
                         let album = Album (
                             title: title,
                             coverImage: selectedPhotoData,
-                            dateOfAlbum: Date()
+                            dateOfAlbum: Date(),
+                            songs: songStore.addedSongs
                         )
                         context.insert(album)
                         dismiss()
