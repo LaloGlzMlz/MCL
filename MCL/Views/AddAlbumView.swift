@@ -1,4 +1,3 @@
-//
 //  AddAlbumView.swift
 //  MCL
 //
@@ -10,7 +9,6 @@ import PhotosUI
 
 //Creo una struct per gestire il picker delle foto
 
-
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
     @State private var title: String = ""
@@ -18,7 +16,12 @@ struct AddAlbumView: View {
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
+    //variables for file management
     @State private var isShowingDocumentPicker = false
+    //variables for location management
+    @StateObject var locationManager: SearchLocation = .init()
+    @State var showSearchBar = false
+    //variables for datepicker management
     @State private var selectedDates: Set<DateComponents> = []
     @State private var startDate = Date()
     @State private var endDate = Date()
@@ -94,6 +97,47 @@ struct AddAlbumView: View {
                         }
                         
                     }
+                    Button(action: {
+                        self.showSearchBar.toggle()
+                       
+                    }) {
+                        Label("Location",systemImage: "location.fill").foregroundColor(.primary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 20)
+                    }
+                    
+                    if showSearchBar {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            TextField("Find location here", text: $locationManager.searchText)
+                        }
+                        .padding(.top, 10)
+                    }
+                    if let places = locationManager.fetchedPlaces,!places.isEmpty{
+                        
+                        List{
+                            ForEach(places, id: \.self){place in
+                                HStack(spacing: 15){
+                                    
+                                    Image(systemName: "mappin.circle.fill")
+                                        .font(.title2)
+                                        .foregroundColor(.gray)
+                                    
+                                    VStack(alignment: .leading, spacing: 6){
+                                        Text(place.name ?? "")
+                                            .font(.title3.bold())
+                                        
+                                        Text(place.locality ?? "")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                            }
+                            
+                            
+                        }.listStyle(.plain)
+                    }
                 }
                 Section{
                     Button(action: {
@@ -162,9 +206,3 @@ struct AddAlbumView: View {
     
     func selectFromFile() { }
 }
-
-
-
-//#Preview {
-//    AddAlbumView()
-//}
