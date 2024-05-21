@@ -14,57 +14,27 @@ import SimpleToast
 
 struct AddedSongs: View {
     @ObservedObject var songStore: SongStore
-    @State private var showToast = false
-    @State private var value = 0
-    
-    var toastOptions = SimpleToastOptions(
-        alignment: .bottom,
-        hideAfter: 2,
-        backdrop: Color.black.opacity(0),
-        animation: .default,
-        modifierType: .slide
-        
-    )
     var body: some View {
-        NavigationStack {
-            List{
-                ForEach(songStore.addedSongs) { song in
-                    HStack {
-                        AsyncImage(url: song.imageURL)
-                            .frame(width: 40, height: 40, alignment: .leading)
-                        VStack(alignment: .leading) {
-                            Text(song.name)
-                                .fontWeight(.medium)
-                            Text(song.artist)
-                                .font(.footnote)
-                                .fontWeight(.light)
-                        }
-                    }
-                    .swipeActions(edge: .trailing) {
-                        Button(role: .destructive) {
-                            deleteSong(song)
-                            showToast.toggle()
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                        }
-                    }
+        ForEach(songStore.addedSongs) { song in
+            HStack{
+                AsyncImage(url: song.imageURL)
+                    .frame(width: 40, height: 40, alignment: .leading)
+                VStack(alignment: .leading) {
+                    Text(song.name)
+                        .fontWeight(.medium)
+                        .lineLimit(1)
+                    Text(song.artist)
+                        .font(.footnote)
+                        .fontWeight(.light)
                 }
             }
-        }
-        .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
-            value += 1
-        }){
-            HStack{
-                Image(systemName: "minus")
-                Text("Song deleted")
-                    .bold()
+            .swipeActions(edge: .trailing) {
+                Button(role: .destructive) {
+                    deleteSong(song)
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                }
             }
-            .padding()
-            .background(Color.black)
-            .foregroundColor(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 14.0))
-            .shadow(radius: 10)
-            
         }
     }
     

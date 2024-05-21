@@ -11,7 +11,6 @@ import PhotosUI
 
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
-    
     @State private var title: String = ""
     @State private var coverImage: String = "This is the cover"
     @State var showImagePicker = false
@@ -26,61 +25,78 @@ struct AddAlbumView: View {
     @State private var selectedDates: Set<DateComponents> = []
     @State private var startDate = Date()
     @State private var endDate = Date()
-    
-    
-    
+    @State private var isShowingAddSongView = false
+    @StateObject private var songStore = SongStore()
     @Environment(\.dismiss) var dismiss
     
+    @State var sideMeasure = UIScreen.main.bounds.width/1.5
+    
+    
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
-                VStack {
-                    Menu {
-                        Button(action: {
-                            self.showImagePicker = true
-                            
-                        }) {
-                            Label("Choose Photo", systemImage: "photo.on.rectangle")
+                Section {
+                    VStack {
+                        Menu {
+                            Button(action: {
+                                self.showImagePicker = true
+                                
+                            }) {
+                                Label("Choose Photo", systemImage: "photo.on.rectangle")
+                            }
+                            Button(action:  {
+                                self.showCameraPicker = true
+                                
+                            }) {
+                                Label("Take Photo", systemImage: "camera")
+                            }
+                            Button(action:  {
+                                isShowingDocumentPicker = true
+                            }){
+                                Label("Select from file", systemImage: "folder")
+                            }
+                            Button(action: {
+                                self.selectedImage = nil
+                            }){
+                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
+                            }
+                        } label: {
+                            if let selectedImage = selectedImage {
+                                Image(uiImage: selectedImage)
+                                    .resizable()
+                                    .frame(width: 247, height: 247)
+                            } else {
+                                ZStack{
+                                    RoundedRectangle(cornerRadius: 5.0)
+                                        .frame(width: sideMeasure, height: sideMeasure)
+                                        .foregroundStyle(Color.gray)
+                                        .opacity(0.5)
+                                    Image(systemName: "camera.circle.fill")
+                                        .resizable()
+                                        .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
+//                                        .foregroundStyle(Color.white)
+                                }
+                            }
                         }
-                        Button(action:  {
-                            self.showCameraPicker = true
-                            
-                        }) {
-                            Label("Take Photo", systemImage: "camera")
+                        TextField("Name",
+                                  text: $title,
+                                  prompt: Text("Album title")
+                                    .font(.system(size: 20))
+                                    .fontWeight(.bold))
+                        .bold()
+                        .multilineTextAlignment(.center)
+                        .padding(15)
+                        Divider()
+                        HStack{
+                            Text("From: ")
+                            DatePicker("", selection: $startDate, displayedComponents: [.date])
                         }
-                        Button(action:  {
-                            isShowingDocumentPicker = true
-                        }){
-                            Label("Select from file", systemImage: "folder")
+                        HStack{
+                            Text("To: ")
+                            DatePicker("", selection: $endDate, displayedComponents: [.date])
                         }
-                        Button(action: {
-                            self.selectedImage = nil
-                        }){
-                            Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
-                        }
-                    } label: {
-                        if let selectedImage = selectedImage {
-                            Image(uiImage: selectedImage)
-                                .resizable()
-                                .frame(width: 247, height: 247)
-                        } else {
-                            Image("chosenImage")
-                        }
-                    }
-                    TextField("Name",
-                              text: .constant(""),
-                              prompt: Text("Album title").font(.system(size: 20)))
-                    .multilineTextAlignment(.center)
-                    Divider()
-                    HStack{
-                        DatePicker("", selection: $startDate, displayedComponents: [.date])
                         
-                        DatePicker("", selection: $endDate, displayedComponents: [.date])
-                        
                     }
-                    
-                    
-                    
                     Button(action: {
                         self.showSearchBar.toggle()
                        
@@ -121,11 +137,28 @@ struct AddAlbumView: View {
                             
                             
                         }.listStyle(.plain)
-                        padding()
+                    }
+                }
+                Section{
+                    Button(action: {
+                        self.isShowingAddSongView = true
+                    }){
+                        Label("Add Song",systemImage: "plus")
                     }
                     
-                    
+                } header: {
+                    Text("Songs")
+                        .font(.title2)
+                        .bold()
                 }
+                .textCase(nil)
+                Section {
+                    List{
+                        AddedSongs(songStore: songStore)
+                    }
+                }
+                .listSectionSpacing(.compact)
+                
             }
             .navigationTitle("New album")
             .navigationBarTitleDisplayMode(.large)
@@ -139,7 +172,7 @@ struct AddAlbumView: View {
                     }
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("Add") {
+                    Button(action: {
                         let album = Album (
                             title: title,
                             coverImage: coverImage,
@@ -147,6 +180,9 @@ struct AddAlbumView: View {
                         )
                         context.insert(album)
                         dismiss()
+                    }) {
+                        Text("Add")
+                            .fontWeight(.medium)
                     }
                 }
             }
@@ -161,6 +197,9 @@ struct AddAlbumView: View {
         }
         .sheet(isPresented: $isShowingDocumentPicker) {
             DocumentPicker(selectedImage: $selectedImage)
+        }
+        .sheet(isPresented: $isShowingAddSongView) {
+            MusicSearchBar(songStore: songStore)
         }
         
     }
