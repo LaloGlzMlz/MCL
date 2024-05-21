@@ -32,21 +32,21 @@ struct AlbumShelfView: View {
                             }
                         }
                     }
-                    Shelf()
                 }
-                .navigationTitle("Albums")
-                .toolbar {
-                    ToolbarItemGroup(placement: .primaryAction) {
-                        Button(action: {
-                            showingAddAlbumSheet = true
-                        }) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.blue) // Adjust color if needed
-                        }
+                Shelf()
+            }
+            .navigationTitle("Albums")
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button(action: {
+                        showingAddAlbumSheet = true
+                    }) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.blue) // Adjust color if needed
                     }
                 }
-                .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
             }
+            .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
         }
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct Shelf: View {
     @State var Album: AlbumAuxModel?
     
-    var AlbumArray: [AlbumAuxModel] = [AlbumAuxModel(id: UUID(), image: Image("street"), name: "Last Sunday", date: Date()), AlbumAuxModel(id: UUID(), image: Image("metro"), name: "Last Monday", date: Date()), AlbumAuxModel(id: UUID(), image: Image("man"), name: "Last Kitemmuort", date: Date()), AlbumAuxModel(id: UUID(), image: Image("vesuvio"), name: "Last Suca", date: Date()), AlbumAuxModel(id: UUID(), image: Image("sea"), name: "Last Paolo", date: Date()),]
+    var AlbumArray: [AlbumAuxModel] = [AlbumAuxModel(id: UUID(), image: Image("street"), name: "Last Sunday", date: Date()), AlbumAuxModel(id: UUID(), image: Image("muse"), name: "Last Monday", date: Date()), AlbumAuxModel(id: UUID(), image: Image("man"), name: "Last Kitemmuort", date: Date()), AlbumAuxModel(id: UUID(), image: Image("vesuvio"), name: "Last Suca", date: Date()), AlbumAuxModel(id: UUID(), image: Image("sea"), name: "Last Paolo", date: Date()),]
     
     var body: some View {
         VStack(alignment: .center) {
