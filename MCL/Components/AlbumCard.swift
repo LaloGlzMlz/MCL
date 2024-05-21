@@ -50,7 +50,3 @@ struct AlbumCard: View {
         }
     }
 }
-
-#Preview {
-    AlbumCard()
-}
