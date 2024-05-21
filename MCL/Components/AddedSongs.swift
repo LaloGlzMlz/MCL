@@ -22,6 +22,7 @@ struct AddedSongs: View {
                 VStack(alignment: .leading) {
                     Text(song.name)
                         .fontWeight(.medium)
+                        .lineLimit(1)
                     Text(song.artist)
                         .font(.footnote)
                         .fontWeight(.light)

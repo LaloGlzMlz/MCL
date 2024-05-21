@@ -77,15 +77,22 @@ struct AddAlbumView: View {
                         }
                         TextField("Name",
                                   text: $title,
-                                  prompt: Text("Album title").font(.system(size: 20)))
+                                  prompt: Text("Album title")
+                                    .font(.system(size: 20))
+                                    .fontWeight(.bold))
+                        .bold()
                         .multilineTextAlignment(.center)
+                        .padding(15)
                         Divider()
                         HStack{
+                            Text("From: ")
                             DatePicker("", selection: $startDate, displayedComponents: [.date])
-                            
-                            DatePicker("", selection: $endDate, displayedComponents: [.date])
-                            
                         }
+                        HStack{
+                            Text("To: ")
+                            DatePicker("", selection: $endDate, displayedComponents: [.date])
+                        }
+                        
                     }
                 }
                 Section{
@@ -95,17 +102,18 @@ struct AddAlbumView: View {
                         Label("Add Song",systemImage: "plus")
                     }
                     
-                }
-                Section {
-                    List{
-                        AddedSongs(songStore: songStore)
-                    }
                 } header: {
                     Text("Songs")
                         .font(.title2)
                         .bold()
                 }
                 .textCase(nil)
+                Section {
+                    List{
+                        AddedSongs(songStore: songStore)
+                    }
+                }
+                .listSectionSpacing(.compact)
                 
             }
             .navigationTitle("New album")
