@@ -18,17 +18,25 @@ struct BookletView: View {
     var body: some View {
         NavigationStack{
                 ForEach(album.songs){ song in
-                    HStack{
-                        AsyncImage(url: song.imageURL)
-                            .frame(width: 40, height: 40, alignment: .leading)
-                        VStack(alignment: .leading) {
-                            Text(song.name)
-                                .fontWeight(.medium)
-                                .lineLimit(1)
-                            Text(song.artist)
-                                .font(.footnote)
-                                .fontWeight(.light)
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 5)
+                            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
+                            .foregroundColor(.white)
+                            .shadow(color: Color.black.opacity(0.15), radius: 20)
+                        HStack{
+                            AsyncImage(url: song.imageURL)
+                                .frame(width: 40, height: 40, alignment: .leading)
+                                .padding()
+                            VStack(alignment: .leading) {
+                                Text(song.name)
+                                    .fontWeight(.medium)
+                                    .lineLimit(1)
+                                Text(song.artist)
+                                    .font(.footnote)
+                                    .fontWeight(.light)
+                            }
                         }
+                        .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)
                     }
                 }
             .navigationTitle(album.title)
