@@ -18,7 +18,7 @@ struct BookletView: View {
     var body: some View {
         NavigationStack{
             ScrollView{
-//                AlbumCard(album: album)
+                AlbumCard(album: album)
                 VStack(alignment: .leading){
                     Text(album.title)
                         .font(.title)
