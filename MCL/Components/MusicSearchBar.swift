@@ -19,6 +19,8 @@ struct MusicSearchBar: View {
     @State private var value = 0
     @State private var showAlert = false
     
+    @Environment(\.dismiss) var dismiss
+    
     @StateObject private var searchString = DebouncedState(initialValue: "", delay: 0.3)
     
     
@@ -66,6 +68,24 @@ struct MusicSearchBar: View {
             }
             .onAppear {
                 fetchMusic()
+            }
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Text("Cancel")
+                    }
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Text("Done")
+                            .fontWeight(.medium)
+                    }
+                    .disabled(songStore.addedSongs.isEmpty) 
+                }
             }
         }
         .alert(isPresented: $showAlert) {

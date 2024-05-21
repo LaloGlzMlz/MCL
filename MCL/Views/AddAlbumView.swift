@@ -26,6 +26,9 @@ struct AddAlbumView: View {
     @StateObject private var songStore = SongStore()
     @Environment(\.dismiss) var dismiss
     
+    @State var sideMeasure = UIScreen.main.bounds.width/1.5
+    
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -60,7 +63,16 @@ struct AddAlbumView: View {
                                     .resizable()
                                     .frame(width: 247, height: 247)
                             } else {
-                                Image("chosenImage")
+                                ZStack{
+                                    RoundedRectangle(cornerRadius: 5.0)
+                                        .frame(width: sideMeasure, height: sideMeasure)
+                                        .foregroundStyle(Color.gray)
+                                        .opacity(0.5)
+                                    Image(systemName: "camera.circle.fill")
+                                        .resizable()
+                                        .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
+//                                        .foregroundStyle(Color.white)
+                                }
                             }
                         }
                         TextField("Name",
@@ -74,21 +86,20 @@ struct AddAlbumView: View {
                             DatePicker("", selection: $endDate, displayedComponents: [.date])
                             
                         }
-                        Divider()
-                        Button(action: {
-                            self.isShowingAddSongView = true
-                        }){
-                            Label("Add Song",systemImage: "plus")
-                        }
                     }
+                }
+                Section{
+                    Button(action: {
+                        self.isShowingAddSongView = true
+                    }){
+                        Label("Add Song",systemImage: "plus")
+                    }
+                    
                 }
                 Section {
                     List{
                         AddedSongs(songStore: songStore)
                     }
-                    
-                    
-                    
                 } header: {
                     Text("Songs")
                         .font(.title2)
@@ -109,7 +120,7 @@ struct AddAlbumView: View {
                     }
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("Add") {
+                    Button(action: {
                         let album = Album (
                             title: title,
                             coverImage: coverImage,
@@ -117,6 +128,9 @@ struct AddAlbumView: View {
                         )
                         context.insert(album)
                         dismiss()
+                    }) {
+                        Text("Add")
+                            .fontWeight(.medium)
                     }
                 }
             }
