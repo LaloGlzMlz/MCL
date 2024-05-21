@@ -21,11 +21,13 @@ struct AlbumShelfView: View {
             VStack {
                 List {
                     ForEach(albums) { album in
-                        VStack {
-                            Text(album.title)
-                            Text(album.coverImage)
-                            
+                        NavigationLink(destination: BookletView(album: album)){
+                            VStack {
+                                Text(album.title)
+                                Text(album.coverImage)
+                            }
                         }
+                        
                         .swipeActions {
                             Button("Delete", role: .destructive) {
                                 context.delete(album)
