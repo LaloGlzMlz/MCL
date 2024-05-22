@@ -34,7 +34,7 @@ struct AlbumShelfView: View {
                         }
                     }
                 }
-                Shelf()
+//                Shelf()
             }
             .navigationTitle("Albums")
             .toolbar {

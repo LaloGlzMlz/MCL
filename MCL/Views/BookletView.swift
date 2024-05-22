@@ -42,7 +42,7 @@ struct BookletView: View {
                                         .lineLimit(1)
                                     Text(song.artist)
                                         .font(.footnote)
-                                        .fontWeight(.light)
+//                                        .fontWeight(.light)
                                 }
                             }
                             .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)

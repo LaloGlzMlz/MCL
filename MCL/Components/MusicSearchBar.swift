@@ -46,7 +46,7 @@ struct MusicSearchBar: View {
                                 .lineLimit(1)
                             Text(song.artist)
                                 .font(.footnote)
-                                .fontWeight(.light)
+//                                .fontWeight(.light)
                         }
                     }
                     .swipeActions(edge: .trailing) {
@@ -111,7 +111,7 @@ struct MusicSearchBar: View {
     
     private var request: MusicCatalogSearchRequest {
         var request = MusicCatalogSearchRequest(term: searchString.currentValue, types: [Song.self])
-        request.limit = 6
+        request.limit = 15
         return request
     }
     
