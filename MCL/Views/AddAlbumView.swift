@@ -35,80 +35,56 @@ struct AddAlbumView: View {
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
-    
+    @State var imageSideMeasure = UIScreen.main.bounds.width/1.3
     
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    PhotosPicker(selection: $selectedPhoto,
-                                 matching: .images,
-                                 photoLibrary: .shared()) {
-                        Label("Add album cover image", systemImage: "photo")
-                    }
-                    
-                    if let photoData = selectedPhotoData,
-                        let uiImage = UIImage(data: photoData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                    
-                    if selectedPhotoData != nil {
-                        Button(role: .destructive) {
-                            withAnimation {
-                                selectedPhoto = nil
-                                selectedPhotoData = nil
-                            }
-                        } label: {
-                            Label("Clear image selection", systemImage: "xmark")
-                                .foregroundStyle(Color.red)
-                        }
-                    } else {
-//                        ZStack{
-//                            RoundedRectangle(cornerRadius: 5.0)
-//                                .frame(width: sideMeasure, height: sideMeasure)
-//                                .foregroundStyle(Color.gray)
-//                                .opacity(0.5)
-//                            Image(systemName: "camera.circle.fill")
-//                                .resizable()
-//                                .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-//                                        .foregroundStyle(Color.white)
+//                    if selectedPhotoData == nil {
+//                        PhotosPicker(selection: $selectedPhoto,
+//                                     matching: .images,
+//                                     photoLibrary: .shared()) {
+//                            ZStack{
+//                                RoundedRectangle(cornerRadius: 5.0)
+//                                    .frame(width: sideMeasure, height: sideMeasure)
+//                                    .foregroundStyle(Color.gray)
+//                                    .opacity(0.5)
+//                                Image(systemName: "camera.circle.fill")
+//                                    .resizable()
+//                                    .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
+//                                    .foregroundStyle(Color.blue)
+//                            }
 //                        }
-                    }
+//                    } else {
+//                        if let photoData = selectedPhotoData,
+//                           let uiImage = UIImage(data: photoData) {
+//                            Image(uiImage: uiImage)
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fill)
+//                                .frame(width: imageSideMeasure, height: imageSideMeasure)
+//                                .clipShape(RoundedRectangle(cornerRadius: 0))
+//                        }
+//                    }
+//                    
+//                    if selectedPhotoData != nil {
+//                        Button(role: .destructive) {
+//                            withAnimation {
+//                                selectedPhoto = nil
+//                                selectedPhotoData = nil
+//                            }
+//                        } label: {
+//                            Label("Clear image selection", systemImage: "xmark")
+//                                .foregroundStyle(Color.red)
+//                        }
+//                    }
                 }
                 Section {
                     VStack {
-                        Menu {
-                            Button(action: {
-                                self.showImagePicker = true
-                                
-                            }) {
-                                Label("Choose Photo", systemImage: "photo.on.rectangle")
-                            }
-                            Button(action:  {
-                                self.showCameraPicker = true
-                                
-                            }) {
-                                Label("Take Photo", systemImage: "camera")
-                            }
-                            Button(action:  {
-                                isShowingDocumentPicker = true
-                            }){
-                                Label("Select from file", systemImage: "folder")
-                            }
-                            Button(action: {
-                                self.selectedImage = nil
-                            }){
-                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
-                            }
-                        } label: {
-                            if let selectedImage = selectedImage {
-                                Image(uiImage: selectedImage)
-                                    .resizable()
-                                    .frame(width: 247, height: 247)
-                            } else {
+                        if selectedPhotoData == nil {
+                            PhotosPicker(selection: $selectedPhoto,
+                                         matching: .images,
+                                         photoLibrary: .shared()) {
                                 ZStack{
                                     RoundedRectangle(cornerRadius: 5.0)
                                         .frame(width: sideMeasure, height: sideMeasure)
@@ -117,15 +93,98 @@ struct AddAlbumView: View {
                                     Image(systemName: "camera.circle.fill")
                                         .resizable()
                                         .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-//                                        .foregroundStyle(Color.white)
+                                        .foregroundStyle(Color.blue)
                                 }
                             }
+                        } else {
+                            if let photoData = selectedPhotoData,
+                               let uiImage = UIImage(data: photoData) {
+                                PhotosPicker(selection: $selectedPhoto,
+                                             matching: .images,
+                                             photoLibrary: .shared()) {
+                                    ZStack{
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: sideMeasure, height: sideMeasure)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    }
+                                }
+                                
+//                                if selectedPhotoData != nil {
+//                                    Button(role: .destructive) {
+//                                        withAnimation {
+//                                            selectedPhoto = nil
+//                                            selectedPhotoData = nil
+//                                        }
+//                                    } label: {
+//                                        Label("Clear image selection", systemImage: "xmark")
+//                                            .foregroundStyle(Color.red)
+//                                    }
+//                                }
+                            }
                         }
+                        
+//                        if selectedPhotoData != nil {
+//                            Button(role: .destructive) {
+//                                withAnimation {
+//                                    selectedPhoto = nil
+//                                    selectedPhotoData = nil
+//                                }
+//                            } label: {
+//                                Label("Clear image selection", systemImage: "xmark")
+//                                    .foregroundStyle(Color.red)
+//                            }
+//                        }
+//                        Menu {
+//                            Button(action: {
+//                                self.showImagePicker = true
+//                                
+//                            }) {
+//                                Label("Choose Photo", systemImage: "photo.on.rectangle")
+//                            }
+//                            Button(action:  {
+//                                self.showCameraPicker = true
+//                                
+//                            }) {
+//                                Label("Take Photo", systemImage: "camera")
+//                            }
+//                            Button(action:  {
+//                                isShowingDocumentPicker = true
+//                            }){
+//                                Label("Select from file", systemImage: "folder")
+//                            }
+//                            Button(action: {
+//                                self.selectedImage = nil
+//                            }){
+//                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
+//                            }
+//                        } label: {
+//                            if let selectedImage = selectedImage {
+//                                Image(uiImage: selectedImage)
+//                                    .resizable()
+//                                    .frame(width: 247, height: 247)
+//                            } else {
+//                                ZStack{
+//                                    RoundedRectangle(cornerRadius: 5.0)
+//                                        .frame(width: sideMeasure, height: sideMeasure)
+//                                        .foregroundStyle(Color.gray)
+//                                        .opacity(0.5)
+//                                    Image(systemName: "camera.circle.fill")
+//                                        .resizable()
+//                                        .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
+//                                    //                                        .foregroundStyle(Color.white)
+//                                }
+//                            }
+//                        }
+                        
+                        
                         TextField("Name",
                                   text: $title,
                                   prompt: Text("Album title")
-                                    .font(.system(size: 20))
-                                    .fontWeight(.bold))
+                            .font(.system(size: 20))
+                            .fontWeight(.bold))
+                        .textInputAutocapitalization(.words)
                         .bold()
                         .multilineTextAlignment(.center)
                         .padding(15)
@@ -142,7 +201,7 @@ struct AddAlbumView: View {
                     }
                     Button(action: {
                         self.showSearchBar.toggle()
-                       
+                        
                     }) {
                         Label("Location",systemImage: "location.fill").foregroundColor(.primary)
                             .frame(maxWidth: .infinity, alignment: .leading)
