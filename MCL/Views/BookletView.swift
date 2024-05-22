@@ -14,6 +14,8 @@ struct BookletView: View {
     let album: Album
     
     @State private var songsFromAlbum: [SongStore] = []
+    @State private var isShowingAddSongView = false
+    @StateObject private var songStore = SongStore()
     
     var body: some View {
         NavigationStack{
@@ -58,16 +60,35 @@ struct BookletView: View {
                         }
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
-                        Button(action: {
-                            //Here action
-                        }) {
-                            Label("Options",systemImage: "ellipsis")
+                        Menu {
+
+                            Button {
+                                self.isShowingAddSongView = true
+                            } label: {
+                                Label("Add songs", systemImage: "music.note")
+                            }
+                            Button {
+                                // Add this item to a list of favorites.
+                            } label: {
+                                Label("Edit album", systemImage: "pencil")
+                            }
+                            Divider()
+
+                            Button(role: .destructive) {
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        } label: {
+                            Label("Menu", systemImage: "ellipsis.circle")
                         }
                     }
                 }
             }
             .scrollIndicators(.hidden)
             
+        }
+        .sheet(isPresented: $isShowingAddSongView) {
+            MusicSearchBar(songStore: songStore)
         }
     }
 }
