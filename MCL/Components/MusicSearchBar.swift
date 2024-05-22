@@ -86,7 +86,7 @@ struct MusicSearchBar: View {
                         Text("Done")
                             .fontWeight(.medium)
                     }
-                    .disabled(songStore.addedSongs.isEmpty) 
+                    .disabled(songStore.addedSongs.isEmpty)
                 }
             }
         }
@@ -144,7 +144,7 @@ struct MusicSearchBar: View {
     private func addSong(_ song: SongFromCatalog) {
         if songStore.addedSongs.contains(where: { $0.name == song.name && $0.artist == song.artist }){
             showAlertAlreadyAdded = true
-        } else if songStore.addedSongs.count >= 2 {
+        } else if songStore.addedSongs.count >= 20 {
             showAlertLimitSongs = true
         } else {
             songStore.addedSongs.append(song)

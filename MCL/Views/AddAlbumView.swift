@@ -35,7 +35,9 @@ struct AddAlbumView: View {
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
-    
+    @State private var alertNoSong: Bool = false
+    //    @State private var navigateToBooklet: Bool = false
+    //    @State private var newAlbum: Album?
     
     var body: some View {
         NavigationStack {
@@ -48,7 +50,7 @@ struct AddAlbumView: View {
                     }
                     
                     if let photoData = selectedPhotoData,
-                        let uiImage = UIImage(data: photoData) {
+                       let uiImage = UIImage(data: photoData) {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFill()
@@ -66,16 +68,16 @@ struct AddAlbumView: View {
                                 .foregroundStyle(Color.red)
                         }
                     } else {
-//                        ZStack{
-//                            RoundedRectangle(cornerRadius: 5.0)
-//                                .frame(width: sideMeasure, height: sideMeasure)
-//                                .foregroundStyle(Color.gray)
-//                                .opacity(0.5)
-//                            Image(systemName: "camera.circle.fill")
-//                                .resizable()
-//                                .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-//                                        .foregroundStyle(Color.white)
-//                        }
+                        //                        ZStack{
+                        //                            RoundedRectangle(cornerRadius: 5.0)
+                        //                                .frame(width: sideMeasure, height: sideMeasure)
+                        //                                .foregroundStyle(Color.gray)
+                        //                                .opacity(0.5)
+                        //                            Image(systemName: "camera.circle.fill")
+                        //                                .resizable()
+                        //                                .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
+                        //                                        .foregroundStyle(Color.white)
+                        //                        }
                     }
                 }
                 Section {
@@ -117,15 +119,15 @@ struct AddAlbumView: View {
                                     Image(systemName: "camera.circle.fill")
                                         .resizable()
                                         .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-//                                        .foregroundStyle(Color.white)
+                                    //                                        .foregroundStyle(Color.white)
                                 }
                             }
                         }
                         TextField("Name",
                                   text: $title,
                                   prompt: Text("Album title")
-                                    .font(.system(size: 20))
-                                    .fontWeight(.bold))
+                            .font(.system(size: 20))
+                            .fontWeight(.bold))
                         .bold()
                         .multilineTextAlignment(.center)
                         .padding(15)
@@ -142,7 +144,7 @@ struct AddAlbumView: View {
                     }
                     Button(action: {
                         self.showSearchBar.toggle()
-                       
+                        
                     }) {
                         Label("Location",systemImage: "location.fill").foregroundColor(.primary)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -216,6 +218,9 @@ struct AddAlbumView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
+                        if title.isEmpty {
+                            title = "Untitled"
+                        }
                         let album = Album (
                             title: title,
                             coverImage: selectedPhotoData,
@@ -228,6 +233,7 @@ struct AddAlbumView: View {
                         Text("Add")
                             .fontWeight(.medium)
                     }
+                    .disabled(songStore.addedSongs.isEmpty)
                 }
             }
             .task(id: selectedPhoto) {
@@ -236,6 +242,9 @@ struct AddAlbumView: View {
                 }
             }
         }
+        //        .alert(isPresented: $alertNoSong) {
+        //            Alert(title: Text("Albums must contain at least one song."), dismissButton: .default(Text("OK")))
+        //        }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: self.$selectedImage, sourceType: UIImagePickerController.SourceType.photoLibrary)
                 .edgesIgnoringSafeArea(.all)
