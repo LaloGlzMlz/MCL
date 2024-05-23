@@ -8,7 +8,6 @@ import SwiftUI
 import PhotosUI
 import SwiftData
 
-//Creo una struct per gestire il picker delle foto
 
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
@@ -32,84 +31,25 @@ struct AddAlbumView: View {
     
     @State var sideMeasure = UIScreen.main.bounds.width/1.5
     
+    @State private var isShowingLocationSheet = false
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
     @State private var alertNoSong: Bool = false
 //    @Binding var newAlbum: Album?
+
+    @State var imageSideMeasure = UIScreen.main.bounds.width/1.3
+
     
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    PhotosPicker(selection: $selectedPhoto,
-                                 matching: .images,
-                                 photoLibrary: .shared()) {
-                        Label("Add album cover image", systemImage: "photo")
-                    }
-                    
-                    if let photoData = selectedPhotoData,
-                       let uiImage = UIImage(data: photoData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                    
-                    if selectedPhotoData != nil {
-                        Button(role: .destructive) {
-                            withAnimation {
-                                selectedPhoto = nil
-                                selectedPhotoData = nil
-                            }
-                        } label: {
-                            Label("Clear image selection", systemImage: "xmark")
-                                .foregroundStyle(Color.red)
-                        }
-                    } else {
-                        //                        ZStack{
-                        //                            RoundedRectangle(cornerRadius: 5.0)
-                        //                                .frame(width: sideMeasure, height: sideMeasure)
-                        //                                .foregroundStyle(Color.gray)
-                        //                                .opacity(0.5)
-                        //                            Image(systemName: "camera.circle.fill")
-                        //                                .resizable()
-                        //                                .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-                        //                                        .foregroundStyle(Color.white)
-                        //                        }
-                    }
-                }
-                Section {
                     VStack {
-                        Menu {
-                            Button(action: {
-                                self.showImagePicker = true
-                                
-                            }) {
-                                Label("Choose Photo", systemImage: "photo.on.rectangle")
-                            }
-                            Button(action:  {
-                                self.showCameraPicker = true
-                                
-                            }) {
-                                Label("Take Photo", systemImage: "camera")
-                            }
-                            Button(action:  {
-                                isShowingDocumentPicker = true
-                            }){
-                                Label("Select from file", systemImage: "folder")
-                            }
-                            Button(action: {
-                                self.selectedImage = nil
-                            }){
-                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
-                            }
-                        } label: {
-                            if let selectedImage = selectedImage {
-                                Image(uiImage: selectedImage)
-                                    .resizable()
-                                    .frame(width: 247, height: 247)
-                            } else {
+                        if selectedPhotoData == nil {
+                            PhotosPicker(selection: $selectedPhoto,
+                                         matching: .images,
+                                         photoLibrary: .shared()) {
                                 ZStack{
                                     RoundedRectangle(cornerRadius: 5.0)
                                         .frame(width: sideMeasure, height: sideMeasure)
@@ -118,15 +58,86 @@ struct AddAlbumView: View {
                                     Image(systemName: "camera.circle.fill")
                                         .resizable()
                                         .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-                                    //                                        .foregroundStyle(Color.white)
+                                        .foregroundStyle(Color.blue)
+                                }
+                            }
+                        } else {
+                            if let photoData = selectedPhotoData,
+                               let uiImage = UIImage(data: photoData) {
+                                PhotosPicker(selection: $selectedPhoto,
+                                             matching: .images,
+                                             photoLibrary: .shared()) {
+                                    ZStack{
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: sideMeasure, height: sideMeasure)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    }
                                 }
                             }
                         }
+                        
+//                        if selectedPhotoData != nil {
+//                            Button(role: .destructive) {
+//                                withAnimation {
+//                                    selectedPhoto = nil
+//                                    selectedPhotoData = nil
+//                                }
+//                            } label: {
+//                                Label("Clear image selection", systemImage: "xmark")
+//                                    .foregroundStyle(Color.red)
+//                            }
+//                        }
+//                        Menu {
+//                            Button(action: {
+//                                self.showImagePicker = true
+//                                
+//                            }) {
+//                                Label("Choose Photo", systemImage: "photo.on.rectangle")
+//                            }
+//                            Button(action:  {
+//                                self.showCameraPicker = true
+//                                
+//                            }) {
+//                                Label("Take Photo", systemImage: "camera")
+//                            }
+//                            Button(action:  {
+//                                isShowingDocumentPicker = true
+//                            }){
+//                                Label("Select from file", systemImage: "folder")
+//                            }
+//                            Button(action: {
+//                                self.selectedImage = nil
+//                            }){
+//                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
+//                            }
+//                        } label: {
+//                            if let selectedImage = selectedImage {
+//                                Image(uiImage: selectedImage)
+//                                    .resizable()
+//                                    .frame(width: 247, height: 247)
+//                            } else {
+//                                ZStack{
+//                                    RoundedRectangle(cornerRadius: 5.0)
+//                                        .frame(width: sideMeasure, height: sideMeasure)
+//                                        .foregroundStyle(Color.gray)
+//                                        .opacity(0.5)
+//                                    Image(systemName: "camera.circle.fill")
+//                                        .resizable()
+//                                        .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
+//                                    //                                        .foregroundStyle(Color.white)
+//                                }
+//                            }
+//                        }
+                        
+                        
                         TextField("Name",
                                   text: $title,
                                   prompt: Text("Album title")
                             .font(.system(size: 20))
                             .fontWeight(.bold))
+                        .textInputAutocapitalization(.words)
                         .bold()
                         .multilineTextAlignment(.center)
                         .padding(15)
@@ -141,47 +152,33 @@ struct AddAlbumView: View {
                         }
                         
                     }
-                    Button(action: {
-                        self.showSearchBar.toggle()
-                        
-                    }) {
-                        Label("Location",systemImage: "location.fill").foregroundColor(.primary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 20)
-                    }
-                    
-                    if showSearchBar {
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                            TextField("Find location here", text: $locationManager.searchText)
+                    HStack {
+                        Button(action: {
+                            locationManager.requestUserLocation()
+                            self.isShowingLocationSheet = true
+                        }) {
+                            Label(locationManager.selectedPlace == nil ? "Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.fill" : "mappin.circle.fill")
+                                .foregroundColor(.primary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 20)
                         }
-                        .padding(.top, 10)
+                        Button(action: {
+                            //Reset position
+                            locationManager.selectedPlace = nil
+                            locationManager.searchText = ""
+                        }) {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                                .padding(.top, 20)
+                        }
+                       
+                        .padding(.leading, 10)
+                        // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    if let places = locationManager.fetchedPlaces,!places.isEmpty{
-                        
-                        List{
-                            ForEach(places, id: \.self){place in
-                                HStack(spacing: 15){
-                                    
-                                    Image(systemName: "mappin.circle.fill")
-                                        .font(.title2)
-                                        .foregroundColor(.gray)
-                                    
-                                    VStack(alignment: .leading, spacing: 6){
-                                        Text(place.name ?? "")
-                                            .font(.title3.bold())
-                                        
-                                        Text(place.locality ?? "")
-                                            .font(.caption)
-                                            .foregroundColor(.gray)
-                                    }
-                                }
-                            }
-                            
-                            
-                        }.listStyle(.plain)
-                    }
+
+                    
+                    
                 }
                 Section{
                     Button(action: {
@@ -270,8 +267,18 @@ struct AddAlbumView: View {
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)
         }
+        .sheet(isPresented: $isShowingLocationSheet) {
+            LocationView(locationManager: locationManager, isPresented: $isShowingLocationSheet)
+        }
+        
         
     }
     
     func selectFromFile() { }
+}
+
+extension SearchLocation {
+    func requestUserLocation() {
+        manager.requestLocation()
+    }
 }
