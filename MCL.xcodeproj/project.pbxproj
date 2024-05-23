@@ -370,7 +370,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = MCL;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
@@ -407,7 +407,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = MCL;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
