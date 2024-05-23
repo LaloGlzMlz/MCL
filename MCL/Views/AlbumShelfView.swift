@@ -14,27 +14,45 @@ struct AlbumShelfView: View {
     @State var name: String?
     @State private var showingAddAlbumSheet = false
     
-    @Query(sort: \Album.title) var albums: [Album]
+    @State var offsetToCenter = UIScreen.main.bounds.width/8
+    
+    @Query(sort: \Album.dateOfAlbum, order: .reverse) var albums: [Album]
     
     var body: some View {
         NavigationStack {
             VStack {
-                List {
-                    ForEach(albums) { album in
-                        NavigationLink(destination: BookletView(album: album)){
-                            VStack {
-                                Text(album.title)
-                            }
-                        }
-                        
-                        .swipeActions {
-                            Button("Delete", role: .destructive) {
-                                context.delete(album)
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 2) {
+                        ForEach(albums) { album in
+                            NavigationLink(destination: BookletView(album: album)){
+                                VStack {
+                                    AlbumCard(album: album)
+                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
+                                        .padding()
+                                        .contextMenu(ContextMenu(menuItems: {
+                                            Button("Delete", role: .destructive) {
+                                                context.delete(album)
+                                            }
+                                        }))
+                                }
                             }
                         }
                     }
+                    .padding()
                 }
-//                Shelf()
+                .offset(y: -offsetToCenter)
+                .overlay {
+                    if albums.isEmpty {
+                        ContentUnavailableView(label: {
+                            Label("No albums have been created", systemImage: "opticaldisc.fill")
+                        }, description: {
+                            Text("Create an album to see it in your shelf")
+                        }, actions: {
+                            Button("Create album") { showingAddAlbumSheet = true }
+                        })
+                        .offset(y: -offsetToCenter)
+                    }
+                }
             }
             .navigationTitle("Albums")
             .toolbar {
