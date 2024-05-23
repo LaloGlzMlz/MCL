@@ -17,7 +17,8 @@ struct MusicSearchBar: View {
     @ObservedObject var songStore: SongStore
     @State private var showToast = false
     @State private var value = 0
-    @State private var showAlert = false
+    @State private var showAlertAlreadyAdded = false
+    @State private var showAlertLimitSongs = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -52,7 +53,7 @@ struct MusicSearchBar: View {
                     .swipeActions(edge: .trailing) {
                         Button(){
                             addSong(song)
-//                            showToast.toggle()
+                            //                            showToast.toggle()
                         } label: {
                             Label("Add", systemImage: "plus")
                         }
@@ -85,12 +86,15 @@ struct MusicSearchBar: View {
                         Text("Done")
                             .fontWeight(.medium)
                     }
-                    .disabled(songStore.addedSongs.isEmpty) 
+                    .disabled(songStore.addedSongs.isEmpty)
                 }
             }
         }
-        .alert(isPresented: $showAlert) {
+        .alert(isPresented: $showAlertAlreadyAdded) {
             Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
+        }
+        .alert(isPresented: $showAlertLimitSongs) {
+            Alert(title: Text("Albums can contain a maximum of 20 songs."), dismissButton: .default(Text("OK")))
         }
         .simpleToast(isPresented: $showToast, options: toastOptions, onDismiss: {
             value += 1
@@ -138,8 +142,10 @@ struct MusicSearchBar: View {
         }
     }
     private func addSong(_ song: SongFromCatalog) {
-        if songStore.addedSongs.contains(where: { $0.name == song.name && $0.artist == song.artist }) {
-            showAlert = true
+        if songStore.addedSongs.contains(where: { $0.name == song.name && $0.artist == song.artist }){
+            showAlertAlreadyAdded = true
+        } else if songStore.addedSongs.count >= 20 {
+            showAlertLimitSongs = true
         } else {
             songStore.addedSongs.append(song)
             showToast.toggle()

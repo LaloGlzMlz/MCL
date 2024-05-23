@@ -12,13 +12,18 @@ struct AlbumShelfView: View {
     
     @State var albumTitle: String = ""
     @State var name: String?
-    @State private var showingAddAlbumSheet = false
-    
+    @State private var showingAddAlbumSheet: Bool = false
+
+//    @State private var path: [Album] = []
+//    @State private var newAlbum: Album?
+
     @State var offsetToCenter = UIScreen.main.bounds.width/8
+
     
     @Query(sort: \Album.dateOfAlbum, order: .reverse) var albums: [Album]
     
     var body: some View {
+//        NavigationStack(path: $path) {
         NavigationStack {
             VStack {
                 ScrollView(.horizontal) {
@@ -66,6 +71,17 @@ struct AlbumShelfView: View {
                 }
             }
             .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
+//            .sheet(isPresented: $showingAddAlbumSheet, onDismiss: {
+//                if let album = newAlbum {
+//                    path.append(album)
+//                    newAlbum = nil // Reset after navigation
+//                }
+//            }) {
+//                AddAlbumView(newAlbum: $newAlbum)
+//            }
+//            .navigationDestination(for: Album.self) { album in
+//                BookletView(album: album)
+//            }
         }
     }
 }

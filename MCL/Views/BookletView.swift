@@ -14,6 +14,8 @@ struct BookletView: View {
     let album: Album
     
     @State private var songsFromAlbum: [SongStore] = []
+    @State private var isShowingEditView = false
+    @StateObject private var songStore = SongStore()
     
     var body: some View {
         NavigationStack {
@@ -76,6 +78,10 @@ struct BookletView: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $isShowingEditView) {
+            AddAlbumView()
+            
         }
     }
 }

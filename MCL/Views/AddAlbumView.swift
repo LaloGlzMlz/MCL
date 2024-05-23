@@ -35,50 +35,15 @@ struct AddAlbumView: View {
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
+    @State private var alertNoSong: Bool = false
+//    @Binding var newAlbum: Album?
+
     @State var imageSideMeasure = UIScreen.main.bounds.width/1.3
+
     
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-//                    if selectedPhotoData == nil {
-//                        PhotosPicker(selection: $selectedPhoto,
-//                                     matching: .images,
-//                                     photoLibrary: .shared()) {
-//                            ZStack{
-//                                RoundedRectangle(cornerRadius: 5.0)
-//                                    .frame(width: sideMeasure, height: sideMeasure)
-//                                    .foregroundStyle(Color.gray)
-//                                    .opacity(0.5)
-//                                Image(systemName: "camera.circle.fill")
-//                                    .resizable()
-//                                    .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-//                                    .foregroundStyle(Color.blue)
-//                            }
-//                        }
-//                    } else {
-//                        if let photoData = selectedPhotoData,
-//                           let uiImage = UIImage(data: photoData) {
-//                            Image(uiImage: uiImage)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fill)
-//                                .frame(width: imageSideMeasure, height: imageSideMeasure)
-//                                .clipShape(RoundedRectangle(cornerRadius: 0))
-//                        }
-//                    }
-//                    
-//                    if selectedPhotoData != nil {
-//                        Button(role: .destructive) {
-//                            withAnimation {
-//                                selectedPhoto = nil
-//                                selectedPhotoData = nil
-//                            }
-//                        } label: {
-//                            Label("Clear image selection", systemImage: "xmark")
-//                                .foregroundStyle(Color.red)
-//                        }
-//                    }
-                }
                 Section {
                     VStack {
                         if selectedPhotoData == nil {
@@ -110,18 +75,6 @@ struct AddAlbumView: View {
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                     }
                                 }
-                                
-//                                if selectedPhotoData != nil {
-//                                    Button(role: .destructive) {
-//                                        withAnimation {
-//                                            selectedPhoto = nil
-//                                            selectedPhotoData = nil
-//                                        }
-//                                    } label: {
-//                                        Label("Clear image selection", systemImage: "xmark")
-//                                            .foregroundStyle(Color.red)
-//                                    }
-//                                }
                             }
                         }
                         
@@ -261,6 +214,9 @@ struct AddAlbumView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
+                        if title.isEmpty {
+                            title = "Untitled"
+                        }
                         let album = Album (
                             title: title,
                             coverImage: selectedPhotoData,
@@ -268,19 +224,35 @@ struct AddAlbumView: View {
                             songs: songStore.addedSongs
                         )
                         context.insert(album)
+//                        try? context.save()
+//                        newAlbum = album
                         dismiss()
                     }) {
                         Text("Add")
                             .fontWeight(.medium)
                     }
+                    .disabled(songStore.addedSongs.isEmpty)
+                    
                 }
+                
             }
+//            .navigationDestination(isPresented: $navigateToDetail) {
+//                            BookletView(album: Album(
+//                               title: title,
+//                                coverImage: selectedPhotoData,
+//                               dateOfAlbum: Date(),
+//                                songs: songStore.addedSongs
+//                            ))
+//                       }
             .task(id: selectedPhoto) {
                 if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
                     selectedPhotoData = data
                 }
             }
         }
+        //        .alert(isPresented: $alertNoSong) {
+        //            Alert(title: Text("Albums must contain at least one song."), dismissButton: .default(Text("OK")))
+        //        }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: self.$selectedImage, sourceType: UIImagePickerController.SourceType.photoLibrary)
                 .edgesIgnoringSafeArea(.all)
