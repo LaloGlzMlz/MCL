@@ -7,7 +7,6 @@
 import SwiftUI
 import PhotosUI
 
-//Creo una struct per gestire il picker delle foto
 
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
@@ -31,6 +30,7 @@ struct AddAlbumView: View {
     
     @State var sideMeasure = UIScreen.main.bounds.width/1.5
     
+    @State private var isShowingLocationSheet = false
     
     var body: some View {
         NavigationStack {
@@ -74,15 +74,15 @@ struct AddAlbumView: View {
                                     Image(systemName: "camera.circle.fill")
                                         .resizable()
                                         .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-//                                        .foregroundStyle(Color.white)
+                             
                                 }
                             }
                         }
                         TextField("Name",
                                   text: $title,
                                   prompt: Text("Album title")
-                                    .font(.system(size: 20))
-                                    .fontWeight(.bold))
+                            .font(.system(size: 20))
+                            .fontWeight(.bold))
                         .bold()
                         .multilineTextAlignment(.center)
                         .padding(15)
@@ -97,47 +97,33 @@ struct AddAlbumView: View {
                         }
                         
                     }
-                    Button(action: {
-                        self.showSearchBar.toggle()
-                       
-                    }) {
-                        Label("Location",systemImage: "location.fill").foregroundColor(.primary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 20)
-                    }
-                    
-                    if showSearchBar {
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                            TextField("Find location here", text: $locationManager.searchText)
+                    HStack {
+                        Button(action: {
+                            locationManager.requestUserLocation()
+                            self.isShowingLocationSheet = true
+                        }) {
+                            Label(locationManager.selectedPlace == nil ? "Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.fill" : "mappin.circle.fill")
+                                .foregroundColor(.primary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 20)
                         }
-                        .padding(.top, 10)
+                        Button(action: {
+                            //Reset position
+                            locationManager.selectedPlace = nil
+                            locationManager.searchText = ""
+                        }) {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                                .padding(.top, 20)
+                        }
+                       
+                        .padding(.leading, 10)
+                        // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    if let places = locationManager.fetchedPlaces,!places.isEmpty{
-                        
-                        List{
-                            ForEach(places, id: \.self){place in
-                                HStack(spacing: 15){
-                                    
-                                    Image(systemName: "mappin.circle.fill")
-                                        .font(.title2)
-                                        .foregroundColor(.gray)
-                                    
-                                    VStack(alignment: .leading, spacing: 6){
-                                        Text(place.name ?? "")
-                                            .font(.title3.bold())
-                                        
-                                        Text(place.locality ?? "")
-                                            .font(.caption)
-                                            .foregroundColor(.gray)
-                                    }
-                                }
-                            }
-                            
-                            
-                        }.listStyle(.plain)
-                    }
+
+                    
+                    
                 }
                 Section{
                     Button(action: {
@@ -201,8 +187,18 @@ struct AddAlbumView: View {
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)
         }
+        .sheet(isPresented: $isShowingLocationSheet) {
+            LocationView(locationManager: locationManager, isPresented: $isShowingLocationSheet)
+        }
+        
         
     }
     
     func selectFromFile() { }
+}
+
+extension SearchLocation {
+    func requestUserLocation() {
+        manager.requestLocation()
+    }
 }

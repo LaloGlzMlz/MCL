@@ -13,10 +13,11 @@ import Combine
 
 class SearchLocation: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate{
     
-    @Published var mapView: MKMapView = .init()
+    //@Published var mapView: MKMapView = .init()
     @Published var manager: CLLocationManager = .init()
     @Published var searchText: String = ""
     @Published var fetchedPlaces: [CLPlacemark]?
+    @Published var selectedPlace: CLPlacemark?
     
     //UserLocation
     @Published var userLocation: CLLocation?
@@ -26,7 +27,7 @@ class SearchLocation: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     override init() {
         super.init()
         manager.delegate = self
-        mapView.delegate = self
+        //mapView.delegate = self
         
         //Request access
         manager.requestWhenInUseAuthorization()
@@ -42,6 +43,8 @@ class SearchLocation: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             })
     }
     
+    
+    
     func fetchPlaces(value: String){
         Task{
             do{
@@ -56,10 +59,12 @@ class SearchLocation: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
                 })
             }
             catch{
-                
+                print("Error fetching places: \(error.localizedDescription)")
             }
         }
     }
+
+    
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to find user's location: \(error.localizedDescription)")
