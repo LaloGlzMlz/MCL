@@ -14,8 +14,8 @@ struct AlbumShelfView: View {
     @State var name: String?
     @State private var showingAddAlbumSheet: Bool = false
 
-//    @State private var path: [Album] = []
-//    @State private var newAlbum: Album?
+    @State private var path: [Album] = []
+    @State private var newAlbum: Album?
 
     @State var offsetToCenter = UIScreen.main.bounds.width/8
 
