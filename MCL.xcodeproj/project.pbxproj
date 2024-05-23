@@ -15,6 +15,7 @@
 		17471D7C2BF6399D006EEF3D /* AlbumAuxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17471D7B2BF6399D006EEF3D /* AlbumAuxModel.swift */; };
 		27D238112BFB4122006D9BD4 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D238102BFB4122006D9BD4 /* DocumentPicker.swift */; };
 		27D238172BFB84D6006D9BD4 /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D238162BFB84D6006D9BD4 /* SearchLocation.swift */; };
+		27D2381B2BFCF6CB006D9BD4 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D2381A2BFCF6CB006D9BD4 /* LocationView.swift */; };
 		27F3A6492BF4E80D0029832D /* AddAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A6482BF4E80D0029832D /* AddAlbumView.swift */; };
 		27F3A64F2BF60A860029832D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A64E2BF60A860029832D /* ImagePicker.swift */; };
 		2E1A209C2BFB8FA300B2C396 /* Shelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1A209B2BFB8FA300B2C396 /* Shelf.swift */; };
@@ -36,6 +37,7 @@
 		17471D7B2BF6399D006EEF3D /* AlbumAuxModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumAuxModel.swift; sourceTree = "<group>"; };
 		27D238102BFB4122006D9BD4 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		27D238162BFB84D6006D9BD4 /* SearchLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocation.swift; sourceTree = "<group>"; };
+		27D2381A2BFCF6CB006D9BD4 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		27F3A6482BF4E80D0029832D /* AddAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlbumView.swift; sourceTree = "<group>"; };
 		27F3A64E2BF60A860029832D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		27F3A6502BF638CD0029832D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			children = (
 				2E8C79812BF3803B008C13C3 /* ContentView.swift */,
 				27F3A6482BF4E80D0029832D /* AddAlbumView.swift */,
+				27D2381A2BFCF6CB006D9BD4 /* LocationView.swift */,
 				17471D772BF6397E006EEF3D /* AlbumShelfView.swift */,
 				17471D792BF6398F006EEF3D /* AlbumDetailView.swift */,
 				08B16CF52BFCEF2200317019 /* BookletView.swift */,
@@ -232,6 +235,7 @@
 				17471D7C2BF6399D006EEF3D /* AlbumAuxModel.swift in Sources */,
 				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
+				27D2381B2BFCF6CB006D9BD4 /* LocationView.swift in Sources */,
 				17471D7A2BF6398F006EEF3D /* AlbumDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,7 +370,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 8FW56V9S55;
+				DEVELOPMENT_TEAM = Z4SW228TF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
@@ -374,7 +378,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide nearby places";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -403,7 +407,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 8FW56V9S55;
+				DEVELOPMENT_TEAM = Z4SW228TF7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
@@ -411,7 +415,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide nearby places";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
