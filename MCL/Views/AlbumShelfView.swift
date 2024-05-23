@@ -21,32 +21,33 @@ struct AlbumShelfView: View {
             VStack {
                 List {
                     ForEach(albums) { album in
-                        VStack {
-                            Text(album.title)
-                            Text(album.coverImage)
-                            
+                        NavigationLink(destination: BookletView(album: album)){
+                            VStack {
+                                Text(album.title)
+                            }
                         }
+                        
                         .swipeActions {
                             Button("Delete", role: .destructive) {
                                 context.delete(album)
                             }
                         }
                     }
-                    Shelf()
                 }
-                .navigationTitle("Albums")
-                .toolbar {
-                    ToolbarItemGroup(placement: .primaryAction) {
-                        Button(action: {
-                            showingAddAlbumSheet = true
-                        }) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.blue) // Adjust color if needed
-                        }
+//                Shelf()
+            }
+            .navigationTitle("Albums")
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button(action: {
+                        showingAddAlbumSheet = true
+                    }) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.blue) // Adjust color if needed
                     }
                 }
-                .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
             }
+            .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
         }
     }
 }

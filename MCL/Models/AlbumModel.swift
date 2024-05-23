@@ -8,21 +8,19 @@
 import Foundation
 import SwiftData
 
-
-// eliminar ID, quitar identifiable, hacer opcionales los campos relacionados.
 @Model
 final class Album {
     var title: String = ""
-    var coverImage: String = ""
+    var coverImage: Data?
     var dateOfAlbum: Date
     
-//    @Relationship(deleteRule: .cascade)
-//    var songs: [SongFromCatalog]
+    @Relationship(deleteRule: .cascade)
+    var songs: [SongFromCatalog]
     
-    init(title: String, coverImage: String, dateOfAlbum: Date) {
+    init(title: String, coverImage: Data? = nil, dateOfAlbum: Date, songs: [SongFromCatalog]) {
         self.title = title
         self.coverImage = coverImage
         self.dateOfAlbum = dateOfAlbum
-//        self.songs = songs
+        self.songs = songs
     }
 }
