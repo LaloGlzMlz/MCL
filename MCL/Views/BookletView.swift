@@ -14,7 +14,7 @@ struct BookletView: View {
     let album: Album
     
     @State private var songsFromAlbum: [SongStore] = []
-    @State private var isShowingAddSongView = false
+    @State private var isShowingEditView = false
     @StateObject private var songStore = SongStore()
     
     var body: some View {
@@ -31,7 +31,7 @@ struct BookletView: View {
                     ForEach(album.songs){ song in
                         ZStack{
                             RoundedRectangle(cornerRadius: 5)
-                                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
+                                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/10)
                                 .foregroundColor(.white)
                                 .shadow(color: Color.black.opacity(0.15), radius: 20)
                             HStack{
@@ -61,14 +61,8 @@ struct BookletView: View {
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         Menu {
-
                             Button {
-                                self.isShowingAddSongView = true
-                            } label: {
-                                Label("Add songs", systemImage: "music.note")
-                            }
-                            Button {
-                                // Add this item to a list of favorites.
+                                self.isShowingEditView = true
                             } label: {
                                 Label("Edit album", systemImage: "pencil")
                             }
@@ -87,8 +81,9 @@ struct BookletView: View {
             .scrollIndicators(.hidden)
             
         }
-        .sheet(isPresented: $isShowingAddSongView) {
-            MusicSearchBar(songStore: songStore)
+        .sheet(isPresented: $isShowingEditView) {
+            AddAlbumView()
+            
         }
     }
 }

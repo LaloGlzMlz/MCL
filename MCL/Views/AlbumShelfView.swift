@@ -12,11 +12,15 @@ struct AlbumShelfView: View {
     
     @State var albumTitle: String = ""
     @State var name: String?
-    @State private var showingAddAlbumSheet = false
+    @State private var showingAddAlbumSheet: Bool = false
     
-    @Query(sort: \Album.title) var albums: [Album]
+    @State private var path: [Album] = []
+    @State private var newAlbum: Album?
+    
+    @Query(sort: \Album.dateOfAlbum, order: .reverse) var albums: [Album]
     
     var body: some View {
+//        NavigationStack(path: $path) {
         NavigationStack {
             VStack {
                 List {
@@ -48,6 +52,17 @@ struct AlbumShelfView: View {
                 }
             }
             .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
+//            .sheet(isPresented: $showingAddAlbumSheet, onDismiss: {
+//                if let album = newAlbum {
+//                    path.append(album)
+//                    newAlbum = nil // Reset after navigation
+//                }
+//            }) {
+//                AddAlbumView(newAlbum: $newAlbum)
+//            }
+//            .navigationDestination(for: Album.self) { album in
+//                BookletView(album: album)
+//            }
         }
     }
 }

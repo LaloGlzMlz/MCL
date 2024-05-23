@@ -36,8 +36,7 @@ struct AddAlbumView: View {
     @State var selectedPhotoData: Data?
     
     @State private var alertNoSong: Bool = false
-    //    @State private var navigateToBooklet: Bool = false
-    //    @State private var newAlbum: Album?
+//    @Binding var newAlbum: Album?
     
     var body: some View {
         NavigationStack {
@@ -228,14 +227,26 @@ struct AddAlbumView: View {
                             songs: songStore.addedSongs
                         )
                         context.insert(album)
+//                        try? context.save()
+//                        newAlbum = album
                         dismiss()
                     }) {
                         Text("Add")
                             .fontWeight(.medium)
                     }
                     .disabled(songStore.addedSongs.isEmpty)
+                    
                 }
+                
             }
+//            .navigationDestination(isPresented: $navigateToDetail) {
+//                            BookletView(album: Album(
+//                               title: title,
+//                                coverImage: selectedPhotoData,
+//                               dateOfAlbum: Date(),
+//                                songs: songStore.addedSongs
+//                            ))
+//                       }
             .task(id: selectedPhoto) {
                 if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
                     selectedPhotoData = data
