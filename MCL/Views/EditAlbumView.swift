@@ -10,6 +10,7 @@ import SwiftData
 
 struct EditAlbumView: View {
     @Bindable var album: Album
+//    @Bindable var song: SongFromCatalog
     @StateObject private var songStore = SongStore()
     @State private var isShowingAddSongView = false
     
@@ -40,14 +41,34 @@ struct EditAlbumView: View {
             .textCase(nil)
             Section {
                 List{
-                    AddedSongs(songStore: songStore)
+                    ForEach($album.songs) { $song in
+                        HStack{
+                            AsyncImage(url: song.imageURL)
+                                .frame(width: 40, height: 40, alignment: .leading)
+                            VStack(alignment: .leading) {
+                                Text(song.name)
+                                    .fontWeight(.medium)
+                                    .lineLimit(1)
+                                Text(song.artist)
+                                    .font(.footnote)
+                                    .fontWeight(.light)
+                            }
+                        }
+//                        .swipeActions(edge: .trailing) {
+//                            Button(role: .destructive) {
+//                                deleteSong(song)
+//                            } label: {
+//                                Label("Delete", systemImage: "trash")
+//                            }
+//                        }
+                    }
                 }
             }
             .listSectionSpacing(.compact)
         }
-        .sheet(isPresented: $isShowingAddSongView) {
-            MusicSearchBar(songStore: songStore)
-        }
+//        .sheet(isPresented: $isShowingAddSongView) {
+//            MusicSearchBar(songStore: songStore)
+//        }
     }
 }
 

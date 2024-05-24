@@ -67,9 +67,9 @@ struct BookletView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    // Here action
+                    showingEditAlbumSheet = true
                 }) {
-//                    Label("Share", systemImage: "square.and.arrow.up")
+                    Label("Edit", systemImage: "pencil")
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
@@ -84,9 +84,9 @@ struct BookletView: View {
             Button("Add Entry") {
                 // Action 1
             }
-            Button("Edit Album") {
-                showingEditAlbumSheet = true
-            }
+//            Button("Add...") {
+//
+//            }
             Button("Cancel", role: .cancel) {
                 // Cancel action
             }
