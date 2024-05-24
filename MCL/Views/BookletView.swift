@@ -24,6 +24,7 @@ struct BookletView: View {
             VStack {
                 AlbumCard(album: album)
                     .shadow(color: Color.black.opacity(0.15), radius: 20)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
                 
                 VStack(alignment: .leading) {
                     //                        Text(album.title)
@@ -31,8 +32,38 @@ struct BookletView: View {
                     //                            .bold()
                     
                     //                         Description
-                    Text("Placeholder for description about the album")
+                    
+                    if album.location != "" {
+                        Text(album.location)
+                            .foregroundStyle(Color.gray)
+                            .font(.footnote)
+                            .bold()
+//                            .padding()
+                    }
+                    if album.dateTo != nil {
+                        HStack {
+                            Text(album.dateFrom!, style: .date)
+                                .foregroundStyle(Color.gray)
+                                .font(.footnote)
+                            Text("-")
+                                .foregroundStyle(Color.gray)
+                                .font(.footnote)
+                            Text(album.dateTo!, style: .date)
+                                .foregroundStyle(Color.gray)
+                                .font(.footnote)
+                        }
+                    } else if album.dateFrom != nil && album.dateTo == nil {
+                        HStack {
+                            Text(album.dateFrom!, style: .date)
+                                .foregroundStyle(Color.gray)
+                                .font(.footnote)
+                        }
+                    }
+                    
+                    Text(album.shortDescription)
+                        .foregroundStyle(Color.gray)
                         .font(.subheadline)
+                    
                     
                     ForEach(album.songs) { song in
                         ZStack {
