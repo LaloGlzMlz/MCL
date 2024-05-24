@@ -33,6 +33,11 @@ struct BookletView: View {
                     //                         Description
                     Text("Placeholder for description about the album")
                         .font(.subheadline)
+                    if album.location != "" {
+                        Text(album.location)
+                            .font(.subheadline)
+                    }
+                    
                     
                     ForEach(album.songs) { song in
                         ZStack {
