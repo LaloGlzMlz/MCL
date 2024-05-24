@@ -46,16 +46,24 @@ struct AlbumShelfView: View {
                                     Text(album.title)
                                         .bold()
                                         .font(.title)
-                                    HStack {
-                                        Text(album.dateFrom!, style: .date)
-                                            .foregroundStyle(Color.gray)
-                                            .font(.footnote)
-                                        Text("-")
-                                            .foregroundStyle(Color.gray)
-                                            .font(.footnote)
-                                        Text(album.dateTo!, style: .date)
-                                            .foregroundStyle(Color.gray)
-                                            .font(.footnote)
+                                    if album.dateTo != nil {
+                                        HStack {
+                                            Text(album.dateFrom!, style: .date)
+                                                .foregroundStyle(Color.gray)
+                                                .font(.footnote)
+                                            Text("-")
+                                                .foregroundStyle(Color.gray)
+                                                .font(.footnote)
+                                            Text(album.dateTo!, style: .date)
+                                                .foregroundStyle(Color.gray)
+                                                .font(.footnote)
+                                        }
+                                    } else if album.dateFrom != nil && album.dateTo == nil {
+                                        HStack {
+                                            Text(album.dateFrom!, style: .date)
+                                                .foregroundStyle(Color.gray)
+                                                .font(.footnote)
+                                        }
                                     }
                                     Spacer()
                                 }
