@@ -14,8 +14,8 @@ struct AlbumShelfView: View {
     @State var name: String?
     @State private var showingAddAlbumSheet: Bool = false
 
-//    @State private var path: [Album] = []
-//    @State private var newAlbum: Album?
+    @State private var path: [Album] = []
+    @State private var newAlbum: Album?
 
     @State var offsetToCenter = UIScreen.main.bounds.width/8
 
@@ -23,8 +23,7 @@ struct AlbumShelfView: View {
     @Query(sort: \Album.dateOfAlbum, order: .reverse) var albums: [Album]
     
     var body: some View {
-//        NavigationStack(path: $path) {
-        NavigationStack {
+        NavigationStack(path: $path) {
             VStack {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 2) {
@@ -66,26 +65,22 @@ struct AlbumShelfView: View {
                         showingAddAlbumSheet = true
                     }) {
                         Image(systemName: "plus")
-                            .foregroundColor(.blue) // Adjust color if needed
+                            .foregroundColor(.blue)
                     }
                 }
             }
-            .sheet(isPresented: $showingAddAlbumSheet) { AddAlbumView() }
-//            .sheet(isPresented: $showingAddAlbumSheet, onDismiss: {
-//                if let album = newAlbum {
-//                    path.append(album)
-//                    newAlbum = nil // Reset after navigation
-//                }
-//            }) {
-//                AddAlbumView(newAlbum: $newAlbum)
-//            }
-//            .navigationDestination(for: Album.self) { album in
-//                BookletView(album: album)
-//            }
+            .sheet(isPresented: $showingAddAlbumSheet, onDismiss: {
+                if let album = newAlbum {
+                    path.append(album)
+                    newAlbum = nil
+                }
+            }) {
+                AddAlbumView(newAlbum: $newAlbum)
+            }
+            .navigationDestination(for: Album.self) { album in
+                BookletView(album: album)
+            }
         }
     }
 }
 
-//#Preview {
-//    AlbumShelfView()
-//}

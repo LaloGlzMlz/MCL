@@ -36,7 +36,7 @@ struct AddAlbumView: View {
     @State var selectedPhotoData: Data?
     
     @State private var alertNoSong: Bool = false
-//    @Binding var newAlbum: Album?
+    @Binding var newAlbum: Album?
 
     @State var imageSideMeasure = UIScreen.main.bounds.width/1.3
 
@@ -207,7 +207,6 @@ struct AddAlbumView: View {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button(action: {
                         dismiss()
-                        print("Cancel")
                     }) {
                         Text("Cancel")
                     }
@@ -224,26 +223,15 @@ struct AddAlbumView: View {
                             songs: songStore.addedSongs
                         )
                         context.insert(album)
-//                        try? context.save()
-//                        newAlbum = album
+                        newAlbum = album
                         dismiss()
                     }) {
                         Text("Add")
                             .fontWeight(.medium)
                     }
                     .disabled(songStore.addedSongs.isEmpty)
-                    
                 }
-                
             }
-//            .navigationDestination(isPresented: $navigateToDetail) {
-//                            BookletView(album: Album(
-//                               title: title,
-//                                coverImage: selectedPhotoData,
-//                               dateOfAlbum: Date(),
-//                                songs: songStore.addedSongs
-//                            ))
-//                       }
             .task(id: selectedPhoto) {
                 if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
                     selectedPhotoData = data
