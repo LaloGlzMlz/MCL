@@ -1,31 +1,26 @@
 //
 //  AlbumModel.swift
-//  Flamingo
+//  MCL
 //
-//  Created by Fernando Sensenhauser on 13/05/24.
+//  Created by Eduardo Gonzalez Melgoza on 20/05/24.
 //
 
 import Foundation
-import SwiftUI
+import SwiftData
 
-class AlbumModel: Identifiable, Hashable {
-    static func == (lhs: AlbumModel, rhs: AlbumModel) -> Bool {
-          lhs.id == rhs.id
-      }
-      
-      func hash(into hasher: inout Hasher) {
-          hasher.combine(id)
-      }
+@Model
+final class Album {
+    var title: String = ""
+    var coverImage: Data?
+    var dateOfAlbum: Date
     
-    init(id: UUID, image: Image, name: String, date: Date) {
-        self.id = id
-        self.image = image
-        self.name = name
-        self.date = date
+    @Relationship(deleteRule: .cascade)
+    var songs: [SongFromCatalog]
+    
+    init(title: String, coverImage: Data? = nil, dateOfAlbum: Date, songs: [SongFromCatalog]) {
+        self.title = title
+        self.coverImage = coverImage
+        self.dateOfAlbum = dateOfAlbum
+        self.songs = songs
     }
-    var id: UUID = UUID()
-    var image: Image
-    var name: String
-    var date = Date()
-    
 }
