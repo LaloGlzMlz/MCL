@@ -451,35 +451,44 @@ struct AddAlbumView: View {
                             locationManager.requestUserLocation()
                             self.isShowingLocationSheet = true
                         }) {
-                            Label(locationManager.selectedPlace == nil ? "Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.fill" : "mappin.circle.fill")
-                                .foregroundColor(.primary)
+                            Label(locationManager.selectedPlace == nil ? "Add Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
+                                .foregroundColor(.blue)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.top, 20)
+                            //.padding(.top, 20)
                         }
-                        Button(action: {
-                            // Reset position
-                            locationManager.selectedPlace = nil
-                            locationManager.searchText = ""
-                        }) {
-                            Image(systemName: "trash")
-                                .foregroundColor(.red)
-                                .padding(.top, 20)
+                        
+                        if locationManager.selectedPlace != nil {
+                            Button(action: {
+                                //Reset position
+                                locationManager.selectedPlace = nil
+                                locationManager.searchText = ""
+                            }) {
+                                Image(systemName: "trash.circle.fill")
+                                    .foregroundColor(.red)
+                                    .imageScale(.large)
+                                //.padding(.top, 20)
+                            }
+                            
+                            .padding(.leading, 10)
+                            // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.leading, 10)
-                        .buttonStyle(PlainButtonStyle())
+                        
                     }
                 }
                 .listSectionSpacing(.compact)
                 Section {
                     Button(action: {
                         self.isShowingAddSongView = true
-                    }) {
-                        Label("Add Song", systemImage: "plus")
+                    }){
+                        Label("Add Song",systemImage: "plus.circle.fill")
                     }
                 } header: {
                     Text("Songs")
                         .font(.title2)
                         .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, -15)
                 }
                 .textCase(nil)
                 Section {
@@ -557,8 +566,12 @@ struct AddAlbumView: View {
     func selectFromFile() { }
 }
 
+
+
 extension SearchLocation {
     func requestUserLocation() {
         manager.requestLocation()
     }
 }
+
+
