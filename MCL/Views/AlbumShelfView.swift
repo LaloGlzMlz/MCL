@@ -17,7 +17,7 @@ struct AlbumShelfView: View {
     @State private var path: [Album] = []
     @State private var newAlbum: Album?
 
-    @State var offsetToCenter = UIScreen.main.bounds.width/8
+    @State var offsetToCenter = UIScreen.main.bounds.width/9
 
     
     @Query(sort: \Album.dateCreated, order: .reverse) var albums: [Album]
@@ -46,6 +46,8 @@ struct AlbumShelfView: View {
                                     Text(album.title)
                                         .bold()
                                         .font(.title)
+                                    
+                                    // Display dates if they exist
                                     if album.dateTo != nil {
                                         HStack {
                                             Text(album.dateFrom!, style: .date)
@@ -67,6 +69,7 @@ struct AlbumShelfView: View {
                                     }
                                     Spacer()
                                 }
+//                                .offset(y: -offsetToCenter)
                             }
                         }
                     }

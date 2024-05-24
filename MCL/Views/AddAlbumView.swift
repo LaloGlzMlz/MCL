@@ -28,6 +28,8 @@ struct AddAlbumView: View {
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
     
+    @State private var shortDescription: String = ""
+    
     @State private var isShowingAddSongView = false
     @StateObject private var songStore = SongStore()
     
@@ -164,6 +166,11 @@ struct AddAlbumView: View {
                     }
                 }
                 .listSectionSpacing(.compact)
+                
+                Section {
+                    TextEditor(text: $shortDescription)
+                }
+                
                 Section {
                     Button(action: {
                         self.isShowingAddSongView = true
@@ -210,7 +217,7 @@ struct AddAlbumView: View {
                         let album = Album(
                             title: title,
                             coverImage: selectedPhotoData,
-                            shortDescription: "hello testing",
+                            shortDescription: shortDescription,
                             dateFrom: startDate,
                             dateTo: endDate,
                             location: chosenLocation,
