@@ -17,6 +17,7 @@ struct BookletView: View {
     @State private var isShowingEditView = false
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
+    @State private var showingEditAlbumSheet: Bool = false
     
     var body: some View {
         //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
@@ -84,11 +85,14 @@ struct BookletView: View {
                 // Action 1
             }
             Button("Edit Album") {
-                // Action 2
+                showingEditAlbumSheet = true
             }
             Button("Cancel", role: .cancel) {
                 // Cancel action
             }
+        }
+        .sheet(isPresented: $showingEditAlbumSheet) {
+            EditAlbumView(album: album)
         }
     }
 }
