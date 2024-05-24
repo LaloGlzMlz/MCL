@@ -18,7 +18,7 @@ struct BookletView: View {
     @StateObject private var songStore = SongStore()
     
     var body: some View {
-        NavigationStack {
+//        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
             ScrollView {
                 VStack {
                     AlbumCard(album: album)
@@ -29,7 +29,7 @@ struct BookletView: View {
 //                            .font(.title)
 //                            .bold()
                         
-                        // Description
+//                         Description
                         Text("Placeholder for description about the album")
                             .font(.subheadline)
                         
@@ -78,11 +78,11 @@ struct BookletView: View {
                     }
                 }
             }
-        }
-        .sheet(isPresented: $isShowingEditView) {
-            AddAlbumView()
-            
-        }
+//        }
+//        .sheet(isPresented: $isShowingEditView) {
+//            AddAlbumView()
+//            
+//        }
     }
 }
 
