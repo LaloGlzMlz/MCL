@@ -130,8 +130,6 @@ struct AddAlbumView: View {
 //                                }
 //                            }
 //                        }
-                        
-                        
                         TextField("Name",
                                   text: $title,
                                   prompt: Text("Album title")
@@ -141,16 +139,19 @@ struct AddAlbumView: View {
                         .bold()
                         .multilineTextAlignment(.center)
                         .padding(15)
-                        Divider()
-                        HStack{
+//                        TextEditor
+                    }
+                }
+                Section {
+                    HStack {
+                        VStack(alignment: .leading) {
                             Text("From: ")
                             DatePicker("", selection: $startDate, displayedComponents: [.date])
                         }
-                        HStack{
+                        VStack(alignment: .leading) {
                             Text("To: ")
                             DatePicker("", selection: $endDate, displayedComponents: [.date])
                         }
-                        
                     }
                     HStack {
                         Button(action: {
@@ -176,11 +177,8 @@ struct AddAlbumView: View {
                         // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
                         .buttonStyle(PlainButtonStyle())
                     }
-
-                    
-                    
                 }
-                Section{
+                Section {
                     Button(action: {
                         self.isShowingAddSongView = true
                     }){
@@ -219,7 +217,10 @@ struct AddAlbumView: View {
                         let album = Album (
                             title: title,
                             coverImage: selectedPhotoData,
-                            dateOfAlbum: Date(),
+                            shortDescription: "hello testing",
+                            dateFrom: startDate,
+                            dateTo: endDate,
+                            dateCreated: Date(),
                             songs: songStore.addedSongs
                         )
                         context.insert(album)

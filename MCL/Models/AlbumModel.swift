@@ -12,15 +12,21 @@ import SwiftData
 final class Album {
     var title: String = ""
     var coverImage: Data?
-    var dateOfAlbum: Date
+    var shortDescription: String = ""
+    var dateFrom: Date?
+    var dateTo: Date?
+    var dateCreated: Date
     
     @Relationship(deleteRule: .cascade)
     var songs: [SongFromCatalog]
     
-    init(title: String, coverImage: Data? = nil, dateOfAlbum: Date, songs: [SongFromCatalog]) {
+    init(title: String, coverImage: Data? = nil, shortDescription: String, dateFrom: Date? = nil, dateTo: Date? = nil, dateCreated: Date, songs: [SongFromCatalog]) {
         self.title = title
         self.coverImage = coverImage
-        self.dateOfAlbum = dateOfAlbum
+        self.shortDescription = shortDescription
+        self.dateFrom = dateFrom
+        self.dateTo = dateTo
+        self.dateCreated = dateCreated
         self.songs = songs
     }
 }

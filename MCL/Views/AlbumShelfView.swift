@@ -20,7 +20,7 @@ struct AlbumShelfView: View {
     @State var offsetToCenter = UIScreen.main.bounds.width/8
 
     
-    @Query(sort: \Album.dateOfAlbum, order: .reverse) var albums: [Album]
+    @Query(sort: \Album.dateCreated, order: .reverse) var albums: [Album]
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -28,23 +28,43 @@ struct AlbumShelfView: View {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 2) {
                         ForEach(albums) { album in
-                            NavigationLink(destination: BookletView(album: album)){
+                            VStack {
+                                Spacer()
+                                NavigationLink(destination: BookletView(album: album)){
+                                    VStack {
+                                        AlbumCard(album: album)
+                                            .shadow(color: Color.black.opacity(0.15), radius: 20)
+                                            .padding()
+                                            .contextMenu(ContextMenu(menuItems: {
+                                                Button("Delete", role: .destructive) {
+                                                    context.delete(album)
+                                                }
+                                            }))
+                                    }
+                                }
                                 VStack {
-                                    AlbumCard(album: album)
-                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                        .padding()
-                                        .contextMenu(ContextMenu(menuItems: {
-                                            Button("Delete", role: .destructive) {
-                                                context.delete(album)
-                                            }
-                                        }))
+                                    Text(album.title)
+                                        .bold()
+                                        .font(.title)
+                                    HStack {
+                                        Text(album.dateFrom!, style: .date)
+                                            .foregroundStyle(Color.gray)
+                                            .font(.footnote)
+                                        Text("-")
+                                            .foregroundStyle(Color.gray)
+                                            .font(.footnote)
+                                        Text(album.dateTo!, style: .date)
+                                            .foregroundStyle(Color.gray)
+                                            .font(.footnote)
+                                    }
+                                    Spacer()
                                 }
                             }
                         }
                     }
                     .padding()
                 }
-                .offset(y: -offsetToCenter)
+//                .offset(y: -offsetToCenter)
                 .overlay {
                     if albums.isEmpty {
                         ContentUnavailableView(label: {
