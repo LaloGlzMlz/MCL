@@ -8,13 +8,15 @@
 import SwiftUI
 import CoreLocation
 
+
 struct LocationView: View {
     
     //LocationView variables
     @ObservedObject var locationManager: SearchLocation
     @Binding var isPresented: Bool
-    @State private var isTextFieldClicked = false
     @State private var currentStreet = ""
+    @State private var isLoading = true
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationView {
@@ -27,38 +29,39 @@ struct LocationView: View {
                         .textFieldStyle(PlainTextFieldStyle())
                         .padding(.vertical, 10)
                         .padding(.horizontal, 5)
-                        .onTapGesture {
-                            isTextFieldClicked = true
-                            if locationManager.searchText.isEmpty{
-                                
-                            }
-                            
-                        }
                     
                 }
                 .background(Color.white)
                 .cornerRadius(10)
                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 5)
                 .padding([.horizontal, .top], 16)
+                .padding([.vertical], 15)
                 
                 //Checking the current location
-                if isTextFieldClicked && locationManager.searchText.isEmpty && !currentStreet.isEmpty {
+                if locationManager.searchText.isEmpty {
                     Button(action: {
-                        geocodeAddressString(currentStreet) { placemark in
-                            if let placemark = placemark {
-                                locationManager.selectedPlace = placemark
-                                locationManager.fetchedPlaces = nil
-                                isPresented = false
-                            }
+                        Task{
+                                if let placemark = await geocodeAddressString(currentStreet) {
+                                    locationManager.selectedPlace = placemark
+                                    locationManager.fetchedPlaces = nil
+                                    isPresented = false
+                                }
                         }
                     }) {
                         HStack {
-                            Image(systemName: "location.fill")
-                                .foregroundColor(.blue)
-                            Text(currentStreet)
-                                .foregroundColor(.blue)
-                                .padding(.trailing, 5)
-                            
+                            if isLoading {
+                                HStack{
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle())
+                                        .foregroundColor(.blue)
+                                    Text(" Loading current position").foregroundStyle(.gray)
+                                }} else{
+                                    Image(systemName: "mappin.circle.fill")
+                                        .foregroundColor(.blue)
+                                    Text(currentStreet)
+                                        .foregroundColor(.blue)
+                                        .padding(.trailing, 5)
+                                }
                         }
                         .padding(10)
                         .frame(maxWidth: .infinity)
@@ -79,13 +82,14 @@ struct LocationView: View {
                             HStack(spacing: 15) {
                                 Image(systemName: "mappin.circle.fill")
                                     .font(.title2)
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.blue)
                                 VStack(alignment: .leading, spacing: 6) {
                                     Text(place.name ?? "")
                                         .font(.title3.bold())
+                                        .foregroundColor(.blue)
                                     Text(place.locality ?? "")
                                         .font(.caption)
-                                        .foregroundColor(.gray)
+                                        //.foregroundColor(.gray)
                                 }
                             }
                             .contentShape(Rectangle())
@@ -100,73 +104,87 @@ struct LocationView: View {
                 }
             }
             .navigationTitle("Find Location")
-
+            .navigationBarItems(leading:
+                Button(action: {
+                    dismiss()
+                }) {
+                    Text("Cancel")
+                }
+            )
+            
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .onAppear {
-                updateCurrentStreet()
+                Task{
+                    await updateCurrentStreet()
+                }
             }
             .onReceive(locationManager.$userLocation) { location in
-                updateCurrentStreet()
-            }
+                DispatchQueue.main.async {
+                    Task{
+                        await updateCurrentStreet()
+                    }
+                }
+            }.onDisappear{isLoading = true}
         }
     }
     
     
     
-    func updateCurrentStreet() {
+    func updateCurrentStreet() async {
+        isLoading = true
         guard let location = locationManager.userLocation else { return }
-        getAddress(from: location) { placemark in
-            currentStreet = placemark?.thoroughfare ?? "Unknown Location"
-            
+        if let placemark = await getAddress(from: location) {
+            currentStreet = placemark.thoroughfare ?? "Unknown Location"
+        } else {
+            currentStreet = "Unknown Location"
         }
+        isLoading = false
     }
     
     
     //MARK: These two methods are used to perform reverse geocoding (coordinates to address) and direct geocoding (address to coordinates) using the iOS Core Location framework.
     
     //This method takes a location (represented by an instance of CLLocation) and uses a CLGeocoder to obtain the address associated with that location.Reverse geocoding is performed via the reverseGeocodeLocation method of the CLGeocoder. When the geocoding process is complete, the completion call is made returning the CLPlacemark corresponding to the address.
-    func getAddress(from location: CLLocation, completion: @escaping (CLPlacemark?) -> Void) {
-        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
-            guard error == nil else {
-                print("Reverse geocoding error: \(error!.localizedDescription)")
-                completion(nil)
-                return
+    func getAddress(from location: CLLocation) async -> CLPlacemark? {
+        return await withCheckedContinuation { continuation in
+            CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+                if let error = error {
+                    print("Reverse geocoding error: \(error.localizedDescription)")
+                    continuation.resume(returning: nil)
+                    return
+                }
+                
+                guard let placemark = placemarks?.first else {
+                    print("No placemarks found")
+                    continuation.resume(returning: nil)
+                    return
+                }
+                
+                continuation.resume(returning: placemark)
             }
-            
-            guard let placemark = placemarks?.first else {
-                print("No placemarks found")
-                completion(nil)
-                return
-            }
-            
-            completion(placemark)
         }
     }
+    
     
     
     //This method takes an address in string format and uses a CLGeocoder to obtain the coordinates associated with that address.Direct geocoding is performed via the CLGeocoder's geocodeAddressString method. When the geocoding process is complete, the completion call is made returning the CLPlacemark corresponding to the address.
-    func geocodeAddressString(_ address: String, completion: @escaping (CLPlacemark?) -> Void) {
-        CLGeocoder().geocodeAddressString(address) { placemarks, error in
-            guard error == nil else {
-                print("Geocoding error: \(error!.localizedDescription)")
-                completion(nil)
-                return
+    func geocodeAddressString(_ address: String) async -> CLPlacemark? {
+        return await withCheckedContinuation { continuation in
+            CLGeocoder().geocodeAddressString(address) { placemarks, error in
+                if let error = error {
+                    print("Geocoding error: \(error.localizedDescription)")
+                    continuation.resume(returning: nil)
+                    return
+                }
+                
+                guard let placemark = placemarks?.first else {
+                    print("No placemarks found")
+                    continuation.resume(returning: nil)
+                    return
+                }
+                
+                continuation.resume(returning: placemark)
             }
-            
-            guard let placemark = placemarks?.first else {
-                print("No placemarks found")
-                completion(nil)
-                return
-            }
-            
-            completion(placemark)
         }
-    }
-}
-
-
-struct LocationView_Previews: PreviewProvider {
-    static var previews: some View {
-        LocationView(locationManager: SearchLocation(), isPresented: .constant(true))
     }
 }
