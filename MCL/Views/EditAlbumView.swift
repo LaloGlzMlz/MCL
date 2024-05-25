@@ -10,9 +10,11 @@ import SwiftData
 
 struct EditAlbumView: View {
     @Bindable var album: Album
-//    @Bindable var song: SongFromCatalog
     @StateObject private var songStore = SongStore()
     @State private var isShowingAddSongView = false
+    @Environment(\.modelContext) private var context
+    @State private var refreshList = false
+    
     
     var body: some View {
         NavigationStack{
@@ -54,21 +56,21 @@ struct EditAlbumView: View {
                                     .fontWeight(.light)
                             }
                         }
-//                        .swipeActions(edge: .trailing) {
-//                            Button(role: .destructive) {
-//                                deleteSong(song)
-//                            } label: {
-//                                Label("Delete", systemImage: "trash")
-//                            }
-//                        }
                     }
+                    .onDelete(perform: deleteSongs)
                 }
             }
             .listSectionSpacing(.compact)
         }
-//        .sheet(isPresented: $isShowingAddSongView) {
-//            MusicSearchBar(songStore: songStore)
-//        }
+        .sheet(isPresented: $isShowingAddSongView) {
+            MusicSearchBar(songStore: songStore)
+        }
+    }
+    private func deleteSongs(indexSet: IndexSet) {
+        for index in indexSet {
+            context.delete(album.songs[index])
+            album.songs.remove(at: index)
+        }
     }
 }
 

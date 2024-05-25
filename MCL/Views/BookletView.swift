@@ -11,8 +11,8 @@ import SwiftData
 struct BookletView: View {
     @Environment(\.modelContext) private var context
     
-    let album: Album
-    
+    @Bindable var album: Album
+    @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
     @State private var isShowingEditView = false
     @StateObject private var songStore = SongStore()
@@ -34,31 +34,7 @@ struct BookletView: View {
                     //                         Description
                     Text("Placeholder for description about the album")
                         .font(.subheadline)
-                    
-                    ForEach(album.songs) { song in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 5)
-                                .foregroundColor(.white)
-                                .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
-                            
-                            HStack {
-                                AsyncImage(url: song.imageURL)
-                                    .frame(width: 40, height: 40, alignment: .leading)
-                                    .padding()
-                                
-                                VStack(alignment: .leading) {
-                                    Text(song.name)
-                                        .fontWeight(.medium)
-                                        .lineLimit(1)
-                                    
-                                    Text(song.artist)
-                                        .font(.footnote)
-                                }
-                            }
-                            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)
-                        }
-                    }
+                    SongsViewSwction.id(refreshList)
                 }
             }
             .padding(.horizontal) // Add horizontal padding to the ScrollView content to prevent clipping by ScrollView
@@ -93,6 +69,34 @@ struct BookletView: View {
         }
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
+        }
+    }
+}
+extension BookletView {
+    private var SongsViewSwction: some View {
+        ForEach($album.songs) { $song in
+            ZStack {
+                RoundedRectangle(cornerRadius: 5)
+                    .foregroundColor(.white)
+                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                    .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
+                
+                HStack {
+                    AsyncImage(url: song.imageURL)
+                        .frame(width: 40, height: 40, alignment: .leading)
+                        .padding()
+                    
+                    VStack(alignment: .leading) {
+                        Text(song.name)
+                            .fontWeight(.medium)
+                            .lineLimit(1)
+                        
+                        Text(song.artist)
+                            .font(.footnote)
+                    }
+                }
+                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)
+            }
         }
     }
 }
