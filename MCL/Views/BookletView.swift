@@ -11,12 +11,13 @@ import SwiftData
 struct BookletView: View {
     @Environment(\.modelContext) private var context
     
-    let album: Album
-    
+    @Bindable var album: Album
+    @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
     @State private var isShowingEditView = false
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
+    @State private var showingEditAlbumSheet: Bool = false
     
     var body: some View {
         //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
@@ -63,32 +64,8 @@ struct BookletView: View {
                     Text(album.shortDescription)
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
-                    
-                    
-                    ForEach(album.songs) { song in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 5)
-                                .foregroundColor(.white)
-                                .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
-                            
-                            HStack {
-                                AsyncImage(url: song.imageURL)
-                                    .frame(width: 40, height: 40, alignment: .leading)
-                                    .padding()
-                                
-                                VStack(alignment: .leading) {
-                                    Text(song.name)
-                                        .fontWeight(.medium)
-                                        .lineLimit(1)
-                                    
-                                    Text(song.artist)
-                                        .font(.footnote)
-                                }
-                            }
-                            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)
-                        }
-                    }
+                    SongsViewSwction.id(refreshList)
+
                 }
             }
             .padding(.horizontal) // Add horizontal padding to the ScrollView content to prevent clipping by ScrollView
@@ -97,9 +74,9 @@ struct BookletView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    // Here action
+                    showingEditAlbumSheet = true
                 }) {
-//                    Label("Share", systemImage: "square.and.arrow.up")
+                    Label("Edit", systemImage: "pencil")
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
@@ -114,11 +91,42 @@ struct BookletView: View {
             Button("Add Entry") {
                 // Action 1
             }
-            Button("Edit Album") {
-                // Action 2
-            }
+//            Button("Add...") {
+//
+//            }
             Button("Cancel", role: .cancel) {
                 // Cancel action
+            }
+        }
+        .sheet(isPresented: $showingEditAlbumSheet) {
+            EditAlbumView(album: album)
+        }
+    }
+}
+extension BookletView {
+    private var SongsViewSwction: some View {
+        ForEach($album.songs) { $song in
+            ZStack {
+                RoundedRectangle(cornerRadius: 5)
+                    .foregroundColor(.white)
+                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                    .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
+                
+                HStack {
+                    AsyncImage(url: song.imageURL)
+                        .frame(width: 40, height: 40, alignment: .leading)
+                        .padding()
+                    
+                    VStack(alignment: .leading) {
+                        Text(song.name)
+                            .fontWeight(.medium)
+                            .lineLimit(1)
+                        
+                        Text(song.artist)
+                            .font(.footnote)
+                    }
+                }
+                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)
             }
         }
     }
