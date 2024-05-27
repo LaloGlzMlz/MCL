@@ -14,6 +14,8 @@ struct AddEntryView: View {
     
     @State private var entryText = ""
     
+    @Bindable var album: Album
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -36,7 +38,7 @@ struct AddEntryView: View {
                             entryText: entryText,
                             dateCreated: Date()
                         )
-                        context.insert(entry)
+                        album.entries.append(entry)
                         dismiss()
                     }) {
                         Text("Add")
@@ -46,8 +48,4 @@ struct AddEntryView: View {
             }
         }
     }
-}
-
-#Preview {
-    AddEntryView()
 }

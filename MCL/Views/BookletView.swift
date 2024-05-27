@@ -30,12 +30,6 @@ struct BookletView: View {
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
                 
                 VStack(alignment: .leading) {
-                    //                        Text(album.title)
-                    //                            .font(.title)
-                    //                            .bold()
-                    
-                    //                         Description
-                    
                     if album.location != "" {
                         Text(album.location)
                             .foregroundStyle(Color.gray)
@@ -66,6 +60,11 @@ struct BookletView: View {
                     Text(album.shortDescription)
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
+                    
+                    ForEach(album.entries) { entry in
+                        Text(entry.entryText)
+                    }
+                    
                     ForEach($album.songs) { $song in
                         ZStack {
                             RoundedRectangle(cornerRadius: 5)
@@ -123,7 +122,7 @@ struct BookletView: View {
             }
         }
         .sheet(isPresented: $isShowingNewEntryView) {
-            AddEntryView()
+            AddEntryView(album: album)
         }
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
