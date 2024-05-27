@@ -124,11 +124,6 @@ struct AddAlbumView: View {
                 }
                 .textCase(nil)
                 
-                //                Section {
-                //
-                //                }
-                //                .listSectionSpacing(.compact)
-                
                 /*--- ALBUM DESCRIPTION SECTION ---*/
                 Section {
                     ZStack(alignment: .topLeading) {
