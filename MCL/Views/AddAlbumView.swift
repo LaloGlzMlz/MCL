@@ -8,7 +8,6 @@ import SwiftUI
 import PhotosUI
 import SwiftData
 
-
 struct AddAlbumView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
@@ -17,19 +16,26 @@ struct AddAlbumView: View {
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
-    //variables for file management
+    // Variables for file management
     @State private var isShowingDocumentPicker = false
-    //variables for location management
+    
+    // Variables for location management
     @StateObject var locationManager: SearchLocation = .init()
+    @State var chosenLocation: String = ""
     @State var showSearchBar = false
-    //variables for datepicker management
-    @State private var selectedDates: Set<DateComponents> = []
-    @State private var startDate = Date()
-    @State private var endDate = Date()
+    @State private var isLocationEnabeled = false
+    
+    @State private var startDate: Date? = Date()
+    @State private var endDate: Date? = Date()
+    @State private var isDateEnabeled = false
+    @State private var isEndDateEnabled = false
+    
+    @State private var shortDescription: String = ""
+    
     @State private var isShowingAddSongView = false
     @StateObject private var songStore = SongStore()
     
-    @State var sideMeasure = UIScreen.main.bounds.width/1.5
+    @State var sideMeasure = UIScreen.main.bounds.width / 1.5
     
     @State private var isShowingLocationSheet = false
     @State var selectedPhoto: PhotosPickerItem?
@@ -37,159 +43,78 @@ struct AddAlbumView: View {
     
     @State private var alertNoSong: Bool = false
     @Binding var newAlbum: Album?
-
-    @State var imageSideMeasure = UIScreen.main.bounds.width/1.3
-
+    
+    @State var imageSideMeasure = UIScreen.main.bounds.width / 1.3
     
     var body: some View {
         NavigationStack {
             Form {
+                
+                /*--- ALBUM COVER SECTION ---*/
                 Section {
                     VStack {
-                        if selectedPhotoData == nil {
-                            PhotosPicker(selection: $selectedPhoto,
-                                         matching: .images,
-                                         photoLibrary: .shared()) {
-                                ZStack{
-                                    RoundedRectangle(cornerRadius: 5.0)
-                                        .frame(width: sideMeasure, height: sideMeasure)
-                                        .foregroundStyle(Color.gray)
-                                        .opacity(0.5)
-                                    Image(systemName: "camera.circle.fill")
-                                        .resizable()
-                                        .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-                                        .foregroundStyle(Color.blue)
-                                }
-                            }
-                        } else {
-                            if let photoData = selectedPhotoData,
-                               let uiImage = UIImage(data: photoData) {
+                        HStack {
+                            Spacer()
+                            if selectedPhotoData == nil {
                                 PhotosPicker(selection: $selectedPhoto,
                                              matching: .images,
                                              photoLibrary: .shared()) {
-                                    ZStack{
-                                        Image(uiImage: uiImage)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 5.0)
                                             .frame(width: sideMeasure, height: sideMeasure)
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            .foregroundStyle(Color.gray)
+                                            .opacity(0.5)
+                                        Image(systemName: "camera.circle.fill")
+                                            .resizable()
+                                            .frame(width: UIScreen.main.bounds.width / 5, height: UIScreen.main.bounds.width / 5)
+                                            .foregroundStyle(Color.blue)
+                                    }
+                                }
+                            } else {
+                                if let photoData = selectedPhotoData,
+                                   let uiImage = UIImage(data: photoData) {
+                                    PhotosPicker(selection: $selectedPhoto,
+                                                 matching: .images,
+                                                 photoLibrary: .shared()) {
+                                        ZStack {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: sideMeasure, height: sideMeasure)
+                                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        }
                                     }
                                 }
                             }
+                            Spacer()
                         }
-                        
-//                        if selectedPhotoData != nil {
-//                            Button(role: .destructive) {
-//                                withAnimation {
-//                                    selectedPhoto = nil
-//                                    selectedPhotoData = nil
-//                                }
-//                            } label: {
-//                                Label("Clear image selection", systemImage: "xmark")
-//                                    .foregroundStyle(Color.red)
-//                            }
-//                        }
-//                        Menu {
-//                            Button(action: {
-//                                self.showImagePicker = true
-//                                
-//                            }) {
-//                                Label("Choose Photo", systemImage: "photo.on.rectangle")
-//                            }
-//                            Button(action:  {
-//                                self.showCameraPicker = true
-//                                
-//                            }) {
-//                                Label("Take Photo", systemImage: "camera")
-//                            }
-//                            Button(action:  {
-//                                isShowingDocumentPicker = true
-//                            }){
-//                                Label("Select from file", systemImage: "folder")
-//                            }
-//                            Button(action: {
-//                                self.selectedImage = nil
-//                            }){
-//                                Label("Remove Photo",systemImage: "trash").foregroundColor(.red)
-//                            }
-//                        } label: {
-//                            if let selectedImage = selectedImage {
-//                                Image(uiImage: selectedImage)
-//                                    .resizable()
-//                                    .frame(width: 247, height: 247)
-//                            } else {
-//                                ZStack{
-//                                    RoundedRectangle(cornerRadius: 5.0)
-//                                        .frame(width: sideMeasure, height: sideMeasure)
-//                                        .foregroundStyle(Color.gray)
-//                                        .opacity(0.5)
-//                                    Image(systemName: "camera.circle.fill")
-//                                        .resizable()
-//                                        .frame(width: UIScreen.main.bounds.width/5, height: UIScreen.main.bounds.width/5)
-//                                    //                                        .foregroundStyle(Color.white)
-//                                }
-//                            }
-//                        }
-                        
-                        
-                        TextField("Name",
-                                  text: $title,
-                                  prompt: Text("Album title")
-                            .font(.system(size: 20))
-                            .fontWeight(.bold))
-                        .textInputAutocapitalization(.words)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                        .padding(15)
-                        Divider()
-                        HStack{
-                            Text("From: ")
-                            DatePicker("", selection: $startDate, displayedComponents: [.date])
-                        }
-                        HStack{
-                            Text("To: ")
-                            DatePicker("", selection: $endDate, displayedComponents: [.date])
-                        }
-                        
                     }
-                    HStack {
-                        Button(action: {
-                            locationManager.requestUserLocation()
-                            self.isShowingLocationSheet = true
-                        }) {
-                            Label(locationManager.selectedPlace == nil ? "Add Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
-                                .foregroundColor(.blue)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            //.padding(.top, 20)
-                        }
-                        
-                        if locationManager.selectedPlace != nil {
-                            Button(action: {
-                                //Reset position
-                                locationManager.selectedPlace = nil
-                                locationManager.searchText = ""
-                            }) {
-                                Image(systemName: "trash.circle.fill")
-                                    .foregroundColor(.red)
-                                    .imageScale(.large)
-                                //.padding(.top, 20)
-                            }
-                            
-                            .padding(.leading, 10)
-                            // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                        
-                    }
-                    
                 }
-                Section{
+                
+                /*--- ALBUM TITLE SECTION ---*/
+                Section {
+                    TextField("Name",
+                              text: $title,
+                              prompt: Text("Album title")
+                        .font(.system(size: 20))
+                        .fontWeight(.bold))
+                    .textInputAutocapitalization(.words)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                }
+                .listSectionSpacing(.compact)
+                
+                
+                /*--- ALBUM SONGS SECTION ---*/
+                Section {
                     Button(action: {
                         self.isShowingAddSongView = true
                     }){
                         Label("Add Song",systemImage: "plus.circle.fill")
                     }
-                    
+                    List {
+                        AddedSongs(songStore: songStore)
+                    }
                 } header: {
                     Text("Songs")
                         .font(.title2)
@@ -198,13 +123,111 @@ struct AddAlbumView: View {
                         .padding(.leading, -15)
                 }
                 .textCase(nil)
+                
+                //                Section {
+                //
+                //                }
+                //                .listSectionSpacing(.compact)
+                
+                /*--- ALBUM DESCRIPTION SECTION ---*/
                 Section {
-                    List{
-                        AddedSongs(songStore: songStore)
+                    ZStack(alignment: .topLeading) {
+                        if shortDescription.isEmpty {
+                            Text("Enter album description...")
+                                .foregroundColor(.gray)
+                                .padding(.top, 8)
+                                .padding(.leading, 5)
+                        }
+                        TextEditor(text: $shortDescription)
+                    }
+                    .frame(height: 100)
+                } header: {
+                    Text("Album description")
+                    //                        .font(.title2)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, -15)
+                        .textCase(nil)
+                }
+                
+                
+                /*--- ALBUM DATE SECTION ---*/
+                Section {
+                    VStack {
+                        Toggle("Add date", isOn: $isDateEnabeled)
+                        if isDateEnabeled {
+                            Divider()
+                            if !isEndDateEnabled {
+                                HStack {
+                                    Text("Date:")
+                                    DatePicker("", selection: Binding(
+                                        get: { startDate ?? Date() },
+                                        set: { startDate = $0 }
+                                    ), displayedComponents: [.date])
+                                }
+                            } else {
+                                VStack {
+                                    HStack {
+                                        Text("From:")
+                                        DatePicker("", selection: Binding(
+                                            get: { startDate ?? Date() },
+                                            set: { startDate = $0 }
+                                        ), displayedComponents: [.date])
+                                    }
+                                    HStack {
+                                        Text("To:")
+                                        DatePicker("", selection: Binding(
+                                            get: { endDate ?? Date() },
+                                            set: { endDate = $0 }
+                                        ), displayedComponents: [.date])
+                                    }
+                                }
+                            }
+                            Divider()
+                            Toggle("Enable range of dates", isOn: $isEndDateEnabled)
+                        }
+                    }
+                }
+                
+                /*--- ALBUM LOCATION SECTION ---*/
+                Section {
+                    VStack {
+                        Toggle("Add location", isOn: $isLocationEnabeled)
+                        if isLocationEnabeled {
+                            Divider()
+                            HStack {
+                                Button(action: {
+                                    locationManager.requestUserLocation()
+                                    self.isShowingLocationSheet = true
+                                }) {
+                                    Label(locationManager.selectedPlace == nil ? "Add Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.top, 5)
+                                }
+                                
+                                if locationManager.selectedPlace != nil {
+                                    Button(action: {
+                                        //Reset position
+                                        locationManager.selectedPlace = nil
+                                        locationManager.searchText = ""
+                                    }) {
+                                        Image(systemName: "trash.circle.fill")
+                                            .foregroundColor(.red)
+                                            .imageScale(.large)
+                                        //.padding(.top, 20)
+                                    }
+                                    
+                                    .padding(.leading, 10)
+                                    // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                                
+                            }
+                        }
                     }
                 }
                 .listSectionSpacing(.compact)
-                
             }
             .navigationTitle("New album")
             .navigationBarTitleDisplayMode(.large)
@@ -221,10 +244,24 @@ struct AddAlbumView: View {
                         if title.isEmpty {
                             title = "Untitled"
                         }
-                        let album = Album (
+                        if !isDateEnabeled {
+                            endDate = nil
+                            startDate = nil
+                        } else if isDateEnabeled && !isEndDateEnabled {
+                            endDate = nil
+                        }
+                        chosenLocation = locationManager.selectedPlace?.name ?? ""
+                        if !isLocationEnabeled {
+                            chosenLocation = ""
+                        }
+                        let album = Album(
                             title: title,
                             coverImage: selectedPhotoData,
-                            dateOfAlbum: Date(),
+                            shortDescription: shortDescription,
+                            dateFrom: startDate,
+                            dateTo: endDate,
+                            location: chosenLocation,
+                            dateCreated: Date(),
                             songs: songStore.addedSongs
                         )
                         context.insert(album)
@@ -243,9 +280,6 @@ struct AddAlbumView: View {
                 }
             }
         }
-        //        .alert(isPresented: $alertNoSong) {
-        //            Alert(title: Text("Albums must contain at least one song."), dismissButton: .default(Text("OK")))
-        //        }
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: self.$selectedImage, sourceType: UIImagePickerController.SourceType.photoLibrary)
                 .edgesIgnoringSafeArea(.all)
@@ -263,8 +297,6 @@ struct AddAlbumView: View {
         .sheet(isPresented: $isShowingLocationSheet) {
             LocationView(locationManager: locationManager, isPresented: $isShowingLocationSheet)
         }
-        
-        
     }
     
     func selectFromFile() { }
