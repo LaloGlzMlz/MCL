@@ -17,6 +17,7 @@ struct EditAlbumView: View {
     @State private var refreshList = false
     
     @State private var titleAux: String = ""
+    @State private var songAux: [SongFromCatalog] = []
     
     
     var body: some View {
@@ -46,7 +47,7 @@ struct EditAlbumView: View {
             .textCase(nil)
             Section {
                 List{
-                    ForEach($album.songs) { $song in
+                    ForEach($songAux) { $song in
                         HStack{
                             AsyncImage(url: song.imageURL)
                                 .frame(width: 40, height: 40, alignment: .leading)
@@ -61,6 +62,7 @@ struct EditAlbumView: View {
                         }
                     }
                     .onDelete(perform: deleteSongs)
+                    AddedSongs(songStore: songStore)
                 }
             }
             .listSectionSpacing(.compact)
@@ -75,6 +77,11 @@ struct EditAlbumView: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
                         album.title = titleAux
+                        album.songs = songAux + songStore.addedSongs
+//                        print("\(songStore.addedSongs)")
+//                        for songStore in songStore.addedSongs {
+//                            print(songStore.name)
+//                        }
                         dismiss()
                     }) {
                         Text("Save")
@@ -86,7 +93,7 @@ struct EditAlbumView: View {
         }
         .onAppear {
             titleAux = album.title
-            print(titleAux)
+            songAux = album.songs
         }
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)
