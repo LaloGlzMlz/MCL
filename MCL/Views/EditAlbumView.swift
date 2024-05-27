@@ -13,13 +13,17 @@ struct EditAlbumView: View {
     @StateObject private var songStore = SongStore()
     @State private var isShowingAddSongView = false
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) var dismiss
     @State private var refreshList = false
+    
+    @State private var titleAux: String = ""
+    @State private var songAux: [SongFromCatalog] = []
     
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             TextField("Name",
-                      text: $album.title,
+                      text: $titleAux,
                       prompt: Text("Album title")
                 .font(.system(size: 20))
                 .fontWeight(.bold))
@@ -43,7 +47,7 @@ struct EditAlbumView: View {
             .textCase(nil)
             Section {
                 List{
-                    ForEach($album.songs) { $song in
+                    ForEach($songAux) { $song in
                         HStack{
                             AsyncImage(url: song.imageURL)
                                 .frame(width: 40, height: 40, alignment: .leading)
@@ -58,9 +62,38 @@ struct EditAlbumView: View {
                         }
                     }
                     .onDelete(perform: deleteSongs)
+                    AddedSongs(songStore: songStore)
                 }
             }
             .listSectionSpacing(.compact)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Text("Cancel")
+                    }
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(action: {
+                        album.title = titleAux
+                        album.songs = songAux + songStore.addedSongs
+//                        print("\(songStore.addedSongs)")
+//                        for songStore in songStore.addedSongs {
+//                            print(songStore.name)
+//                        }
+                        dismiss()
+                    }) {
+                        Text("Save")
+                            .fontWeight(.medium)
+                    }
+                    .disabled(album.title.isEmpty)
+                }
+            }
+        }
+        .onAppear {
+            titleAux = album.title
+            songAux = album.songs
         }
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)

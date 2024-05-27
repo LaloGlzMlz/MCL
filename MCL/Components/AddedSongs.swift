@@ -17,15 +17,24 @@ struct AddedSongs: View {
     var body: some View {
         ForEach(songStore.addedSongs) { song in
             HStack{
-                AsyncImage(url: song.imageURL)
-                    .frame(width: 40, height: 40, alignment: .leading)
-                VStack(alignment: .leading) {
-                    Text(song.name)
-                        .fontWeight(.medium)
-                        .lineLimit(1)
-                    Text(song.artist)
-                        .font(.footnote)
-                        .fontWeight(.light)
+                HStack{
+                    AsyncImage(url: song.imageURL)
+                        .frame(width: 40, height: 40, alignment: .leading)
+                    VStack(alignment: .leading) {
+                        Text(song.name)
+                            .fontWeight(.medium)
+                            .lineLimit(1)
+                        Text(song.artist)
+                            .font(.footnote)
+                            .fontWeight(.light)
+                    }
+                }
+                Spacer()
+                Button(action: {
+                    deleteSong(song)
+                }){
+                    Image(systemName: "minus.circle")
+                        .foregroundStyle(Color.red)
                 }
             }
             .swipeActions(edge: .trailing) {
