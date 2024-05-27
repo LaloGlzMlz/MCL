@@ -11,12 +11,13 @@ import SwiftData
 struct BookletView: View {
     @Environment(\.modelContext) private var context
     
-    let album: Album
-    
+    @Bindable var album: Album
+    @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
     @State private var isShowingEditView = false
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
+    @State private var showingEditAlbumSheet: Bool = false
     
     var body: some View {
         //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
@@ -63,9 +64,7 @@ struct BookletView: View {
                     Text(album.shortDescription)
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
-                    
-                    
-                    ForEach(album.songs) { song in
+                    ForEach($album.songs) { $song in
                         ZStack {
                             RoundedRectangle(cornerRadius: 5)
                                 .foregroundColor(.white)
@@ -97,9 +96,9 @@ struct BookletView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    // Here action
+                    showingEditAlbumSheet = true
                 }) {
-//                    Label("Share", systemImage: "square.and.arrow.up")
+                    Label("Edit", systemImage: "pencil")
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
@@ -114,12 +113,15 @@ struct BookletView: View {
             Button("Add Entry") {
                 // Action 1
             }
-            Button("Edit Album") {
-                // Action 2
-            }
+//            Button("Add...") {
+//
+//            }
             Button("Cancel", role: .cancel) {
                 // Cancel action
             }
+        }
+        .sheet(isPresented: $showingEditAlbumSheet) {
+            EditAlbumView(album: album)
         }
     }
 }
