@@ -15,7 +15,7 @@ struct MCLApp: App {
     init() {
         
         do {
-            modelContainer = try ModelContainer(for: Album.self, SongFromCatalog.self)
+            modelContainer = try ModelContainer(for: Album.self, SongFromCatalog.self, Entry.self)
         } catch {
             fatalError("ModelContainer has not been initialized.")
         }

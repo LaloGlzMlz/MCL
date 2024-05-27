@@ -21,7 +21,10 @@ final class Album {
     @Relationship(deleteRule: .cascade)
     var songs: [SongFromCatalog]
     
-    init(title: String, coverImage: Data? = nil, shortDescription: String, dateFrom: Date? = nil, dateTo: Date? = nil, location: String, dateCreated: Date, songs: [SongFromCatalog]) {
+    @Relationship(deleteRule: .cascade)
+    var entries: [Entry] = []
+    
+    init(title: String, coverImage: Data? = nil, shortDescription: String, dateFrom: Date? = nil, dateTo: Date? = nil, location: String, dateCreated: Date, songs: [SongFromCatalog], entries: [Entry]) {
         self.title = title
         self.coverImage = coverImage
         self.shortDescription = shortDescription
@@ -30,5 +33,6 @@ final class Album {
         self.location = location
         self.dateCreated = dateCreated
         self.songs = songs
+        self.entries = entries
     }
 }
