@@ -11,7 +11,6 @@ import SwiftData
 struct BookletView: View {
     @Environment(\.modelContext) private var context
     
-    @Bindable var album: Album
     @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
     @StateObject private var songStore = SongStore()
@@ -20,6 +19,8 @@ struct BookletView: View {
     
     @State private var isShowingEditView = false
     @State private var isShowingNewEntryView = false
+    
+    @Bindable var album: Album
     
     var body: some View {
         //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
@@ -35,7 +36,7 @@ struct BookletView: View {
                             .foregroundStyle(Color.gray)
                             .font(.footnote)
                             .bold()
-//                            .padding()
+                        //                            .padding()
                     }
                     if album.dateTo != nil {
                         HStack {
@@ -61,8 +62,23 @@ struct BookletView: View {
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
                     
+                    Divider()
+                        .padding()
+                    
                     ForEach(album.entries) { entry in
-                        Text(entry.entryText)
+                        ZStack {
+                            GeometryReader { geometry in
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(.white)
+                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                                    .frame(height: geometry.size.height)
+                            }
+                            .frame(width: UIScreen.main.bounds.width / 1.1)
+                            
+                            Text(entry.entryText)
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                     
                     ForEach($album.songs) { $song in
@@ -116,7 +132,7 @@ struct BookletView: View {
             }) {
                 Text("Add entry")
             }
-//
+            //
             Button("Cancel", role: .cancel) {
                 // Cancel action
             }
