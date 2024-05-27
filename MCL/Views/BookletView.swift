@@ -14,10 +14,12 @@ struct BookletView: View {
     @Bindable var album: Album
     @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
-    @State private var isShowingEditView = false
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
     @State private var showingEditAlbumSheet: Bool = false
+    
+    @State private var isShowingEditView = false
+    @State private var isShowingNewEntryView = false
     
     var body: some View {
         //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
@@ -110,15 +112,18 @@ struct BookletView: View {
             }
         }
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
-            Button("Add Entry") {
-                // Action 1
+            Button(action: {
+                isShowingNewEntryView = true
+            }) {
+                Text("Add entry")
             }
-//            Button("Add...") {
 //
-//            }
             Button("Cancel", role: .cancel) {
                 // Cancel action
             }
+        }
+        .sheet(isPresented: $isShowingNewEntryView) {
+            AddEntryView()
         }
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
