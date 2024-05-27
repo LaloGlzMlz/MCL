@@ -49,19 +49,36 @@ struct EditAlbumView: View {
                 List{
                     ForEach($songAux) { $song in
                         HStack{
-                            AsyncImage(url: song.imageURL)
-                                .frame(width: 40, height: 40, alignment: .leading)
-                            VStack(alignment: .leading) {
-                                Text(song.name)
-                                    .fontWeight(.medium)
-                                    .lineLimit(1)
-                                Text(song.artist)
-                                    .font(.footnote)
-                                    .fontWeight(.light)
+                            HStack{
+                                AsyncImage(url: song.imageURL)
+                                    .frame(width: 40, height: 40, alignment: .leading)
+                                VStack(alignment: .leading) {
+                                    Text(song.name)
+                                        .fontWeight(.medium)
+                                        .lineLimit(1)
+                                    Text(song.artist)
+                                        .font(.footnote)
+                                        .fontWeight(.light)
+                                }
+                            }
+                            Spacer()
+                            Button(action: {
+                                deleteSong(song)
+                            }){
+                                Image(systemName: "minus.circle")
+                                    .foregroundStyle(Color.red)
+                            }
+                            
+                        }
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                deleteSong(song)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
                             }
                         }
                     }
-                    .onDelete(perform: deleteSongs)
+//                    .onDelete(perform: deleteSong(song))
                     AddedSongs(songStore: songStore)
                 }
             }
@@ -78,10 +95,6 @@ struct EditAlbumView: View {
                     Button(action: {
                         album.title = titleAux
                         album.songs = songAux + songStore.addedSongs
-//                        print("\(songStore.addedSongs)")
-//                        for songStore in songStore.addedSongs {
-//                            print(songStore.name)
-//                        }
                         dismiss()
                     }) {
                         Text("Save")
@@ -99,10 +112,15 @@ struct EditAlbumView: View {
             MusicSearchBar(songStore: songStore)
         }
     }
-    private func deleteSongs(indexSet: IndexSet) {
-        for index in indexSet {
-            context.delete(album.songs[index])
-            album.songs.remove(at: index)
+//    private func deleteSongs(indexSet: IndexSet) {
+//        for index in indexSet {
+//            context.delete(album.songs[index])
+//            album.songs.remove(at: index)
+//        }
+//    }
+    private func deleteSong(_ song: SongFromCatalog) {
+        if let index = songAux.firstIndex(where: { $0.id == song.id }) {
+            songAux.remove(at: index)
         }
     }
 }
