@@ -13,13 +13,16 @@ struct EditAlbumView: View {
     @StateObject private var songStore = SongStore()
     @State private var isShowingAddSongView = false
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) var dismiss
     @State private var refreshList = false
+    
+    @State private var titleAux: String = ""
     
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             TextField("Name",
-                      text: $album.title,
+                      text: $titleAux,
                       prompt: Text("Album title")
                 .font(.system(size: 20))
                 .fontWeight(.bold))
@@ -61,6 +64,29 @@ struct EditAlbumView: View {
                 }
             }
             .listSectionSpacing(.compact)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Text("Cancel")
+                    }
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(action: {
+                        album.title = titleAux
+                        dismiss()
+                    }) {
+                        Text("Save")
+                            .fontWeight(.medium)
+                    }
+                    .disabled(album.title.isEmpty)
+                }
+            }
+        }
+        .onAppear {
+            titleAux = album.title
+            print(titleAux)
         }
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)

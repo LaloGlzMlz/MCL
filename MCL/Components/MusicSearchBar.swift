@@ -63,7 +63,6 @@ struct MusicSearchBar: View {
                     .swipeActions(edge: .trailing) {
                         Button(){
                             addSong(song)
-                            //                            showToast.toggle()
                         } label: {
                             Label("Add", systemImage: "plus")
                         }
