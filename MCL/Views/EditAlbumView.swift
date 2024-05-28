@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import PhotosUI
 
 struct EditAlbumView: View {
     @Bindable var album: Album
@@ -20,15 +21,59 @@ struct EditAlbumView: View {
     @State private var songAux: [SongFromCatalog] = []
     @State private var shortDescriptionAux: String = ""
     
+    
     @State private var startDateAux: Date? = nil
     @State private var endDateAux: Date? = nil
-
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
+    
+    @State var selectedPhoto: PhotosPickerItem?
+    @State var selectedPhotoDataAux: Data?
+    @State var sideMeasure = UIScreen.main.bounds.width / 1.5
     
     var body: some View {
         NavigationStack {
             Form {
+                /*--- ALBUM COVER SECTION ---*/
+                Section {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            if selectedPhotoDataAux == nil {
+                                PhotosPicker(selection: $selectedPhoto,
+                                             matching: .images,
+                                             photoLibrary: .shared()) {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 5.0)
+                                            .frame(width: sideMeasure, height: sideMeasure)
+                                            .foregroundStyle(Color.gray)
+                                            .opacity(0.5)
+                                        Image(systemName: "camera.circle.fill")
+                                            .resizable()
+                                            .frame(width: UIScreen.main.bounds.width / 5, height: UIScreen.main.bounds.width / 5)
+                                            .foregroundStyle(Color.blue)
+                                    }
+                                }
+                            } else {
+                                if let photoData = selectedPhotoDataAux,
+                                   let uiImage = UIImage(data: photoData) {
+                                    PhotosPicker(selection: $selectedPhoto,
+                                                 matching: .images,
+                                                 photoLibrary: .shared()) {
+                                        ZStack {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: sideMeasure, height: sideMeasure)
+                                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        }
+                                    }
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                }
                 /*--- ALBUM TITLE SECTION ---*/
                 Section {
                     TextField("Name",
@@ -166,8 +211,27 @@ struct EditAlbumView: View {
                         album.title = titleAux
                         album.songs = songAux + songStore.addedSongs
                         album.shortDescription = shortDescriptionAux
-                        album.dateFrom = startDateAux
-                        album.dateTo = endDateAux
+                        album.coverImage = selectedPhotoDataAux
+                        if isDateEnabeled == true && isEndDateEnabled == true {
+                            if startDateAux == nil && endDateAux == nil {
+                                album.dateFrom = Date()
+                                album.dateTo = Date()
+                            } else {
+                                album.dateFrom = startDateAux
+                                album.dateTo = endDateAux
+                            }
+                        } else if isDateEnabeled == true && isEndDateEnabled == false {
+                            if startDateAux == nil {
+                                album.dateFrom = Date()
+                            } else {
+                                album.dateFrom = startDateAux
+                                album.dateTo = nil
+                            }
+                        } else {
+                            album.dateFrom = nil
+                            album.dateTo = nil
+                            
+                        }
                         dismiss()
                     }) {
                         Text("Save")
@@ -193,6 +257,7 @@ struct EditAlbumView: View {
                 isDateEnabeled = false
                 isEndDateEnabled = false
             }
+            selectedPhotoDataAux = album.coverImage
         }
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)
