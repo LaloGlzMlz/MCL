@@ -42,6 +42,9 @@ struct AddAlbumView: View {
     @State var selectedPhotoData: Data?
     
     @State private var alertNoSong: Bool = false
+    
+    @State private var entries: [Entry] = []
+    
     @Binding var newAlbum: Album?
     
     @State var imageSideMeasure = UIScreen.main.bounds.width / 1.3
@@ -257,7 +260,8 @@ struct AddAlbumView: View {
                             dateTo: endDate,
                             location: chosenLocation,
                             dateCreated: Date(),
-                            songs: songStore.addedSongs
+                            songs: songStore.addedSongs,
+                            entries: entries
                         )
                         context.insert(album)
                         newAlbum = album
