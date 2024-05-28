@@ -14,7 +14,14 @@ struct SongCard: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 5)
-                .foregroundStyle(Color.white)
+                .fill(LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: Color.white, location: 0.0),
+                        .init(color: Color.black, location: 5.0)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ))
             // Background gradient with a placeholder color initially
             RoundedRectangle(cornerRadius: 5)
                 .fill(LinearGradient(
