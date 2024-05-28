@@ -19,6 +19,7 @@ struct MusicSearchBar: View {
     @State private var value = 0
     @State private var showAlertAlreadyAdded = false
     @State private var showAlertLimitSongs = false
+    @State private var isAdded = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -53,12 +54,14 @@ struct MusicSearchBar: View {
                         }
                         Spacer()
                         Button(action: {
-                            addSong(song)
+                            withAnimation {
+                                addSong(song)
+                            }
                         }){
-                            Image(systemName: "plus.circle")
+                            Image(systemName: songStore.addedSongs.contains(song) ? "checkmark.circle.fill": "plus.circle")
                                 .foregroundStyle(Color.green)
                         }
-                        
+                        .contentTransition(.symbolEffect(.replace))
                     }
                     .swipeActions(edge: .trailing) {
                         Button(){
