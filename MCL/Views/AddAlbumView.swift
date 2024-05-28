@@ -96,8 +96,10 @@ struct AddAlbumView: View {
                                     }
                                 }
                             } else {
-                                if let photoData = selectedPhotoData,
+                                let compressedPhoto = compressImage(selectedPhotoData!)
+                                if let photoData =  compressedPhoto,
                                    let uiImage = UIImage(data: photoData) {
+                                    
                                     PhotosPicker(selection: $selectedPhoto,
                                                  matching: .images,
                                                  photoLibrary: .shared()) {
@@ -321,6 +323,18 @@ struct AddAlbumView: View {
     }
     
     func selectFromFile() { }
+    
+    private func compressImage(_ imageData: Data)  -> Data? {
+        guard let uiImage = UIImage(data: imageData) else {
+            return nil
+        }
+        
+        guard let compressedImageData = uiImage.jpegData(compressionQuality: 0.3) else {
+            return nil
+        }
+        
+        return compressedImageData
+    }
 }
 
 
