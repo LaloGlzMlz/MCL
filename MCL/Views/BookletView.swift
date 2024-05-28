@@ -83,7 +83,7 @@ struct BookletView: View {
                     }
                     
                     ForEach($album.songs) { $song in
-                        SongView(song: song)
+                        SongCard(song: song)
                             .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
                             .shadow(color: Color.black.opacity(0.15), radius: 20)
                     }
