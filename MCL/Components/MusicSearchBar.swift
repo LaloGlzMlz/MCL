@@ -27,7 +27,7 @@ struct MusicSearchBar: View {
     
     var toastOptions = SimpleToastOptions(
         alignment: .bottom,
-        hideAfter: 2,
+        hideAfter: 1,
         backdrop: Color.black.opacity(0),
         animation: .default,
         modifierType: .slide
@@ -69,6 +69,9 @@ struct MusicSearchBar: View {
                         .tint(.green)
                     }
                 }
+                .alert(isPresented: $showAlertAlreadyAdded) {
+                    Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
+                }
                 .listStyle(PlainListStyle())
             }
             .searchable(text: $searchString.currentValue, prompt: "Search songs")
@@ -99,9 +102,7 @@ struct MusicSearchBar: View {
                 }
             }
         }
-        .alert(isPresented: $showAlertAlreadyAdded) {
-            Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
-        }
+        
         .alert(isPresented: $showAlertLimitSongs) {
             Alert(title: Text("Albums can contain a maximum of 20 songs."), dismissButton: .default(Text("OK")))
         }
