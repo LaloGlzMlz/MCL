@@ -25,8 +25,30 @@ struct AddAlbumView: View {
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
     
-    @State private var startDate: Date? = Date()
-    @State private var endDate: Date? = Date()
+    @State private var startDate: Date? = Date(){
+           didSet {
+               if let end = endDate, let start = startDate {
+                   if end < start {
+                       let tempStart = startDate
+                       startDate = endDate
+                       endDate = tempStart
+                   }
+               }
+           }
+       }
+       
+       @State private var endDate: Date? = Date() {
+           didSet {
+               if let end = endDate, let start = startDate {
+                   if end < start {
+                       let tempStart = startDate
+                       startDate = endDate
+                       endDate = tempStart
+                   }
+               }
+           }
+       }
+    
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
     
