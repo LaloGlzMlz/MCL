@@ -240,6 +240,12 @@ struct EditAlbumView: View {
                     .disabled(album.title.isEmpty)
                 }
             }
+            .task(id: selectedPhoto) {
+                if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                    selectedPhotoDataAux = data
+                }
+            }
+            
         }
         .onAppear {
             titleAux = album.title
