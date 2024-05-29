@@ -29,9 +29,7 @@ struct AddAlbumView: View {
            didSet {
                if let end = endDate, let start = startDate {
                    if end < start {
-                       let tempStart = startDate
-                       startDate = endDate
-                       endDate = tempStart
+                       endDate = start
                    }
                }
            }
@@ -41,9 +39,7 @@ struct AddAlbumView: View {
            didSet {
                if let end = endDate, let start = startDate {
                    if end < start {
-                       let tempStart = startDate
-                       startDate = endDate
-                       endDate = tempStart
+                       startDate = end
                    }
                }
            }
