@@ -19,27 +19,24 @@ struct BookletView: View {
     @State private var showConfirmationDialog = false
     @State private var showingEditAlbumSheet: Bool = false
     
+   
     var body: some View {
-        //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
-        ScrollView {
-            VStack {
-                AlbumCard(album: album)
-                    .shadow(color: Color.black.opacity(0.15), radius: 20)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
-                
-                VStack(alignment: .leading) {
-                    //                        Text(album.title)
-                    //                            .font(.title)
-                    //                            .bold()
+        VStack {
+            GeometryReader { geometry in
+                ZStack(alignment: .topLeading) {
+                    AlbumCard(album: album, isExpanded: true)
+                        .frame(height: geometry.size.height * 0.5)
                     
-                    //                         Description
-                    
+                }
+            }
+            // Stack per i dettagli dell'album
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
                     if album.location != "" {
                         Text(album.location)
                             .foregroundStyle(Color.gray)
                             .font(.footnote)
                             .bold()
-//                            .padding()
                     }
                     if album.dateTo != nil {
                         HStack {
@@ -64,6 +61,7 @@ struct BookletView: View {
                     Text(album.shortDescription)
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
+                    
                     ForEach($album.songs) { $song in
                         ZStack {
                             RoundedRectangle(cornerRadius: 5)
@@ -86,38 +84,39 @@ struct BookletView: View {
                                 }
                             }
                             .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)
+                            
                         }
+                        
                     }
                 }
-            }
-            .padding(.horizontal) // Add horizontal padding to the ScrollView content to prevent clipping by ScrollView
+                
+            } .padding(.horizontal)
+            
         }
-        .navigationTitle(album.title)
+        //.navigationTitle(album.title)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
                     showingEditAlbumSheet = true
                 }) {
                     Label("Edit", systemImage: "pencil")
-                }
+                }.accentColor(.gray)
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
                     showConfirmationDialog = true
                 }) {
-                    Label("Options", systemImage: "plus")
-                }
+                    Label("Options", systemImage: "plus.circle.fill")
+                        .tint(.gray)
+                }.accentColor(.gray)
             }
         }
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
             Button("Add Entry") {
-                // Action 1
+                // Azione 1
             }
-//            Button("Add...") {
-//
-//            }
             Button("Cancel", role: .cancel) {
-                // Cancel action
+                // Azione di annullamento
             }
         }
         .sheet(isPresented: $showingEditAlbumSheet) {
@@ -125,4 +124,3 @@ struct BookletView: View {
         }
     }
 }
-
