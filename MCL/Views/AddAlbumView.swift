@@ -25,8 +25,30 @@ struct AddAlbumView: View {
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
     
-    @State private var startDate: Date? = Date()
-    @State private var endDate: Date? = Date()
+    @State private var startDate: Date? = Date(){
+           didSet {
+               if let end = endDate, let start = startDate {
+                   if end < start {
+                       let tempStart = startDate
+                       startDate = endDate
+                       endDate = tempStart
+                   }
+               }
+           }
+       }
+       
+       @State private var endDate: Date? = Date() {
+           didSet {
+               if let end = endDate, let start = startDate {
+                   if end < start {
+                       let tempStart = startDate
+                       startDate = endDate
+                       endDate = tempStart
+                   }
+               }
+           }
+       }
+    
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
     
@@ -74,8 +96,10 @@ struct AddAlbumView: View {
                                     }
                                 }
                             } else {
-                                if let photoData = selectedPhotoData,
+                                let compressedPhoto = compressImage(selectedPhotoData!)
+                                if let photoData =  compressedPhoto,
                                    let uiImage = UIImage(data: photoData) {
+                                    
                                     PhotosPicker(selection: $selectedPhoto,
                                                  matching: .images,
                                                  photoLibrary: .shared()) {
@@ -299,6 +323,18 @@ struct AddAlbumView: View {
     }
     
     func selectFromFile() { }
+    
+    private func compressImage(_ imageData: Data)  -> Data? {
+        guard let uiImage = UIImage(data: imageData) else {
+            return nil
+        }
+        
+        guard let compressedImageData = uiImage.jpegData(compressionQuality: 0.3) else {
+            return nil
+        }
+        
+        return compressedImageData
+    }
 }
 
 
