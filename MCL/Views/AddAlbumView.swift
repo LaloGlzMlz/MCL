@@ -16,6 +16,7 @@ struct AddAlbumView: View {
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
+    
     // Variables for file management
     @State private var isShowingDocumentPicker = false
     
@@ -25,30 +26,9 @@ struct AddAlbumView: View {
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
     
-    @State private var startDate: Date? = Date(){
-           didSet {
-               if let end = endDate, let start = startDate {
-                   if end < start {
-                       let tempStart = startDate
-                       startDate = endDate
-                       endDate = tempStart
-                   }
-               }
-           }
-       }
-       
-       @State private var endDate: Date? = Date() {
-           didSet {
-               if let end = endDate, let start = startDate {
-                   if end < start {
-                       let tempStart = startDate
-                       startDate = endDate
-                       endDate = tempStart
-                   }
-               }
-           }
-       }
-    
+    // Variables for date component
+    @State private var startDate: Date? = Date()
+    @State private var endDate: Date? = Date()
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
     
@@ -74,7 +54,6 @@ struct AddAlbumView: View {
     var body: some View {
         NavigationStack {
             Form {
-                
                 /*--- ALBUM COVER SECTION ---*/
                 Section {
                     VStack {
@@ -225,7 +204,7 @@ struct AddAlbumView: View {
                                     Label(locationManager.selectedPlace == nil ? "Add Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
                                         .foregroundColor(.blue)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.top, 5)
+                                        .padding(.top, 5)
                                 }
                                 
                                 if locationManager.selectedPlace != nil {
