@@ -19,6 +19,7 @@ struct MusicSearchBar: View {
     @State private var value = 0
     @State private var showAlertAlreadyAdded = false
     @State private var showAlertLimitSongs = false
+    @State private var isAdded = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -27,7 +28,7 @@ struct MusicSearchBar: View {
     
     var toastOptions = SimpleToastOptions(
         alignment: .bottom,
-        hideAfter: 2,
+        hideAfter: 1,
         backdrop: Color.black.opacity(0),
         animation: .default,
         modifierType: .slide
@@ -53,12 +54,14 @@ struct MusicSearchBar: View {
                         }
                         Spacer()
                         Button(action: {
-                            addSong(song)
+                            withAnimation {
+                                addSong(song)
+                            }
                         }){
-                            Image(systemName: "plus.circle")
+                            Image(systemName: songStore.addedSongs.contains(song) ? "checkmark.circle.fill": "plus.circle")
                                 .foregroundStyle(Color.green)
                         }
-                        
+                        .contentTransition(.symbolEffect(.replace))
                     }
                     .swipeActions(edge: .trailing) {
                         Button(){
@@ -68,6 +71,9 @@ struct MusicSearchBar: View {
                         }
                         .tint(.green)
                     }
+                }
+                .alert(isPresented: $showAlertAlreadyAdded) {
+                    Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
                 }
                 .listStyle(PlainListStyle())
             }
@@ -99,9 +105,7 @@ struct MusicSearchBar: View {
                 }
             }
         }
-        .alert(isPresented: $showAlertAlreadyAdded) {
-            Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
-        }
+        
         .alert(isPresented: $showAlertLimitSongs) {
             Alert(title: Text("Albums can contain a maximum of 20 songs."), dismissButton: .default(Text("OK")))
         }
