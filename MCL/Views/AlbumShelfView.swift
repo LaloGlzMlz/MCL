@@ -69,7 +69,6 @@ struct AlbumShelfView: View {
                                     }
                                     Spacer()
                                 }
-//                                .offset(y: -offsetToCenter)
                             }
                         }
                     }

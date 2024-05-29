@@ -16,13 +16,17 @@ struct AddAlbumView: View {
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
+    
     // Variables for file management
     @State private var isShowingDocumentPicker = false
+    
     // Variables for location management
     @StateObject var locationManager: SearchLocation = .init()
     @State var chosenLocation: String = ""
     @State var showSearchBar = false
+    @State private var isLocationEnabeled = false
     
+    // Variables for date component
     @State private var startDate: Date? = Date()
     @State private var endDate: Date? = Date()
     @State private var isDateEnabeled = false
@@ -40,6 +44,9 @@ struct AddAlbumView: View {
     @State var selectedPhotoData: Data?
     
     @State private var alertNoSong: Bool = false
+    
+    @State private var entries: [Entry] = []
+    
     @Binding var newAlbum: Album?
     
     @State var imageSideMeasure = UIScreen.main.bounds.width / 1.3
@@ -47,6 +54,7 @@ struct AddAlbumView: View {
     var body: some View {
         NavigationStack {
             Form {
+                /*--- ALBUM COVER SECTION ---*/
                 Section {
                     VStack {
                         HStack {
@@ -67,8 +75,10 @@ struct AddAlbumView: View {
                                     }
                                 }
                             } else {
-                                if let photoData = selectedPhotoData,
+                                let compressedPhoto = compressImage(selectedPhotoData!)
+                                if let photoData =  compressedPhoto,
                                    let uiImage = UIImage(data: photoData) {
+                                    
                                     PhotosPicker(selection: $selectedPhoto,
                                                  matching: .images,
                                                  photoLibrary: .shared()) {
@@ -86,6 +96,8 @@ struct AddAlbumView: View {
                         }
                     }
                 }
+                
+                /*--- ALBUM TITLE SECTION ---*/
                 Section {
                     TextField("Name",
                               text: $title,
@@ -97,6 +109,50 @@ struct AddAlbumView: View {
                     .multilineTextAlignment(.center)
                 }
                 .listSectionSpacing(.compact)
+                
+                
+                /*--- ALBUM SONGS SECTION ---*/
+                Section {
+                    Button(action: {
+                        self.isShowingAddSongView = true
+                    }){
+                        Label("Add Song",systemImage: "plus.circle.fill")
+                    }
+                    List {
+                        AddedSongs(songStore: songStore)
+                    }
+                } header: {
+                    Text("Songs")
+                        .font(.title2)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, -15)
+                }
+                .textCase(nil)
+                
+                /*--- ALBUM DESCRIPTION SECTION ---*/
+                Section {
+                    ZStack(alignment: .topLeading) {
+                        if shortDescription.isEmpty {
+                            Text("Enter album description...")
+                                .foregroundColor(.gray)
+                                .padding(.top, 8)
+                                .padding(.leading, 5)
+                        }
+                        TextEditor(text: $shortDescription)
+                    }
+                    .frame(height: 100)
+                } header: {
+                    Text("Album description")
+                    //                        .font(.title2)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, -15)
+                        .textCase(nil)
+                }
+                
+                
+                /*--- ALBUM DATE SECTION ---*/
                 Section {
                     VStack {
                         Toggle("Add date", isOn: $isDateEnabeled)
@@ -104,7 +160,7 @@ struct AddAlbumView: View {
                             Divider()
                             if !isEndDateEnabled {
                                 HStack {
-                                    Text("From:")
+                                    Text("Date:")
                                     DatePicker("", selection: Binding(
                                         get: { startDate ?? Date() },
                                         set: { startDate = $0 }
@@ -134,60 +190,42 @@ struct AddAlbumView: View {
                     }
                 }
                 
+                /*--- ALBUM LOCATION SECTION ---*/
                 Section {
-                    HStack {
-                        Button(action: {
-                            locationManager.requestUserLocation()
-                            self.isShowingLocationSheet = true
-                        }) {
-                            Label(locationManager.selectedPlace == nil ? "Add Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
-                                .foregroundColor(.blue)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            //.padding(.top, 20)
-                        }
-                        
-                        if locationManager.selectedPlace != nil {
-                            Button(action: {
-                                //Reset position
-                                locationManager.selectedPlace = nil
-                                locationManager.searchText = ""
-                            }) {
-                                Image(systemName: "trash.circle.fill")
-                                    .foregroundColor(.red)
-                                    .imageScale(.large)
-                                //.padding(.top, 20)
+                    VStack {
+                        Toggle("Add location", isOn: $isLocationEnabeled)
+                        if isLocationEnabeled {
+                            Divider()
+                            HStack {
+                                Button(action: {
+                                    locationManager.requestUserLocation()
+                                    self.isShowingLocationSheet = true
+                                }) {
+                                    Label(locationManager.selectedPlace == nil ? "Add Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.top, 5)
+                                }
+                                
+                                if locationManager.selectedPlace != nil {
+                                    Button(action: {
+                                        //Reset position
+                                        locationManager.selectedPlace = nil
+                                        locationManager.searchText = ""
+                                    }) {
+                                        Image(systemName: "trash.circle.fill")
+                                            .foregroundColor(.red)
+                                            .imageScale(.large)
+                                        //.padding(.top, 20)
+                                    }
+                                    
+                                    .padding(.leading, 10)
+                                    // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                                
                             }
-                            
-                            .padding(.leading, 10)
-                            // Setting the style of the basket button as a simple action button that is not iterative when opening the modal
-                            .buttonStyle(PlainButtonStyle())
                         }
-                        
-                    }
-                }
-                .listSectionSpacing(.compact)
-                
-                Section {
-                    TextEditor(text: $shortDescription)
-                }
-                
-                Section {
-                    Button(action: {
-                        self.isShowingAddSongView = true
-                    }){
-                        Label("Add Song",systemImage: "plus.circle.fill")
-                    }
-                } header: {
-                    Text("Songs")
-                        .font(.title2)
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, -15)
-                }
-                .textCase(nil)
-                Section {
-                    List {
-                        AddedSongs(songStore: songStore)
                     }
                 }
                 .listSectionSpacing(.compact)
@@ -214,6 +252,9 @@ struct AddAlbumView: View {
                             endDate = nil
                         }
                         chosenLocation = locationManager.selectedPlace?.name ?? ""
+                        if !isLocationEnabeled {
+                            chosenLocation = ""
+                        }
                         let album = Album(
                             title: title,
                             coverImage: selectedPhotoData,
@@ -222,7 +263,8 @@ struct AddAlbumView: View {
                             dateTo: endDate,
                             location: chosenLocation,
                             dateCreated: Date(),
-                            songs: songStore.addedSongs
+                            songs: songStore.addedSongs,
+                            entries: entries
                         )
                         context.insert(album)
                         newAlbum = album
@@ -260,6 +302,18 @@ struct AddAlbumView: View {
     }
     
     func selectFromFile() { }
+    
+    private func compressImage(_ imageData: Data)  -> Data? {
+        guard let uiImage = UIImage(data: imageData) else {
+            return nil
+        }
+        
+        guard let compressedImageData = uiImage.jpegData(compressionQuality: 0.3) else {
+            return nil
+        }
+        
+        return compressedImageData
+    }
 }
 
 

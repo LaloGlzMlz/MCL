@@ -34,6 +34,16 @@ struct AlbumCard: View {
                     .frame(width: isExpanded ? UIScreen.main.bounds.width : UIScreen.main.bounds.width/1.3, height: isExpanded ? UIScreen.main.bounds.height * 0.6 : UIScreen.main.bounds.width/1.3)
                     .clipShape(RoundedRectangle(cornerRadius: 0))
                     .opacity(0.9)
+            } else {
+                RoundedRectangle(cornerRadius: 0)
+                    .frame(width: imageSideMeasure, height: imageSideMeasure)
+                    .opacity(0.9)
+                    .foregroundStyle(Color.gray)
+                Image(systemName: "opticaldisc.fill")
+                    .resizable()
+                    .frame(width: imageSideMeasure - 50, height: imageSideMeasure - 50)
+                    .foregroundStyle(Color.white)
+                    .opacity(0.8)
             }
             
             VStack {

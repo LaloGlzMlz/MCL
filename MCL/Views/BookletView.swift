@@ -11,13 +11,17 @@ import SwiftData
 struct BookletView: View {
     @Environment(\.modelContext) private var context
     
-    @Bindable var album: Album
     @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
-    @State private var isShowingEditView = false
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
     @State private var showingEditAlbumSheet: Bool = false
+    @State private var averageColor: Color = .primary
+    
+    @State private var isShowingEditView = false
+    @State private var isShowingNewEntryView = false
+    
+    @Bindable var album: Album
     
    
     var body: some View {
@@ -26,9 +30,9 @@ struct BookletView: View {
                 ZStack(alignment: .topLeading) {
                     AlbumCard(album: album, isExpanded: true)
                         .frame(height: geometry.size.height * 0.5)
-                    
                 }
             }
+            // NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
             // Stack per i dettagli dell'album
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
@@ -61,32 +65,31 @@ struct BookletView: View {
                     Text(album.shortDescription)
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
+
+                    Divider()
+                        .padding()
                     
-                    ForEach($album.songs) { $song in
+                    ForEach(album.entries) { entry in
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5)
-                                .foregroundColor(.white)
-                                .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
-                            
-                            HStack {
-                                AsyncImage(url: song.imageURL)
-                                    .frame(width: 40, height: 40, alignment: .leading)
-                                    .padding()
-                                
-                                VStack(alignment: .leading) {
-                                    Text(song.name)
-                                        .fontWeight(.medium)
-                                        .lineLimit(1)
-                                    
-                                    Text(song.artist)
-                                        .font(.footnote)
-                                }
+                            GeometryReader { geometry in
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(.white)
+                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                                    .frame(height: geometry.size.height)
                             }
-                            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/11, alignment: .leading)
+                            .frame(width: UIScreen.main.bounds.width / 1.1)
                             
+                            Text(entry.entryText)
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         
+                    }
+                    
+                    ForEach($album.songs) { $song in
+                        SongCard(song: song)
+                            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
+                            .shadow(color: Color.black.opacity(0.15), radius: 20)
                     }
                 }
                 
@@ -112,15 +115,39 @@ struct BookletView: View {
             }
         }
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
-            Button("Add Entry") {
-                // Azione 1
+            Button(action: {
+                isShowingNewEntryView = true
+            }) {
+                Text("Add entry")
             }
             Button("Cancel", role: .cancel) {
                 // Azione di annullamento
             }
         }
+        .sheet(isPresented: $isShowingNewEntryView) {
+            AddEntryView(album: album)
+        }
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
         }
+        .onAppear {
+            
+        }
     }
+    private func calculateAverageColor(from image: UIImage) -> Color? {
+        guard let cgImage = image.cgImage else { return nil }
+        let ciImage = CIImage(cgImage: cgImage)
+        let extentVector = CIVector(x: ciImage.extent.origin.x, y: ciImage.extent.origin.y, z: ciImage.extent.size.width, w: ciImage.extent.size.height)
+        
+        guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: ciImage, kCIInputExtentKey: extentVector]) else { return nil }
+        guard let outputImage = filter.outputImage else { return nil }
+        
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        let context = CIContext(options: [.workingColorSpace: kCFNull as Any])
+        context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
+        
+        return Color(red: Double(bitmap[0]) / 255.0, green: Double(bitmap[1]) / 255.0, blue: Double(bitmap[2]) / 255.0, opacity: Double(bitmap[3]) / 255.0)
+    }
+    
+    
 }
