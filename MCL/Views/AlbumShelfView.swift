@@ -40,6 +40,15 @@ struct AlbumShelfView: View {
                                                     context.delete(album)
                                                 }
                                             }))
+                                            .scrollTransition (topLeading: .interactive, bottomTrailing: .interactive, axis: .horizontal) { effect, phase in
+                                                effect
+                                                    .scaleEffect(1 - abs(phase.value))
+                                                    .opacity(1 - abs(phase.value))
+                                                    .rotation3DEffect(
+                                                        .degrees(phase.value / 90),
+                                                        axis: (x: 0, y: 1, z: 0)
+                                                    )
+                                            }
                                     }
                                 }
                                 VStack {
@@ -72,8 +81,11 @@ struct AlbumShelfView: View {
                             }
                         }
                     }
+                    .scrollTargetLayout()
                     .padding()
                 }
+                .scrollTargetBehavior(.viewAligned)
+                .scrollIndicators(.hidden)
 //                .offset(y: -offsetToCenter)
                 .overlay {
                     if albums.isEmpty {

@@ -25,7 +25,6 @@ struct AddAlbumView: View {
     @State var chosenLocation: String = ""
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
-    
     // Variables for date component
     @State private var startDate: Date? = Date()
     @State private var endDate: Date? = Date()
