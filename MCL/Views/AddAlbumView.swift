@@ -166,11 +166,11 @@ struct AddAlbumView: View {
                                 .padding(.leading, 5)
                         }
                         TextEditor(text: $shortDescription)
+                            .focused($nameIsFocused)
                     }
                     .frame(height: 100)
                 } header: {
                     Text("Album description")
-                    //                        .font(.title2)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, -15)
@@ -182,6 +182,9 @@ struct AddAlbumView: View {
                 Section {
                     VStack {
                         Toggle("Add date", isOn: $isDateEnabeled)
+                            .onChange(of: isDateEnabeled) {
+                                nameIsFocused = false
+                            }
                         if isDateEnabeled {
                             Divider()
                             if !isEndDateEnabled {
@@ -220,10 +223,14 @@ struct AddAlbumView: View {
                 Section {
                     VStack {
                         Toggle("Add location", isOn: $isLocationEnabeled)
+                            .onChange(of: isLocationEnabeled) {
+                                nameIsFocused = false
+                            }
                         if isLocationEnabeled {
                             Divider()
                             HStack {
                                 Button(action: {
+                                    nameIsFocused = false
                                     locationManager.requestUserLocation()
                                     self.isShowingLocationSheet = true
                                 }) {
