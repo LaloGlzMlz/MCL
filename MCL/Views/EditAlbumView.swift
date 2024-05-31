@@ -21,9 +21,25 @@ struct EditAlbumView: View {
     @State private var songAux: [SongFromCatalog] = []
     @State private var shortDescriptionAux: String = ""
     
+    @State private var startDateAux: Date? = Date(){
+        didSet {
+            if let end = endDateAux, let start = startDateAux {
+                if end < start {
+                    endDateAux = start
+                }
+            }
+        }
+    }
+    @State private var endDateAux: Date? = Date(){
+        didSet {
+            if let end = endDateAux, let start = startDateAux {
+                if end < start {
+                    startDateAux = end
+                }
+            }
+        }
+    }
     
-    @State private var startDateAux: Date? = nil
-    @State private var endDateAux: Date? = nil
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
     
