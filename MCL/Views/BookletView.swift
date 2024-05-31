@@ -4,7 +4,7 @@
 //
 //  Created by Michel Andre Pellegrin Quiroz on 21/05/24.
 //
-
+// HELLO
 import SwiftUI
 import SwiftData
 
@@ -13,6 +13,7 @@ struct BookletView: View {
     
     @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
+    @State private var songAux: [SongFromCatalog] = []
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
     @State private var showingEditAlbumSheet: Bool = false
@@ -27,18 +28,22 @@ struct BookletView: View {
         //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
         ScrollView {
             VStack {
+                
+                /*--- ALBUM COVER SECTION ---*/
                 AlbumCard(album: album)
                     .shadow(color: Color.black.opacity(0.15), radius: 20)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
                 
+                /*--- ALBUM LOCATION SECTION ---*/
                 VStack(alignment: .leading) {
                     if album.location != "" {
                         Text(album.location)
                             .foregroundStyle(Color.gray)
                             .font(.footnote)
                             .bold()
-                        //                            .padding()
                     }
+                    
+                    /*--- ALBUM DATE SECTION ---*/
                     if album.dateTo != nil {
                         HStack {
                             Text(album.dateFrom!, style: .date)
@@ -59,6 +64,7 @@ struct BookletView: View {
                         }
                     }
                     
+                    /*--- ALBUM DESCRIPTION SECTION ---*/
                     Text(album.shortDescription)
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
@@ -66,26 +72,43 @@ struct BookletView: View {
                     Divider()
                         .padding()
                     
+                    /*--- BOOKLET ENTRIES SECTION ---*/
                     ForEach(album.entries) { entry in
-                        ZStack {
-                            GeometryReader { geometry in
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundColor(.white)
-                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                    .frame(height: geometry.size.height)
-                            }
-                            .frame(width: UIScreen.main.bounds.width / 1.1)
-                            
-                            Text(entry.entryText)
-                                .padding()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
+                        EntryCard(entry: entry)
                     }
                     
+                    /*--- SONGS SECTION ---*/
                     ForEach($album.songs) { $song in
-                        SongCard(song: song)
-                            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
-                            .shadow(color: Color.black.opacity(0.15), radius: 20)
+                        SwipeSongView(
+                            content: {
+                                SongCard(song: song)
+                                    .frame(width: UIScreen.main.bounds.width / 1.1, height: UIScreen.main.bounds.height / 12)
+                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                            },
+                            right: {
+                                HStack{
+                                    ZStack{
+                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                        Button(action: {
+                                            print("Right action")
+                                        }) {
+                                            Image(systemName: "plus")
+                                                .foregroundColor(.black)
+                                        }
+                                    }
+                                    ZStack{
+                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                        Button(action: {
+                                            deleteSong(song)
+                                        }) {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.black)
+                                        }
+                                    }
+                                }
+                            },
+                            itemHeight: 50
+                        )
                     }
                 }
             }
@@ -141,6 +164,12 @@ struct BookletView: View {
         context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
         
         return Color(red: Double(bitmap[0]) / 255.0, green: Double(bitmap[1]) / 255.0, blue: Double(bitmap[2]) / 255.0, opacity: Double(bitmap[3]) / 255.0)
+    }
+    
+    func deleteSong(_ song: SongFromCatalog) {
+        if let index = album.songs.firstIndex(where: { $0.id == song.id }) {
+            album.songs.remove(at: index)
+        }
     }
     
     
