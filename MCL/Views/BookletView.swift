@@ -23,7 +23,7 @@ struct BookletView: View {
     
     @State private var showingNewAlbumEntryView = false
     
-    @State private var showingNewSongEntryView = false
+    @State private var songForEntryView: SongFromCatalog? = nil
     
     
     @Bindable var album: Album
@@ -82,11 +82,10 @@ struct BookletView: View {
                     }
                     
                     /*--- SONGS SECTION ---*/
-                    ForEach($album.songs) { $song in
+                    ForEach($album.songs, id: \.id) { $song in
                         SwipeSongView(
                             content: {
                                 SongCard(song: song)
-                                    .frame(width: UIScreen.main.bounds.width / 1.1, height: UIScreen.main.bounds.height / 12)
                                     .shadow(color: Color.black.opacity(0.15), radius: 20)
                             },
                             right: {
@@ -94,7 +93,7 @@ struct BookletView: View {
                                     ZStack {
                                         Circle().foregroundStyle(Color.gray.opacity(0.5))
                                         Button(action: {
-                                            showingNewSongEntryView.toggle()
+                                            songForEntryView = song
                                         }) {
                                             Image(systemName: "plus")
                                                 .foregroundColor(.black)
@@ -113,9 +112,9 @@ struct BookletView: View {
                             },
                             itemHeight: 50
                         )
-                        .sheet(isPresented: $showingNewSongEntryView) {
-                            AddSongEntryView(song: song)
-                        }
+                    }
+                    .sheet(item: $songForEntryView) { song in
+                        AddSongEntryView(song: song)
                     }
                 }
             }
