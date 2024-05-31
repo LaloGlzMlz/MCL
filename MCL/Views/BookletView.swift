@@ -7,6 +7,7 @@
 // HELLO
 import SwiftUI
 import SwiftData
+import SimpleToast
 
 struct BookletView: View {
     @Environment(\.modelContext) private var context
@@ -21,6 +22,19 @@ struct BookletView: View {
     
     @State private var isShowingEditView = false
     @State private var isShowingNewEntryView = false
+    
+    @State var showAlertForDeletingSong: Bool = false
+    @State private var showToast = false
+    @State var songToDelete: SongFromCatalog?
+    
+    var toastOptions = SimpleToastOptions(
+        alignment: .bottom,
+        hideAfter: 1,
+        backdrop: Color.black.opacity(0),
+        animation: .default,
+        modifierType: .slide
+        
+    )
     
     @Bindable var album: Album
     
@@ -99,7 +113,8 @@ struct BookletView: View {
                                     ZStack{
                                         Circle().foregroundStyle(Color.gray.opacity(0.5))
                                         Button(action: {
-                                            deleteSong(song)
+                                            songToDelete = song
+                                            showAlertForDeletingSong.toggle()
                                         }) {
                                             Image(systemName: "trash")
                                                 .foregroundColor(.black)
@@ -147,7 +162,30 @@ struct BookletView: View {
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
         }
-        .onAppear {
+        .confirmationDialog("", isPresented: $showAlertForDeletingSong, titleVisibility: .hidden) {
+            Button(action: {
+                if let song = songToDelete {
+                    deleteSong(song)
+                    showToast.toggle()
+                }
+            }) {
+                Text("Delete song")
+            }
+            Button("Cancel", role: .cancel) {
+               
+            }
+        }
+        .simpleToast(isPresented: $showToast, options: toastOptions){
+            HStack{
+                Image(systemName: "checkmark")
+                Text("Song deleted")
+                    .bold()
+            }
+            .padding()
+            .background(Color.red)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 14.0))
+            .shadow(radius: 10)
             
         }
     }
