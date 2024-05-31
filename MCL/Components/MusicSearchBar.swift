@@ -143,8 +143,9 @@ struct MusicSearchBar: View {
                     self.songs = result.songs.compactMap({
                         return .init(name: $0.title,
                                      artist: $0.artistName,
-                                     imageURL: $0.artwork?.url(width: 40, height: 40))
-                    })
+                                     imageURL: $0.artwork?.url(width: 40, height: 40),
+                                     entries: []
+                    )})
                 } catch {
                     print(String(describing: error))
                 }

@@ -19,8 +19,12 @@ struct BookletView: View {
     @State private var showingEditAlbumSheet: Bool = false
     @State private var averageColor: Color = .primary
     
-    @State private var isShowingEditView = false
-    @State private var isShowingNewEntryView = false
+    @State private var showingEditView = false
+    
+    @State private var showingNewAlbumEntryView = false
+    
+    @State private var showingNewSongEntryView = false
+    
     
     @Bindable var album: Album
     
@@ -86,11 +90,11 @@ struct BookletView: View {
                                     .shadow(color: Color.black.opacity(0.15), radius: 20)
                             },
                             right: {
-                                HStack{
-                                    ZStack{
+                                HStack {
+                                    ZStack {
                                         Circle().foregroundStyle(Color.gray.opacity(0.5))
                                         Button(action: {
-                                            print("Right action")
+                                            showingNewSongEntryView.toggle()
                                         }) {
                                             Image(systemName: "plus")
                                                 .foregroundColor(.black)
@@ -109,6 +113,9 @@ struct BookletView: View {
                             },
                             itemHeight: 50
                         )
+                        .sheet(isPresented: $showingNewSongEntryView) {
+                            AddSongEntryView(song: song)
+                        }
                     }
                 }
             }
@@ -118,14 +125,14 @@ struct BookletView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    showingEditAlbumSheet = true
+                    showingEditAlbumSheet.toggle()
                 }) {
                     Label("Edit", systemImage: "pencil")
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    showConfirmationDialog = true
+                    showConfirmationDialog.toggle()
                 }) {
                     Label("Options", systemImage: "plus")
                 }
@@ -133,7 +140,7 @@ struct BookletView: View {
         }
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
             Button(action: {
-                isShowingNewEntryView = true
+                showingNewAlbumEntryView = true
             }) {
                 Text("Add entry")
             }
@@ -141,8 +148,8 @@ struct BookletView: View {
                 // Cancel action
             }
         }
-        .sheet(isPresented: $isShowingNewEntryView) {
-            AddEntryView(album: album)
+        .sheet(isPresented: $showingNewAlbumEntryView) {
+            AddAlbumEntryView(album: album)
         }
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
