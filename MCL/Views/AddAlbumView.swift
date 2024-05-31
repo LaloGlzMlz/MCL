@@ -71,6 +71,8 @@ struct AddAlbumView: View {
     
     @State var imageSideMeasure = UIScreen.main.bounds.width / 1.3
     
+    @FocusState private var nameIsFocused: Bool
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -125,9 +127,11 @@ struct AddAlbumView: View {
                               prompt: Text("Album title")
                         .font(.system(size: 20))
                         .fontWeight(.bold))
+                    .focused($nameIsFocused)
                     .textInputAutocapitalization(.words)
                     .bold()
                     .multilineTextAlignment(.center)
+                    .submitLabel(.done)
                 }
                 .listSectionSpacing(.compact)
                 
@@ -135,6 +139,7 @@ struct AddAlbumView: View {
                 /*--- ALBUM SONGS SECTION ---*/
                 Section {
                     Button(action: {
+                        nameIsFocused = false
                         self.isShowingAddSongView = true
                     }){
                         Label("Add Song",systemImage: "plus.circle.fill")
