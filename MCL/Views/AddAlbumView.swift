@@ -24,6 +24,7 @@ struct AddAlbumView: View {
     @State var chosenLocation: String = ""
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
+    @State private var isShowingLocationSheet = false
     
     @State private var startDate: Date? = Date(){
            didSet {
@@ -59,7 +60,7 @@ struct AddAlbumView: View {
     
     @State var sideMeasure = UIScreen.main.bounds.width / 1.5
     
-    @State private var isShowingLocationSheet = false
+    
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
