@@ -26,6 +26,7 @@ struct AddEntryView: View {
             VStack {
                 if showingPrompt {
                     Text(prompt)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .bold()
                         .padding()
                 }
