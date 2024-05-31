@@ -34,6 +34,7 @@
 		2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C79812BF3803B008C13C3 /* ContentView.swift */; };
 		2E8C79862BF3803C008C13C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C79852BF3803C008C13C3 /* Assets.xcassets */; };
 		2E8C79892BF3803C008C13C3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C79882BF3803C008C13C3 /* Preview Assets.xcassets */; };
+		2EAC1CAF2C0A098B00AC9BD7 /* PromptsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAC1CAE2C0A098B00AC9BD7 /* PromptsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		2E8C79812BF3803B008C13C3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../ContentView.swift; sourceTree = "<group>"; };
 		2E8C79852BF3803C008C13C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E8C79882BF3803C008C13C3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2EAC1CAE2C0A098B00AC9BD7 /* PromptsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +140,7 @@
 		2E8C797E2BF3803B008C13C3 /* MCL */ = {
 			isa = PBXGroup;
 			children = (
-				2EAC1CAD2C06201500AC9BD7 /* Functions */,
+				2EAC1CAD2C06201500AC9BD7 /* ViewModels */,
 				27F3A6502BF638CD0029832D /* Info.plist */,
 				27F3A64E2BF60A860029832D /* ImagePicker.swift */,
 				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
@@ -161,12 +163,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		2EAC1CAD2C06201500AC9BD7 /* Functions */ = {
+		2EAC1CAD2C06201500AC9BD7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				1764725B2C05D85300309424 /* SongColorViewModel.swift */,
+				2EAC1CAE2C0A098B00AC9BD7 /* PromptsViewModel.swift */,
 			);
-			path = Functions;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +262,7 @@
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
 				2E7FD6C62C04D63A00D5B779 /* AddEntryView.swift in Sources */,
 				2E1A209C2BFB8FA300B2C396 /* Shelf.swift in Sources */,
+				2EAC1CAF2C0A098B00AC9BD7 /* PromptsViewModel.swift in Sources */,
 				08F4D4942BF8CBD7001F7279 /* AddedSongs.swift in Sources */,
 				2E71E5582BF5110800F80405 /* MusicSearchBar.swift in Sources */,
 				08B16CF62BFCEF2200317019 /* BookletView.swift in Sources */,

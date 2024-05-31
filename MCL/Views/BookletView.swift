@@ -28,18 +28,22 @@ struct BookletView: View {
         //        NavigationStack { DO NOT PUT NAVIGATION STACK ON THIS VIEW, NEVEEEER!!!!
         ScrollView {
             VStack {
+                
+                /*--- ALBUM COVER SECTION ---*/
                 AlbumCard(album: album)
                     .shadow(color: Color.black.opacity(0.15), radius: 20)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
                 
+                /*--- ALBUM LOCATION SECTION ---*/
                 VStack(alignment: .leading) {
                     if album.location != "" {
                         Text(album.location)
                             .foregroundStyle(Color.gray)
                             .font(.footnote)
                             .bold()
-                        //                            .padding()
                     }
+                    
+                    /*--- ALBUM DATE SECTION ---*/
                     if album.dateTo != nil {
                         HStack {
                             Text(album.dateFrom!, style: .date)
@@ -60,6 +64,7 @@ struct BookletView: View {
                         }
                     }
                     
+                    /*--- ALBUM DESCRIPTION SECTION ---*/
                     Text(album.shortDescription)
                         .foregroundStyle(Color.gray)
                         .font(.subheadline)
@@ -67,22 +72,12 @@ struct BookletView: View {
                     Divider()
                         .padding()
                     
+                    /*--- BOOKLET ENTRIES SECTION ---*/
                     ForEach(album.entries) { entry in
-                        ZStack {
-                            GeometryReader { geometry in
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundColor(.white)
-                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                    .frame(height: geometry.size.height)
-                            }
-                            .frame(width: UIScreen.main.bounds.width / 1.1)
-                            
-                            Text(entry.entryText)
-                                .padding()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
+                        EntryCard(entry: entry)
                     }
                     
+                    /*--- SONGS SECTION ---*/
                     ForEach($album.songs) { $song in
                         SwipeSongView(
                             content: {

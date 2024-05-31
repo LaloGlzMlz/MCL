@@ -14,13 +14,45 @@ struct AddEntryView: View {
     
     @State private var entryText = ""
     
+    @State private var showingPrompt = false
+    @State private var prompt: String = ""
+    
+    @StateObject private var promptsViewModel = PromptsViewModel()
+    
     @Bindable var album: Album
     
     var body: some View {
         NavigationStack {
             VStack {
-                TextEditor(text: $entryText)
-                    .padding()
+                if showingPrompt {
+                    Text(prompt)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .bold()
+                        .padding()
+                }
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $entryText)
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Button(action: {
+                                    showingPrompt.toggle()
+                                    if showingPrompt {
+                                        prompt = promptsViewModel.getRandomPrompt()
+                                    }
+                                }) {
+                                    Image(systemName: "lightbulb.max.fill")
+                                }
+                            }
+                        }
+                    
+                    if entryText.isEmpty {
+                        Text("Write your booklet entry...")
+                            .foregroundColor(.gray)
+                            .padding(.top, 8)
+                            .padding(.leading, 5)
+                    }
+                }
+                .padding()
             }
             .navigationTitle("New entry")
             .navigationBarTitleDisplayMode(.large)
@@ -34,8 +66,12 @@ struct AddEntryView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
+                        if !showingPrompt {
+                            prompt = ""
+                        }
                         let entry = Entry(
                             entryText: entryText,
+                            prompt: prompt,
                             dateCreated: Date()
                         )
                         album.entries.append(entry)

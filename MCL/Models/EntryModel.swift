@@ -11,10 +11,12 @@ import SwiftData
 @Model
 final class Entry {
     var entryText: String = ""
+    var prompt: String?
     var dateCreated: Date
     
-    init(entryText: String, dateCreated: Date) {
+    init(entryText: String, prompt: String? = nil, dateCreated: Date) {
         self.entryText = entryText
+        self.prompt = prompt
         self.dateCreated = dateCreated
     }
 }

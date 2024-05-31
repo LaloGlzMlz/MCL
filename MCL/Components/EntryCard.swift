@@ -11,17 +11,29 @@ import SwiftData
 struct EntryCard: View {
     @Environment(\.modelContext) private var context
     
-    let album: Album
+    let entry: Entry
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .foregroundColor(.white)
-                .shadow(color: Color.black.opacity(0.15), radius: 20)
-                .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
-            
-            ForEach(album.entries) { entry in
+            GeometryReader { geometry in
+                RoundedRectangle(cornerRadius: 5)
+                    .foregroundColor(.white)
+                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                    .frame(height: geometry.size.height)
+            }
+            .frame(width: UIScreen.main.bounds.width / 1.1)
+            VStack {
+                if entry.prompt != "" {
+                    Text(entry.prompt ?? "")
+                        .padding([.top, .leading, .trailing])
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .bold()
+                    Divider()
+                        .padding(.horizontal)
+                }
                 Text(entry.entryText)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }
