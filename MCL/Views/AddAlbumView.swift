@@ -25,6 +25,7 @@ struct AddAlbumView: View {
     @State var chosenLocation: String = ""
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
+    @State private var isShowingLocationSheet = false
     
     // Variables for date component
     @State private var startDate: Date? = Date(){
@@ -56,7 +57,7 @@ struct AddAlbumView: View {
     
     @State var sideMeasure = UIScreen.main.bounds.width / 1.5
     
-    @State private var isShowingLocationSheet = false
+    
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
@@ -67,6 +68,8 @@ struct AddAlbumView: View {
     @Binding var newAlbum: Album?
     
     @State var imageSideMeasure = UIScreen.main.bounds.width / 1.3
+    
+    @FocusState private var nameIsFocused: Bool
     
     var body: some View {
         NavigationStack {
@@ -121,9 +124,11 @@ struct AddAlbumView: View {
                               prompt: Text("Album title")
                         .font(.system(size: 20))
                         .fontWeight(.bold))
+                    .focused($nameIsFocused)
                     .textInputAutocapitalization(.words)
                     .bold()
                     .multilineTextAlignment(.center)
+                    .submitLabel(.done)
                 }
                 .listSectionSpacing(.compact)
                 
@@ -131,6 +136,7 @@ struct AddAlbumView: View {
                 /*--- ALBUM SONGS SECTION ---*/
                 Section {
                     Button(action: {
+                        nameIsFocused = false
                         self.isShowingAddSongView = true
                     }){
                         Label("Add Song",systemImage: "plus.circle.fill")
@@ -157,11 +163,11 @@ struct AddAlbumView: View {
                                 .padding(.leading, 5)
                         }
                         TextEditor(text: $shortDescription)
+                            .focused($nameIsFocused)
                     }
                     .frame(height: 100)
                 } header: {
                     Text("Album description")
-                    //                        .font(.title2)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, -15)
@@ -173,6 +179,9 @@ struct AddAlbumView: View {
                 Section {
                     VStack {
                         Toggle("Add date", isOn: $isDateEnabeled)
+                            .onChange(of: isDateEnabeled) {
+                                nameIsFocused = false
+                            }
                         if isDateEnabeled {
                             Divider()
                             if !isEndDateEnabled {
@@ -211,10 +220,14 @@ struct AddAlbumView: View {
                 Section {
                     VStack {
                         Toggle("Add location", isOn: $isLocationEnabeled)
+                            .onChange(of: isLocationEnabeled) {
+                                nameIsFocused = false
+                            }
                         if isLocationEnabeled {
                             Divider()
                             HStack {
                                 Button(action: {
+                                    nameIsFocused = false
                                     locationManager.requestUserLocation()
                                     self.isShowingLocationSheet = true
                                 }) {
