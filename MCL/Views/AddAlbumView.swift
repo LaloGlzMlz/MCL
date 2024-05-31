@@ -25,10 +25,9 @@ struct AddAlbumView: View {
     @State var chosenLocation: String = ""
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
+    
     // Variables for date component
     @State private var startDate: Date? = Date(){
-        
-        
         didSet {
             if let end = endDate, let start = startDate {
                 if end < start {
@@ -37,10 +36,6 @@ struct AddAlbumView: View {
             }
         }
     }
-    
-    
-    
-    
     @State private var endDate: Date? = Date(){
         didSet {
             if let end = endDate, let start = startDate {
@@ -50,9 +45,6 @@ struct AddAlbumView: View {
             }
         }
     }
-    
-    
-    
     
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
