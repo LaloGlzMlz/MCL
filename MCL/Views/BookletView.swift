@@ -13,6 +13,7 @@ struct BookletView: View {
     
     @State private var refreshList = false
     @State private var songsFromAlbum: [SongStore] = []
+    @State private var songAux: [SongFromCatalog] = []
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
     @State private var showingEditAlbumSheet: Bool = false
@@ -83,9 +84,36 @@ struct BookletView: View {
                     }
                     
                     ForEach($album.songs) { $song in
-                        SongCard(song: song)
-                            .frame(width: UIScreen.main.bounds.width/1.1, height: UIScreen.main.bounds.height/12)
-                            .shadow(color: Color.black.opacity(0.15), radius: 20)
+                        SwipeSongView(
+                            content: {
+                                SongCard(song: song)
+                                    .frame(width: UIScreen.main.bounds.width / 1.1, height: UIScreen.main.bounds.height / 12)
+                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                            },
+                            right: {
+                                HStack{
+                                    ZStack{
+                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                        Button(action: {
+                                            print("Right action")
+                                        }) {
+                                            Image(systemName: "plus")
+                                                .foregroundColor(.black)
+                                        }
+                                    }
+                                    ZStack{
+                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                        Button(action: {
+                                            deleteSong(song)
+                                        }) {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.black)
+                                        }
+                                    }
+                                }
+                            },
+                            itemHeight: 50
+                        )
                     }
                 }
             }
@@ -141,6 +169,12 @@ struct BookletView: View {
         context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
         
         return Color(red: Double(bitmap[0]) / 255.0, green: Double(bitmap[1]) / 255.0, blue: Double(bitmap[2]) / 255.0, opacity: Double(bitmap[3]) / 255.0)
+    }
+    
+    func deleteSong(_ song: SongFromCatalog) {
+        if let index = album.songs.firstIndex(where: { $0.id == song.id }) {
+            album.songs.remove(at: index)
+        }
     }
     
     
