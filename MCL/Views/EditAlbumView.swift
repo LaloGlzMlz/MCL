@@ -222,7 +222,7 @@ struct EditAlbumView: View {
                         album.shortDescription = shortDescriptionAux
                         album.coverImage = selectedPhotoDataAux
                         if isDateEnabeled == true && isEndDateEnabled == true {
-                            if startDateAux == nil && endDateAux == nil {
+                            if startDateAux == nil || endDateAux == nil {
                                 album.dateFrom = Date()
                                 album.dateTo = Date()
                             } else {
