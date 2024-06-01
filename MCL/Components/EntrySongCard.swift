@@ -15,6 +15,7 @@ struct EntrySongCard: View {
     
     var body: some View {
         ZStack {
+            /*--- WHITE CARD UNDER COLOR CARD ---*/
             RoundedRectangle(cornerRadius: 10)
                 .fill(LinearGradient(
                     gradient: Gradient(stops: [
@@ -25,6 +26,7 @@ struct EntrySongCard: View {
                     endPoint: .bottomTrailing
                 ))
             
+            /*--- COLORED CARD CONTAINING EVERYTHING ---*/
             RoundedRectangle(cornerRadius: 10)
                 .fill(LinearGradient(
                     gradient: Gradient(stops: [
@@ -37,6 +39,7 @@ struct EntrySongCard: View {
                 .opacity(0.7)  // Adjust opacity as needed
             
             VStack {
+                /*--- SONG INFO SECTION ---*/
                 HStack {
                     if let url = song.imageURL {
                         AsyncImage(url: url) { phase in
@@ -49,6 +52,7 @@ struct EntrySongCard: View {
                                     .scaledToFit()
                                     .frame(width: 55, height: 55)
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    .padding(.top, 10)
                                     .padding(.trailing, 5)
                                     .onAppear {
                                         // Fetch the color when the image appears
@@ -59,7 +63,6 @@ struct EntrySongCard: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 40, height: 40)
-                                    .padding()
                             @unknown default:
                                 EmptyView()
                             }
@@ -81,25 +84,44 @@ struct EntrySongCard: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
+                Divider()
+                    .overlay(Color.white)
+                    .opacity(0.5)
+                    .padding(.horizontal)
+                
+                /*--- ENTRIES SECTION ---*/
                 VStack {
                     ForEach(song.entries) { entry in
-                        if entry.prompt != "" {
-                            Text(entry.prompt ?? "")
-                                .padding([.top, .leading, .trailing])
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .foregroundStyle(Color.white)
-                                .bold()
-                            Divider()
-                                .padding(.horizontal)
+                        ZStack {
+                            GeometryReader { geometry in
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(.white)
+                                    .opacity(0.1)
+                                    .padding([.bottom, .trailing], 10)
+                                    .frame(height: geometry.size.height)
+                            }
+//                            .frame(width: UIScreen.main.bounds.width / 1.1)
+                            
+                            VStack {
+                                if entry.prompt != "" {
+                                    Text(entry.prompt ?? "")
+                                        .padding([.top, .leading, .trailing], 10)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .foregroundStyle(Color.white)
+                                        .bold()
+                                    Divider()
+                                        .padding(.horizontal)
+                                }
+                                Text(entry.entryText)
+                                    .padding()
+                                    .foregroundStyle(Color.white)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
                         }
-                        Text(entry.entryText)
-                            .padding()
-                            .foregroundStyle(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
             }
-            .padding() // Add padding to the VStack to create space around the content
+            .padding(.leading, 10) // Add padding to the VStack to create space around the content
         }
         .frame(width: UIScreen.main.bounds.width / 1.1)
         .fixedSize(horizontal: false, vertical: true) // Allow the ZStack to resize vertically based on content

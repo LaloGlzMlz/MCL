@@ -97,40 +97,47 @@ struct BookletView: View {
                     
                     /*--- SONGS SECTION ---*/
                     ForEach($album.songs, id: \.id) { $song in
-                        SwipeSongView(
-                            content: {
-                                if song.entries.isEmpty {
-                                    SongCardCompact(song: song)
-                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                } else {
-                                    EntrySongCard(song: song)
-                                }
-                            },
-                            right: {
-                                HStack {
-                                    ZStack {
-                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                        Button(action: {
-                                            songForEntryView = song
-                                        }) {
-                                            Image(systemName: "plus")
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                    ZStack{
-                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                        Button(action: {
-                                            songToDelete = song
-                                            showAlertForDeletingSong.toggle()
-                                        }) {
-                                            Image(systemName: "trash")
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                }
-                            },
-                            itemHeight: 50
-                        )
+                        if song.entries.isEmpty {
+                            SongCardCompact(song: song)
+                                .shadow(color: Color.black.opacity(0.15), radius: 20)
+                        } else {
+                            EntrySongCard(song: song)
+                        }
+//                        
+//                        SwipeSongView(
+//                            content: {
+//                                if song.entries.isEmpty {
+//                                    SongCardCompact(song: song)
+//                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
+//                                } else {
+//                                    EntrySongCard(song: song)
+//                                }
+//                            },
+//                            right: {
+//                                HStack {
+//                                    ZStack {
+//                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+//                                        Button(action: {
+//                                            songForEntryView = song
+//                                        }) {
+//                                            Image(systemName: "plus")
+//                                                .foregroundColor(.black)
+//                                        }
+//                                    }
+//                                    ZStack{
+//                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+//                                        Button(action: {
+//                                            songToDelete = song
+//                                            showAlertForDeletingSong.toggle()
+//                                        }) {
+//                                            Image(systemName: "trash")
+//                                                .foregroundColor(.black)
+//                                        }
+//                                    }
+//                                }
+//                            },
+//                            itemHeight: 50
+//                        )
                     }
                     .sheet(item: $songForEntryView) { song in
                         AddSongEntryView(song: song)
