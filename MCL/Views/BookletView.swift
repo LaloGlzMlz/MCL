@@ -85,8 +85,14 @@ struct BookletView: View {
                     ForEach($album.songs, id: \.id) { $song in
                         SwipeSongView(
                             content: {
-                                SongCard(song: song)
-                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                                if song.entries.isEmpty {
+                                    SongCardCompact(song: song)
+                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
+                                } else {
+                                    ForEach(song.entries) { entry in
+                                        EntrySongCard(song: song, entry: entry)
+                                    }
+                                }
                             },
                             right: {
                                 HStack {

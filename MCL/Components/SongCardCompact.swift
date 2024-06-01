@@ -1,5 +1,5 @@
 //
-//  SongCard.swift
+//  SongCardCompact.swift
 //  MCL
 //
 //  Created by Fernando Sensenhauser on 28/05/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SongCard: View {
+struct SongCardCompact: View {
     @StateObject private var viewModel = SongColorViewModel()
     let song: SongFromCatalog
     
