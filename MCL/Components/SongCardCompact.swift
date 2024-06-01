@@ -23,7 +23,7 @@ struct SongCardCompact: View {
                     endPoint: .bottomTrailing
                 ))
             // Background gradient with a placeholder color initially
-            RoundedRectangle(cornerRadius: 5)
+            RoundedRectangle(cornerRadius: 10)
                 .fill(LinearGradient(
                     gradient: Gradient(stops: [
                         .init(color: viewModel.averageColor, location: 0.0),
@@ -45,8 +45,10 @@ struct SongCardCompact: View {
                             image
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 40, height: 40)
-                                .padding()
+                                .frame(width: 55, height: 55)
+                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                                .padding(.leading, 10)
+                                .padding(.trailing, 5)
                                 .onAppear {
                                     // Fetch the color when the image appears
                                     viewModel.fetchImageColor(from: url)

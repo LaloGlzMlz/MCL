@@ -20,6 +20,7 @@ struct AddedSongs: View {
                 HStack{
                     AsyncImage(url: song.imageURL)
                         .frame(width: 40, height: 40, alignment: .leading)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
                     VStack(alignment: .leading) {
                         Text(song.name)
                             .fontWeight(.medium)

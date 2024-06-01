@@ -47,6 +47,8 @@ struct EditAlbumView: View {
     @State var selectedPhotoDataAux: Data?
     @State var sideMeasure = UIScreen.main.bounds.width / 1.5
     
+    @FocusState private var nameIsFocused: Bool
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -97,15 +99,18 @@ struct EditAlbumView: View {
                               prompt: Text("Album title")
                         .font(.system(size: 20))
                         .fontWeight(.bold))
+                    .focused($nameIsFocused)
                     .textInputAutocapitalization(.words)
                     .bold()
                     .multilineTextAlignment(.center)
+                    .submitLabel(.done)
                 }
                 .listSectionSpacing(.compact)
                 
                 /*--- ALBUM SONGS SECTION ---*/
                 Section{
                     Button(action: {
+                        nameIsFocused = false
                         self.isShowingAddSongView = true
                     }){
                         Label("Add Song",systemImage: "plus")
@@ -116,6 +121,7 @@ struct EditAlbumView: View {
                                 HStack{
                                     AsyncImage(url: song.imageURL)
                                         .frame(width: 40, height: 40, alignment: .leading)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
                                     VStack(alignment: .leading) {
                                         Text(song.name)
                                             .fontWeight(.medium)
@@ -163,6 +169,7 @@ struct EditAlbumView: View {
                                 .padding(.leading, 5)
                         }
                         TextEditor(text: $shortDescriptionAux)
+                            .focused($nameIsFocused)
                     }
                     .frame(height: 100)
                 } header: {
@@ -178,6 +185,9 @@ struct EditAlbumView: View {
                 Section {
                     VStack {
                         Toggle("Add date", isOn: $isDateEnabeled)
+                            .onChange(of: isDateEnabeled) {
+                                nameIsFocused = false
+                            }
                         if isDateEnabeled {
                             Divider()
                             if !isEndDateEnabled {
@@ -229,7 +239,7 @@ struct EditAlbumView: View {
                         album.shortDescription = shortDescriptionAux
                         album.coverImage = selectedPhotoDataAux
                         if isDateEnabeled == true && isEndDateEnabled == true {
-                            if startDateAux == nil && endDateAux == nil {
+                            if startDateAux == nil || endDateAux == nil {
                                 album.dateFrom = Date()
                                 album.dateTo = Date()
                             } else {
