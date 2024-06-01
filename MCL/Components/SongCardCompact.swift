@@ -13,7 +13,7 @@ struct SongCardCompact: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5)
+            RoundedRectangle(cornerRadius: 10)
                 .fill(LinearGradient(
                     gradient: Gradient(stops: [
                         .init(color: Color.white, location: 0.0),

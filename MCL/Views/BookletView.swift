@@ -103,9 +103,7 @@ struct BookletView: View {
                                     SongCardCompact(song: song)
                                         .shadow(color: Color.black.opacity(0.15), radius: 20)
                                 } else {
-                                    ForEach(song.entries) { entry in
-                                        EntrySongCard(song: song, entry: entry)
-                                    }
+                                    EntrySongCard(song: song)
                                 }
                             },
                             right: {
@@ -184,7 +182,7 @@ struct BookletView: View {
                 Text("Delete song")
             }
             Button("Cancel", role: .cancel) {
-               
+                
             }
         }
         .simpleToast(isPresented: $showToast, options: toastOptions){
@@ -201,6 +199,7 @@ struct BookletView: View {
             
         }
     }
+    
     private func calculateAverageColor(from image: UIImage) -> Color? {
         guard let cgImage = image.cgImage else { return nil }
         let ciImage = CIImage(cgImage: cgImage)
