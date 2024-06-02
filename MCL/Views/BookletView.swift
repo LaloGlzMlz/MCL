@@ -20,8 +20,12 @@ struct BookletView: View {
     @State private var showingEditAlbumSheet: Bool = false
     @State private var averageColor: Color = .primary
     
-    @State private var isShowingEditView = false
-    @State private var isShowingNewEntryView = false
+    @State private var showingEditView = false
+    
+    @State private var showingNewAlbumEntryView = false
+    
+    @State private var songForEntryView: SongFromCatalog? = nil
+    
     
     @State var showAlertForDeletingSong: Bool = false
     @State private var showToast = false
@@ -92,38 +96,51 @@ struct BookletView: View {
                     }
                     
                     /*--- SONGS SECTION ---*/
-                    ForEach($album.songs) { $song in
-                        SwipeSongView(
-                            content: {
-                                SongCard(song: song)
-                                    .frame(width: UIScreen.main.bounds.width / 1.1, height: UIScreen.main.bounds.height / 12)
-                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
-                            },
-                            right: {
-                                HStack{
-                                    ZStack{
-                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                        Button(action: {
-                                            print("Right action")
-                                        }) {
-                                            Image(systemName: "plus")
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                    ZStack{
-                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                        Button(action: {
-                                            songToDelete = song
-                                            showAlertForDeletingSong.toggle()
-                                        }) {
-                                            Image(systemName: "trash")
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                }
-                            },
-                            itemHeight: 50
-                        )
+                    ForEach($album.songs, id: \.id) { $song in
+                        if song.entries.isEmpty {
+                            SongCardCompact(song: song)
+                                .shadow(color: Color.black.opacity(0.15), radius: 20)
+                        } else {
+                            EntrySongCard(song: song)
+                        }
+//                        
+//                        SwipeSongView(
+//                            content: {
+//                                if song.entries.isEmpty {
+//                                    SongCardCompact(song: song)
+//                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
+//                                } else {
+//                                    EntrySongCard(song: song)
+//                                }
+//                            },
+//                            right: {
+//                                HStack {
+//                                    ZStack {
+//                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+//                                        Button(action: {
+//                                            songForEntryView = song
+//                                        }) {
+//                                            Image(systemName: "plus")
+//                                                .foregroundColor(.black)
+//                                        }
+//                                    }
+//                                    ZStack{
+//                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+//                                        Button(action: {
+//                                            songToDelete = song
+//                                            showAlertForDeletingSong.toggle()
+//                                        }) {
+//                                            Image(systemName: "trash")
+//                                                .foregroundColor(.black)
+//                                        }
+//                                    }
+//                                }
+//                            },
+//                            itemHeight: 50
+//                        )
+                    }
+                    .sheet(item: $songForEntryView) { song in
+                        AddSongEntryView(song: song)
                     }
                 }
             }
@@ -133,14 +150,14 @@ struct BookletView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    showingEditAlbumSheet = true
+                    showingEditAlbumSheet.toggle()
                 }) {
                     Label("Edit", systemImage: "pencil")
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    showConfirmationDialog = true
+                    showConfirmationDialog.toggle()
                 }) {
                     Label("Options", systemImage: "plus")
                 }
@@ -148,7 +165,7 @@ struct BookletView: View {
         }
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
             Button(action: {
-                isShowingNewEntryView = true
+                showingNewAlbumEntryView = true
             }) {
                 Text("Add entry")
             }
@@ -156,8 +173,8 @@ struct BookletView: View {
                 // Cancel action
             }
         }
-        .sheet(isPresented: $isShowingNewEntryView) {
-            AddEntryView(album: album)
+        .sheet(isPresented: $showingNewAlbumEntryView) {
+            AddAlbumEntryView(album: album)
         }
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
@@ -172,7 +189,7 @@ struct BookletView: View {
                 Text("Delete song")
             }
             Button("Cancel", role: .cancel) {
-               
+                
             }
         }
         .simpleToast(isPresented: $showToast, options: toastOptions){
@@ -189,6 +206,7 @@ struct BookletView: View {
             
         }
     }
+    
     private func calculateAverageColor(from image: UIImage) -> Color? {
         guard let cgImage = image.cgImage else { return nil }
         let ciImage = CIImage(cgImage: cgImage)

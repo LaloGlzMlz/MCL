@@ -1,5 +1,5 @@
 //
-//  AddEntryView.swift
+//  AddAlbumEntryView.swift
 //  MCL
 //
 //  Created by Eduardo Gonzalez Melgoza on 27/05/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct AddEntryView: View {
+struct AddAlbumEntryView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
     
