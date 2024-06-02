@@ -41,7 +41,7 @@ struct AddSongEntryView: View {
                                 Button(action: {
                                     showingPrompt.toggle()
                                     if showingPrompt {
-                                        prompt = promptsViewModel.getRandomPrompt()
+                                        prompt = promptsViewModel.getRandomSongPrompt()
                                     }
                                 }) {
                                     Image(systemName: "lightbulb.max.fill")

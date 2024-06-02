@@ -37,7 +37,7 @@ struct AddAlbumEntryView: View {
                                 Button(action: {
                                     showingPrompt.toggle()
                                     if showingPrompt {
-                                        prompt = promptsViewModel.getRandomPrompt()
+                                        prompt = promptsViewModel.getRandomAlbumPrompt()
                                     }
                                 }) {
                                     Image(systemName: "lightbulb.max.fill")
