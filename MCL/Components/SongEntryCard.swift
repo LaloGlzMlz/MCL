@@ -1,5 +1,5 @@
 //
-//  EntrySongCard.swift
+//  SongEntryCard.swift
 //  MCL
 //
 //  Created by Eduardo Gonzalez Melgoza on 01/06/24.
@@ -8,18 +8,12 @@
 import SwiftUI
 import SwiftData
 
-struct EntrySongCard: View {
+struct SongEntryCard: View {
     @StateObject private var viewModel = SongColorViewModel()
     
     let song: SongFromCatalog
     
     var body: some View {
-        
-        
-        
-        
-        
-        
         ZStack {
             /*--- WHITE CARD UNDER COLOR CARD ---*/
             RoundedRectangle(cornerRadius: 10)

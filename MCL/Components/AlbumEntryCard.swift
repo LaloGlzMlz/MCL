@@ -1,5 +1,5 @@
 //
-//  EntryCard.swift
+//  AlbumEntryCard.swift
 //  MCL
 //
 //  Created by Eduardo Gonzalez Melgoza on 27/05/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct EntryCard: View {
+struct AlbumEntryCard: View {
     @Environment(\.modelContext) private var context
     
     let entry: Entry

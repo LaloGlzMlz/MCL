@@ -92,7 +92,7 @@ struct BookletView: View {
                     
                     /*--- BOOKLET ENTRIES SECTION ---*/
                     ForEach(album.entries) { entry in
-                        EntryCard(entry: entry)
+                        AlbumEntryCard(entry: entry)
                     }
                     
                     /*--- SONGS SECTION ---*/
@@ -101,7 +101,7 @@ struct BookletView: View {
                             SongCardCompact(song: song)
                                 .shadow(color: Color.black.opacity(0.15), radius: 20)
                         } else {
-                            EntrySongCard(song: song)
+                            SongEntryCard(song: song)
                         }
 //                        
 //                        SwipeSongView(
@@ -110,7 +110,7 @@ struct BookletView: View {
 //                                    SongCardCompact(song: song)
 //                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
 //                                } else {
-//                                    EntrySongCard(song: song)
+//                                    SongEntryCard(song: song)
 //                                }
 //                            },
 //                            right: {
