@@ -103,7 +103,7 @@ struct BookletView: View {
                         } else {
                             SongEntryCard(song: song)
                         }
-//                        
+                        
 //                        SwipeSongView(
 //                            content: {
 //                                if song.entries.isEmpty {

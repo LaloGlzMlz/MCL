@@ -50,10 +50,11 @@ struct AddSongEntryView: View {
                         }
                     
                     if entryText.isEmpty {
-                        Text("Write your booklet entry...")
+                        Text("Write about \(song.name)...")
                             .foregroundColor(.gray)
                             .padding(.top, 8)
                             .padding(.leading, 5)
+                            .allowsHitTesting(false)
                     }
                 }
                 .padding()

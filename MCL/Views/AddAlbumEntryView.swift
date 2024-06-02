@@ -28,7 +28,7 @@ struct AddAlbumEntryView: View {
                     Text(prompt)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .bold()
-                        .padding()
+                        .padding([.top, .leading, .trailing])
                 }
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: $entryText)
@@ -46,10 +46,11 @@ struct AddAlbumEntryView: View {
                         }
                     
                     if entryText.isEmpty {
-                        Text("Write your booklet entry...")
+                        Text("Write about you album \(album.title)...")
                             .foregroundColor(.gray)
                             .padding(.top, 8)
                             .padding(.leading, 5)
+                            .allowsHitTesting(false)
                     }
                 }
                 .padding()
