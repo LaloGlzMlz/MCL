@@ -14,6 +14,12 @@ struct EntrySongCard: View {
     let song: SongFromCatalog
     
     var body: some View {
+        
+        
+        
+        
+        
+        
         ZStack {
             /*--- WHITE CARD UNDER COLOR CARD ---*/
             RoundedRectangle(cornerRadius: 10)
@@ -37,6 +43,7 @@ struct EntrySongCard: View {
                     endPoint: .bottomTrailing
                 ))
                 .opacity(0.7)  // Adjust opacity as needed
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             VStack {
                 /*--- SONG INFO SECTION ---*/
@@ -52,6 +59,8 @@ struct EntrySongCard: View {
                                     .scaledToFit()
                                     .frame(width: 55, height: 55)
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    .padding(.leading, 10)
+                                    .padding(.top, 10)
                                     .padding(.trailing, 5)
                                     .onAppear {
                                         // Fetch the color when the image appears
@@ -82,7 +91,7 @@ struct EntrySongCard: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-
+                
                 Divider()
                     .overlay(Color.white)
                     .opacity(0.5)
@@ -116,14 +125,12 @@ struct EntrySongCard: View {
                                     .multilineTextAlignment(.leading) // Ensure text aligns to the left
                             }
                         }
-                        .padding(.bottom, 10) // Add padding to separate each entry
                     }
                 }
-                .padding(.horizontal, 10) // Ensure VStack does not clip its content
+                            .padding(10) // VStack padding to create space around the content
             }
-            .padding(10) // Add padding to the VStack to create space around the content
+                    .frame(width: UIScreen.main.bounds.width / 1.1)
+            .fixedSize(horizontal: false, vertical: true) // Allow the ZStack to resize vertically based on content
         }
-        .frame(width: UIScreen.main.bounds.width / 1.1)
-        .fixedSize(horizontal: false, vertical: true) // Allow the ZStack to resize vertically based on content
     }
 }
