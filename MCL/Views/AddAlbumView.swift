@@ -16,6 +16,7 @@ struct AddAlbumView: View {
     @State var showImagePicker = false
     @State var showCameraPicker = false
     @State private var selectedImage: UIImage?
+    
     // Variables for file management
     @State private var isShowingDocumentPicker = false
     
@@ -24,9 +25,28 @@ struct AddAlbumView: View {
     @State var chosenLocation: String = ""
     @State var showSearchBar = false
     @State private var isLocationEnabeled = false
+    @State private var isShowingLocationSheet = false
     
-    @State private var startDate: Date? = Date()
-    @State private var endDate: Date? = Date()
+    // Variables for date component
+    @State private var startDate: Date? = Date(){
+        didSet {
+            if let end = endDate, let start = startDate {
+                if end < start {
+                    endDate = start
+                }
+            }
+        }
+    }
+    @State private var endDate: Date? = Date(){
+        didSet {
+            if let end = endDate, let start = startDate {
+                if end < start {
+                    startDate = end
+                }
+            }
+        }
+    }
+    
     @State private var isDateEnabeled = false
     @State private var isEndDateEnabled = false
     
@@ -37,19 +57,23 @@ struct AddAlbumView: View {
     
     @State var sideMeasure = UIScreen.main.bounds.width / 1.5
     
-    @State private var isShowingLocationSheet = false
+    
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedPhotoData: Data?
     
     @State private var alertNoSong: Bool = false
+    
+    @State private var entries: [Entry] = []
+    
     @Binding var newAlbum: Album?
     
     @State var imageSideMeasure = UIScreen.main.bounds.width / 1.3
     
+    @FocusState private var nameIsFocused: Bool
+    
     var body: some View {
         NavigationStack {
             Form {
-                
                 /*--- ALBUM COVER SECTION ---*/
                 Section {
                     VStack {
@@ -71,8 +95,10 @@ struct AddAlbumView: View {
                                     }
                                 }
                             } else {
-                                if let photoData = selectedPhotoData,
+                                let compressedPhoto = compressImage(selectedPhotoData!)
+                                if let photoData =  compressedPhoto,
                                    let uiImage = UIImage(data: photoData) {
+                                    
                                     PhotosPicker(selection: $selectedPhoto,
                                                  matching: .images,
                                                  photoLibrary: .shared()) {
@@ -98,9 +124,11 @@ struct AddAlbumView: View {
                               prompt: Text("Album title")
                         .font(.system(size: 20))
                         .fontWeight(.bold))
+                    .focused($nameIsFocused)
                     .textInputAutocapitalization(.words)
                     .bold()
                     .multilineTextAlignment(.center)
+                    .submitLabel(.done)
                 }
                 .listSectionSpacing(.compact)
                 
@@ -108,6 +136,7 @@ struct AddAlbumView: View {
                 /*--- ALBUM SONGS SECTION ---*/
                 Section {
                     Button(action: {
+                        nameIsFocused = false
                         self.isShowingAddSongView = true
                     }){
                         Label("Add Song",systemImage: "plus.circle.fill")
@@ -124,11 +153,6 @@ struct AddAlbumView: View {
                 }
                 .textCase(nil)
                 
-                //                Section {
-                //
-                //                }
-                //                .listSectionSpacing(.compact)
-                
                 /*--- ALBUM DESCRIPTION SECTION ---*/
                 Section {
                     ZStack(alignment: .topLeading) {
@@ -139,11 +163,11 @@ struct AddAlbumView: View {
                                 .padding(.leading, 5)
                         }
                         TextEditor(text: $shortDescription)
+                            .focused($nameIsFocused)
                     }
                     .frame(height: 100)
                 } header: {
                     Text("Album description")
-                    //                        .font(.title2)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, -15)
@@ -155,6 +179,9 @@ struct AddAlbumView: View {
                 Section {
                     VStack {
                         Toggle("Add date", isOn: $isDateEnabeled)
+                            .onChange(of: isDateEnabeled) {
+                                nameIsFocused = false
+                            }
                         if isDateEnabeled {
                             Divider()
                             if !isEndDateEnabled {
@@ -193,17 +220,21 @@ struct AddAlbumView: View {
                 Section {
                     VStack {
                         Toggle("Add location", isOn: $isLocationEnabeled)
+                            .onChange(of: isLocationEnabeled) {
+                                nameIsFocused = false
+                            }
                         if isLocationEnabeled {
                             Divider()
                             HStack {
                                 Button(action: {
+                                    nameIsFocused = false
                                     locationManager.requestUserLocation()
                                     self.isShowingLocationSheet = true
                                 }) {
                                     Label(locationManager.selectedPlace == nil ? "Add Location" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
                                         .foregroundColor(.blue)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.top, 5)
+                                        .padding(.top, 5)
                                 }
                                 
                                 if locationManager.selectedPlace != nil {
@@ -262,7 +293,8 @@ struct AddAlbumView: View {
                             dateTo: endDate,
                             location: chosenLocation,
                             dateCreated: Date(),
-                            songs: songStore.addedSongs
+                            songs: songStore.addedSongs,
+                            entries: entries
                         )
                         context.insert(album)
                         newAlbum = album
@@ -300,6 +332,18 @@ struct AddAlbumView: View {
     }
     
     func selectFromFile() { }
+    
+    private func compressImage(_ imageData: Data)  -> Data? {
+        guard let uiImage = UIImage(data: imageData) else {
+            return nil
+        }
+        
+        guard let compressedImageData = uiImage.jpegData(compressionQuality: 0.3) else {
+            return nil
+        }
+        
+        return compressedImageData
+    }
 }
 
 

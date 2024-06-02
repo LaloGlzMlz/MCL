@@ -16,10 +16,14 @@ final class SongFromCatalog : Identifiable {
     let artist: String
     let imageURL: URL?
     
-    init(name: String, artist: String, imageURL: URL?) {
+    @Relationship(deleteRule: .cascade)
+    var entries: [Entry] = []
+    
+    init(name: String, artist: String, imageURL: URL?, entries: [Entry]) {
         self.name = name
         self.artist = artist
         self.imageURL = imageURL
+        self.entries = entries
     }
 }
 
