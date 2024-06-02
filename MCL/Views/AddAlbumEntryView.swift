@@ -46,7 +46,7 @@ struct AddAlbumEntryView: View {
                         }
                     
                     if entryText.isEmpty {
-                        Text("Write about you album \(album.title)...")
+                        Text("Write about your album \(album.title)...")
                             .foregroundColor(.gray)
                             .padding(.top, 8)
                             .padding(.leading, 5)

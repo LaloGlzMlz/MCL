@@ -26,7 +26,7 @@ struct AddSongEntryView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                SongCardCompact(song: song)
+                SongCardCompact(song: song, showingAddEntryButton: false)
                 
                 if showingPrompt {
                     Text(prompt)
