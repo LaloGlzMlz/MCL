@@ -9,7 +9,10 @@ import SwiftUI
 
 struct SongCardCompact: View {
     @StateObject private var viewModel = SongColorViewModel()
+    @State private var songForEntryView: SongFromCatalog? = nil
+    
     let song: SongFromCatalog
+    let showingAddEntryButton: Bool
     
     var body: some View {
         ZStack {
@@ -77,8 +80,23 @@ struct SongCardCompact: View {
                         .font(.footnote)
                         .foregroundStyle(Color.white)
                 }
+                
+                Spacer()
+                
+                if showingAddEntryButton {
+                    Button(action: {
+                        songForEntryView = song
+                    }) {
+                        Image(systemName: "plus.circle.fill")
+                            .padding()
+                            .foregroundColor(.white)
+                    }
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        }
+        .sheet(item: $songForEntryView) { song in
+            AddSongEntryView(song: song)
         }
         .frame(width: UIScreen.main.bounds.width / 1.1, height: UIScreen.main.bounds.height / 12)
     }

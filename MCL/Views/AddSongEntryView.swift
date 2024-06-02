@@ -26,7 +26,7 @@ struct AddSongEntryView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                SongCardCompact(song: song)
+                SongCardCompact(song: song, showingAddEntryButton: false)
                 
                 if showingPrompt {
                     Text(prompt)
@@ -41,7 +41,7 @@ struct AddSongEntryView: View {
                                 Button(action: {
                                     showingPrompt.toggle()
                                     if showingPrompt {
-                                        prompt = promptsViewModel.getRandomPrompt()
+                                        prompt = promptsViewModel.getRandomSongPrompt()
                                     }
                                 }) {
                                     Image(systemName: "lightbulb.max.fill")

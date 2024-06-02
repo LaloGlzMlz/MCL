@@ -10,6 +10,7 @@ import SwiftData
 
 struct SongEntryCard: View {
     @StateObject private var viewModel = SongColorViewModel()
+    @State private var songForEntryView: SongFromCatalog? = nil
     
     let song: SongFromCatalog
     
@@ -83,6 +84,16 @@ struct SongEntryCard: View {
                             .font(.footnote)
                             .foregroundStyle(Color.white)
                     }
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        songForEntryView = song
+                    }) {
+                        Image(systemName: "plus.circle.fill")
+                            .padding()
+                            .foregroundColor(.white)
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
@@ -125,6 +136,9 @@ struct SongEntryCard: View {
             }
                     .frame(width: UIScreen.main.bounds.width / 1.1)
             .fixedSize(horizontal: false, vertical: true) // Allow the ZStack to resize vertically based on content
+        }
+        .sheet(item: $songForEntryView) { song in
+            AddSongEntryView(song: song)
         }
     }
 }

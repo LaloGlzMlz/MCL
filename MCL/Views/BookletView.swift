@@ -98,7 +98,7 @@ struct BookletView: View {
                     /*--- SONGS SECTION ---*/
                     ForEach($album.songs, id: \.id) { $song in
                         if song.entries.isEmpty {
-                            SongCardCompact(song: song)
+                            SongCardCompact(song: song, showingAddEntryButton: true)
                                 .shadow(color: Color.black.opacity(0.15), radius: 20)
                         } else {
                             SongEntryCard(song: song)

@@ -37,7 +37,7 @@ struct AddAlbumEntryView: View {
                                 Button(action: {
                                     showingPrompt.toggle()
                                     if showingPrompt {
-                                        prompt = promptsViewModel.getRandomPrompt()
+                                        prompt = promptsViewModel.getRandomAlbumPrompt()
                                     }
                                 }) {
                                     Image(systemName: "lightbulb.max.fill")
@@ -46,7 +46,7 @@ struct AddAlbumEntryView: View {
                         }
                     
                     if entryText.isEmpty {
-                        Text("Write about you album \(album.title)...")
+                        Text("Write about your album \(album.title)...")
                             .foregroundColor(.gray)
                             .padding(.top, 8)
                             .padding(.leading, 5)
