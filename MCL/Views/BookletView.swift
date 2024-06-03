@@ -18,6 +18,7 @@ struct BookletView: View {
     @StateObject private var songStore = SongStore()
     @State private var showConfirmationDialog = false
     @State private var showingEditAlbumSheet: Bool = false
+    @State private var showSharePreview = false
     @State private var averageColor: Color = .primary
     
     @State private var showingEditView = false
@@ -162,6 +163,13 @@ struct BookletView: View {
                     Label("Options", systemImage: "plus")
                 }
             }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button(action: {
+                    showSharePreview = true
+                }) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            }
         }
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
             Button(action: {
@@ -179,6 +187,9 @@ struct BookletView: View {
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
         }
+//        .sheet(isPresented: $showSharePreview) {
+//            PreviewShareView(album: album)
+//        }
         .confirmationDialog("", isPresented: $showAlertForDeletingSong, titleVisibility: .hidden) {
             Button(action: {
                 if let song = songToDelete {
