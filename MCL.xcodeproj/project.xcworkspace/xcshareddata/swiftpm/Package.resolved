@@ -1,4 +1,5 @@
 {
+  "originHash" : "7a1d4f7ade4c3f48042c7cfb1d64ff4605c7d67073a8b95172ba1ed265b35713",
   "pins" : [
     {
       "identity" : "simpletoast",
@@ -10,5 +11,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
