@@ -43,13 +43,13 @@ struct MusicSearchBar: View {
                         HStack {
                             AsyncImage(url: song.imageURL)
                                 .frame(width: 40, height: 40, alignment: .leading)
+                                .clipShape(RoundedRectangle(cornerRadius: 6))
                             VStack (alignment: .leading) {
                                 Text(song.name)
                                     .fontWeight(.medium)
                                     .lineLimit(1)
                                 Text(song.artist)
                                     .font(.footnote)
-    //                                .fontWeight(.light)
                             }
                         }
                         Spacer()
@@ -143,8 +143,9 @@ struct MusicSearchBar: View {
                     self.songs = result.songs.compactMap({
                         return .init(name: $0.title,
                                      artist: $0.artistName,
-                                     imageURL: $0.artwork?.url(width: 40, height: 40))
-                    })
+                                     imageURL: $0.artwork?.url(width: 40, height: 40),
+                                     entries: []
+                    )})
                 } catch {
                     print(String(describing: error))
                 }
