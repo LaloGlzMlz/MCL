@@ -40,7 +40,11 @@ struct AddAlbumEntryView: View {
                                         prompt = promptsViewModel.getRandomAlbumPrompt()
                                     }
                                 }) {
-                                    Image(systemName: "lightbulb.max.fill")
+                                    if showingPrompt {
+                                        Image(systemName: "lightbulb.max.fill")
+                                    } else {
+                                        Image(systemName: "lightbulb.max")
+                                    }
                                 }
                             }
                         }

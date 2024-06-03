@@ -50,7 +50,6 @@ struct MusicSearchBar: View {
                                     .lineLimit(1)
                                 Text(song.artist)
                                     .font(.footnote)
-    //                                .fontWeight(.light)
                             }
                         }
                         Spacer()
