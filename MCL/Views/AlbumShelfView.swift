@@ -22,6 +22,8 @@ struct AlbumShelfView: View {
     
     @Query(sort: \Album.dateCreated, order: .reverse) var albums: [Album]
     
+    let screenWidth = UIScreen.main.bounds.width
+    
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
@@ -44,8 +46,10 @@ struct AlbumShelfView: View {
                                 }
                                 VStack {
                                     Text(album.title)
+                                        .truncationMode(.tail)
                                         .bold()
                                         .font(.title)
+                                        .frame(width: screenWidth / 1.5 , height: screenWidth / 7)
                                     
                                     // Display dates if they exist
                                     if album.dateTo != nil {
