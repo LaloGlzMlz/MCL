@@ -5,6 +5,7 @@
 //  Created by Fernando Sensenhauser on 04/06/24.
 //
 
+import SwiftUI
 extension Color {
     init(hex: String) {
         let scanner = Scanner(string: hex)

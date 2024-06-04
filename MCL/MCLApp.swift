@@ -28,9 +28,8 @@ struct MCLApp: App {
            // if isOnboarded ?? false {
           //      AlbumShelfView()
          //   } else {
-         //       OnBoardingView()
+        //    OnBoardingView()
           //  }
-            AlbumShelfView()
         }
         .modelContainer(modelContainer)
     }
