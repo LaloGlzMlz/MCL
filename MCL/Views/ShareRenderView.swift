@@ -17,3 +17,17 @@ struct ShareRenderView: View {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
     }
 }
+
+#Preview {
+    ShareRenderView(album: Album(
+        title: "Lalo's Album",
+        coverImage: nil,
+        shortDescription: "This is the short description.",
+        dateFrom: Date(),
+        dateTo: Date(),
+        location: "Napoli",
+        dateCreated: Date(),
+        songs: [],
+        entries: []
+    ))
+}

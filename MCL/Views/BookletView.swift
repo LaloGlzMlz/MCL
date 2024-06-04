@@ -4,6 +4,7 @@
 //
 //  Created by Michel Andre Pellegrin Quiroz on 21/05/24.
 //
+// testing branch protection
 
 import SwiftUI
 import SwiftData
@@ -108,7 +109,7 @@ struct BookletView: View {
 //                        SwipeSongView(
 //                            content: {
 //                                if song.entries.isEmpty {
-//                                    SongCardCompact(song: song)
+//                                    SongCardCompact(song: song, showingAddEntryButton: true)
 //                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
 //                                } else {
 //                                    SongEntryCard(song: song)
