@@ -188,9 +188,9 @@ struct BookletView: View {
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
         }
-//        .sheet(isPresented: $showSharePreview) {
-//            PreviewShareView(album: album)
-//        }
+        .sheet(isPresented: $showSharePreview) {
+            PreviewShareView(album: album)
+        }
         .confirmationDialog("", isPresented: $showAlertForDeletingSong, titleVisibility: .hidden) {
             Button(action: {
                 if let song = songToDelete {
