@@ -234,7 +234,8 @@ struct EditAlbumView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
-                        album.title = titleAux
+                        var titleWithNoWhiteSpace = titleAux.trimmingCharacters(in: .whitespaces)
+                        album.title = titleWithNoWhiteSpace
                         album.songs = songAux + songStore.addedSongs
                         album.shortDescription = shortDescriptionAux
                         album.coverImage = selectedPhotoDataAux
