@@ -26,7 +26,7 @@ struct MCLApp: App {
     var body: some Scene {
         WindowGroup {
            // if isOnboarded ?? false {
-          //      AlbumShelfView()
+                AlbumShelfView()
          //   } else {
         //    OnBoardingView()
           //  }
