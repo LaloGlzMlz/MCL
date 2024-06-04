@@ -18,6 +18,8 @@ struct AlbumShelfView: View {
     @State private var newAlbum: Album?
 
     @State var offsetToCenter = UIScreen.main.bounds.width/9
+    
+    @State private var showingDeleteConfirmation = false
 
     
     @Query(sort: \Album.dateCreated, order: .reverse) var albums: [Album]
@@ -39,9 +41,19 @@ struct AlbumShelfView: View {
                                             .padding()
                                             .contextMenu(ContextMenu(menuItems: {
                                                 Button("Delete", role: .destructive) {
-                                                    context.delete(album)
+                                                    showingDeleteConfirmation = true
                                                 }
                                             }))
+                                            .alert(isPresented:$showingDeleteConfirmation) {
+                                                Alert(
+                                                    title: Text("Are you sure you want to delete this album?"),
+                                                    message: Text("There is no undo"),
+                                                    primaryButton: .destructive(Text("Delete")) {
+                                                        context.delete(album)
+                                                    },
+                                                    secondaryButton: .cancel()
+                                                )
+                                            }
                                     }
                                 }
                                 VStack {
