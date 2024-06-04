@@ -434,7 +434,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide nearby places";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Needed to save your image ";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -471,7 +471,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide nearby places";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Needed to save your image ";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
