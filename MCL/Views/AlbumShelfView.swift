@@ -46,10 +46,9 @@ struct AlbumShelfView: View {
                                 }
                                 VStack {
                                     Text(album.title)
-                                        .truncationMode(.tail)
                                         .bold()
                                         .font(.title)
-                                        .frame(width: screenWidth / 1.5 , height: screenWidth / 7)
+                                        .frame(width: screenWidth / 1.5)
                                     
                                     // Display dates if they exist
                                     if album.dateTo != nil {
