@@ -124,7 +124,7 @@ struct SongEntryCard: View {
                                         .padding(.horizontal)
                                 }
                                 
-                                TextField("Enter text", text: $song.entries[index].entryText)
+                                TextField("Album entry text", text: $song.entries[index].entryText, axis: .vertical)
                                     .padding(10)
                                     .foregroundStyle(Color.white)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)

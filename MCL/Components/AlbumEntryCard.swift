@@ -32,7 +32,7 @@ struct AlbumEntryCard: View {
                     Divider()
                         .padding(.horizontal)
                 }
-                TextField("hello", text: $entry.entryText,  axis: .vertical)
+                TextField("Album entry text", text: $entry.entryText,  axis: .vertical)
                     .padding()
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                     .multilineTextAlignment(.leading)
