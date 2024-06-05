@@ -85,6 +85,7 @@ struct AddAlbumEntryView: View {
                         Text("Add")
                             .fontWeight(.medium)
                     }
+                    .disabled(entryText.isEmpty)
                 }
             }
         }

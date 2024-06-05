@@ -84,6 +84,7 @@ struct SongEntryCard: View {
                             .font(.footnote)
                             .foregroundStyle(Color.white)
                     }
+                    .padding(.top, 8)
                     
                     Spacer()
                     

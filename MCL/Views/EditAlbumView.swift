@@ -49,6 +49,8 @@ struct EditAlbumView: View {
     
     @FocusState private var nameIsFocused: Bool
     
+    @State private var showAlertAlreadyAdded = false
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -148,8 +150,11 @@ struct EditAlbumView: View {
                                 }
                             }
                         }
-    //                    .onDelete(perform: deleteSong(song))
-                        AddedSongs(songStore: songStore)
+                        if let songToAdd = songStore.addedSongs.first(where: { song in
+                            !songAux.contains(where: { $0.name == song.name && $0.artist == song.artist })
+                        }) {
+                            AddedSongs(songStore: songStore)
+                        }
                     }
                     
                 } header: {
@@ -234,8 +239,13 @@ struct EditAlbumView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
-                        album.title = titleAux
-                        album.songs = songAux + songStore.addedSongs
+                        var titleWithNoWhiteSpace = titleAux.trimmingCharacters(in: .whitespaces)
+                        album.title = titleWithNoWhiteSpace
+                        for songCheck in songStore.addedSongs {
+                            if !songAux.contains(where: {$0.name == songCheck.name && $0.artist == songCheck.artist}){
+                                album.songs = songAux + songStore.addedSongs
+                            }
+                        }
                         album.shortDescription = shortDescriptionAux
                         album.coverImage = selectedPhotoDataAux
                         if isDateEnabeled == true && isEndDateEnabled == true {
@@ -290,6 +300,9 @@ struct EditAlbumView: View {
                 isEndDateEnabled = false
             }
             selectedPhotoDataAux = album.coverImage
+        }
+        .alert(isPresented: $showAlertAlreadyAdded) {
+            Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
         }
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)

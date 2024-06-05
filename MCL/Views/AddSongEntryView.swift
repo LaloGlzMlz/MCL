@@ -89,6 +89,7 @@ struct AddSongEntryView: View {
                         Text("Add")
                             .fontWeight(.medium)
                     }
+                    .disabled(entryText.isEmpty)
                 }
             }
         }

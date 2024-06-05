@@ -136,7 +136,7 @@ struct AddAlbumView: View {
                 /*--- ALBUM SONGS SECTION ---*/
                 Section {
                     Button(action: {
-                        nameIsFocused = false
+                        nameIsFocused = false //To deseable keyboard when tapping other things
                         self.isShowingAddSongView = true
                     }){
                         Label("Add Song",systemImage: "plus.circle.fill")
@@ -285,8 +285,9 @@ struct AddAlbumView: View {
                         if !isLocationEnabeled {
                             chosenLocation = ""
                         }
+                        var titleWithNoWhiteSpace = title.trimmingCharacters(in: .whitespaces)
                         let album = Album(
-                            title: title,
+                            title: titleWithNoWhiteSpace,
                             coverImage: selectedPhotoData,
                             shortDescription: shortDescription,
                             dateFrom: startDate,
