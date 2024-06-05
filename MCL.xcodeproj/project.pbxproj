@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		08003E622C00A78C00220471 /* EditAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08003E612C00A78C00220471 /* EditAlbumView.swift */; };
-		0819B8632C0B5BEA00888617 /* ShareRenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0819B8622C0B5BEA00888617 /* ShareRenderView.swift */; };
-		0819B8652C0B618400888617 /* PreviewShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0819B8642C0B618400888617 /* PreviewShareView.swift */; };
 		08B16CF62BFCEF2200317019 /* BookletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B16CF52BFCEF2200317019 /* BookletView.swift */; };
 		08F4D4942BF8CBD7001F7279 /* AddedSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F4D4932BF8CBD7001F7279 /* AddedSongs.swift */; };
 		08F4D4992BF8D8CA001F7279 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = 08F4D4982BF8D8CA001F7279 /* SimpleToast */; };
@@ -48,8 +46,6 @@
 
 /* Begin PBXFileReference section */
 		08003E612C00A78C00220471 /* EditAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlbumView.swift; sourceTree = "<group>"; };
-		0819B8622C0B5BEA00888617 /* ShareRenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareRenderView.swift; sourceTree = "<group>"; };
-		0819B8642C0B618400888617 /* PreviewShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewShareView.swift; sourceTree = "<group>"; };
 		08B16CF52BFCEF2200317019 /* BookletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookletView.swift; sourceTree = "<group>"; };
 		08F4D4932BF8CBD7001F7279 /* AddedSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedSongs.swift; sourceTree = "<group>"; };
 		171EA0D62C0F94C300C2423A /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
@@ -111,8 +107,6 @@
 				08B16CF52BFCEF2200317019 /* BookletView.swift */,
 				2799C12D2C087C2700C707CB /* SwipeSongView.swift */,
 				08003E612C00A78C00220471 /* EditAlbumView.swift */,
-				0819B8622C0B5BEA00888617 /* ShareRenderView.swift */,
-				0819B8642C0B618400888617 /* PreviewShareView.swift */,
 				2E7FD6C52C04D63A00D5B779 /* AddAlbumEntryView.swift */,
 				2E6135E22C0A211B00371C15 /* AddSongEntryView.swift */,
 			);
@@ -122,7 +116,11 @@
 		08F4D4912BF7A180001F7279 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+
 				171EA0DE2C0F953500C2423A /* ColorExstension.swift */,
+				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
+				27D238162BFB84D6006D9BD4 /* SearchLocation.swift */,
+				27F3A64E2BF60A860029832D /* ImagePicker.swift */,
 				1764725D2C05D87700309424 /* SongCardCompact.swift */,
 				2E71E5572BF5110800F80405 /* MusicSearchBar.swift */,
 				2E1A209B2BFB8FA300B2C396 /* Shelf.swift */,
@@ -172,7 +170,6 @@
 				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
 				171EA0E22C0F978C00C2423A /* OnBoardingCard.swift */,
 				2E8C797F2BF3803B008C13C3 /* MCLApp.swift */,
-				27D238162BFB84D6006D9BD4 /* SearchLocation.swift */,
 				08F4D4922BF7A19A001F7279 /* Models */,
 				08F4D4902BF7A142001F7279 /* Views */,
 				08F4D4912BF7A180001F7279 /* Components */,
@@ -276,7 +273,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				08003E622C00A78C00220471 /* EditAlbumView.swift in Sources */,
-				0819B8652C0B618400888617 /* PreviewShareView.swift in Sources */,
 				2E71E5542BF5077900F80405 /* SongModel.swift in Sources */,
 				2E1A209E2BFB926400B2C396 /* AlbumModel.swift in Sources */,
 				1764725E2C05D87700309424 /* SongCardCompact.swift in Sources */,
@@ -311,7 +307,6 @@
 				2E8C79822BF3803B008C13C3 /* ContentView.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
 				27D2381B2BFCF6CB006D9BD4 /* LocationView.swift in Sources */,
-				0819B8632C0B5BEA00888617 /* ShareRenderView.swift in Sources */,
 				17471D7A2BF6398F006EEF3D /* AlbumDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,7 +441,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 3B6HLC87UZ;
+				DEVELOPMENT_TEAM = 8FW56V9S55;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
@@ -483,7 +478,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 3B6HLC87UZ;
+				DEVELOPMENT_TEAM = 8FW56V9S55;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
