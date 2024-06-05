@@ -59,6 +59,7 @@ struct AlbumCard: View {
                         .foregroundStyle(Color.white)
                         .padding()
                         .opacity(0.9)
+                        .multilineTextAlignment(.leading)
                         
                     Spacer()
                 }
