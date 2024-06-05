@@ -154,15 +154,15 @@ struct BookletView: View {
                     Button(action: {
                         showingEditAlbumSheet.toggle()
                     }) {
-                        Label("Edit", systemImage: "pencil")
+                        Label("Edit Album", systemImage: "pencil")
                     }
                     Button(action: {
                         showSharePreview = true
                     }) {
-                        Label("Share", systemImage: "square.and.arrow.up")
+                        Label("Share Album", systemImage: "square.and.arrow.up")
                     }
                 } label: {
-                    Label("Edit", systemImage: "ellipsis.circle")
+                    Label("Options Menu", systemImage: "ellipsis.circle")
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
