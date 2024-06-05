@@ -11,6 +11,7 @@ import SwiftData
 @main
 struct MCLApp: App {
     let modelContainer: ModelContainer
+    @AppStorage("isOnboarded") var isOnboarded: Bool?
     
     init() {
         
@@ -24,6 +25,11 @@ struct MCLApp: App {
     
     var body: some Scene {
         WindowGroup {
+           // if isOnboarded ?? false {
+          //      AlbumShelfView()
+         //   } else {
+         //       OnBoardingView()
+          //  }
             AlbumShelfView()
         }
         .modelContainer(modelContainer)
