@@ -123,7 +123,6 @@ struct AlbumShelfView: View {
                         showingAddAlbumSheet = true
                     }) {
                         Image(systemName: "plus")
-                            .foregroundColor(.blue)
                     }
                 }
             }

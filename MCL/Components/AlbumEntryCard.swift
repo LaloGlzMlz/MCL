@@ -17,7 +17,8 @@ struct AlbumEntryCard: View {
         ZStack {
             GeometryReader { geometry in
                 RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(.white)
+//                    .foregroundColor(.white)
+                    .foregroundStyle(Color("AlbumEntryCardColor"))
                     .shadow(color: Color.black.opacity(0.15), radius: 20)
                     .frame(height: geometry.size.height)
             }
