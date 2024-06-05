@@ -32,9 +32,6 @@ struct AlbumEntryCard: View {
                     Divider()
                         .padding(.horizontal)
                 }
-//                Text(entry.entryText)
-//                    .padding()
-//                    .frame(maxWidth: .infinity, alignment: .leading)
                 TextField("hello", text: $entry.entryText,  axis: .vertical)
                     .padding()
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)

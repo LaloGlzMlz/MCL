@@ -12,7 +12,7 @@ struct SongEntryCard: View {
     @StateObject private var viewModel = SongColorViewModel()
     @State private var songForEntryView: SongFromCatalog? = nil
     
-    let song: SongFromCatalog
+    @Bindable var song: SongFromCatalog
     
     var body: some View {
         ZStack {
@@ -105,37 +105,37 @@ struct SongEntryCard: View {
                 
                 /*--- ENTRIES SECTION ---*/
                 VStack {
-                    ForEach(song.entries) { entry in
+                    ForEach(song.entries.indices, id: \.self) { index in
                         ZStack {
                             RoundedRectangle(cornerRadius: 5)
                                 .foregroundColor(.white)
                                 .opacity(0.1)
                             
                             VStack {
-                                if entry.prompt != "" {
-                                    Text(entry.prompt ?? "")
+                                if song.entries[index].prompt != "" {
+                                    Text(song.entries[index].prompt ?? "")
                                         .padding([.top, .leading, .trailing], 10)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .foregroundStyle(Color.white)
                                         .bold()
-                                        .lineLimit(nil) // Allow text to wrap
-                                        .multilineTextAlignment(.leading) // Ensure text aligns to the left
+                                        .lineLimit(nil)
+                                        .multilineTextAlignment(.leading)
                                     Divider()
                                         .padding(.horizontal)
                                 }
-                                Text(entry.entryText)
+                                
+                                TextField("Enter text", text: $song.entries[index].entryText)
                                     .padding(10)
                                     .foregroundStyle(Color.white)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .lineLimit(nil) // Allow text to wrap
-                                    .multilineTextAlignment(.leading) // Ensure text aligns to the left
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
                             }
                         }
                     }
                 }
-                            .padding(10) // VStack padding to create space around the content
+                .padding(10) // VStack padding to create space around the content
             }
-                    .frame(width: UIScreen.main.bounds.width / 1.1)
+            .frame(width: UIScreen.main.bounds.width / 1.1)
             .fixedSize(horizontal: false, vertical: true) // Allow the ZStack to resize vertically based on content
         }
         .sheet(item: $songForEntryView) { song in
