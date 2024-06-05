@@ -12,20 +12,8 @@ struct ShareRenderView: View {
     let album: Album
     
     var body: some View {
-        Text("\(album.title)")
+        VStack {
+            AlbumCard(album: album)
+        }
     }
-}
-
-#Preview {
-    ShareRenderView(album: Album(
-        title: "Lalo's Album",
-        coverImage: nil,
-        shortDescription: "This is the short description.",
-        dateFrom: Date(),
-        dateTo: Date(),
-        location: "Napoli",
-        dateCreated: Date(),
-        songs: [],
-        entries: []
-    ))
 }

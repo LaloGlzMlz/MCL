@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PreviewShareView: View {
+    @State private var songForEntryView: SongFromCatalog? = nil
+    
     let album: Album
 //    @State private var renderedImage = Image(systemName: "photo")
 //    @Environment(\.displayScale) var displayScale
@@ -31,7 +33,70 @@ struct PreviewShareView: View {
 //        .onAppear { render() }
     }
     var render: some View {
-        Text("\(album.title)")
+        VStack {
+            /*--- ALBUM COVER SECTION ---*/
+            AlbumCard(album: album)
+                .shadow(color: Color.black.opacity(0.15), radius: 20)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
+            
+            /*--- ALBUM LOCATION SECTION ---*/
+            VStack(alignment: .leading) {
+                if album.location != "" {
+                    Text(album.location)
+                        .foregroundStyle(Color.gray)
+                        .font(.footnote)
+                        .bold()
+                }
+                
+                /*--- ALBUM DATE SECTION ---*/
+                if album.dateTo != nil {
+                    HStack {
+                        Text(album.dateFrom!, style: .date)
+                            .foregroundStyle(Color.gray)
+                            .font(.footnote)
+                        Text("-")
+                            .foregroundStyle(Color.gray)
+                            .font(.footnote)
+                        Text(album.dateTo!, style: .date)
+                            .foregroundStyle(Color.gray)
+                            .font(.footnote)
+                    }
+                } else if album.dateFrom != nil && album.dateTo == nil {
+                    HStack {
+                        Text(album.dateFrom!, style: .date)
+                            .foregroundStyle(Color.gray)
+                            .font(.footnote)
+                    }
+                }
+                
+                /*--- ALBUM DESCRIPTION SECTION ---*/
+                Text(album.shortDescription)
+                    .foregroundStyle(Color.gray)
+                    .font(.subheadline)
+                
+                Divider()
+                    .padding()
+                
+                /*--- BOOKLET ENTRIES SECTION ---*/
+                ForEach(album.entries) { entry in
+                    AlbumEntryCard(entry: entry)
+                }
+                
+                /*--- SONGS SECTION ---*/
+                ForEach(album.songs, id: \.id) { song in
+                    if song.entries.isEmpty {
+                        SongCardCompact(song: song, showingAddEntryButton: true)
+                            .shadow(color: Color.black.opacity(0.15), radius: 20)
+                    } else {
+                        SongEntryCard(song: song)
+                    }
+                }
+                .sheet(item: $songForEntryView) { song in
+                    AddSongEntryView(song: song)
+                }
+            }
+        }
+        .padding(.horizontal)
     }
 //    @MainActor func render() {
 //        let renderer = ImageRenderer(content: ShareRenderView(album: album))

@@ -4,7 +4,6 @@
 //
 //  Created by Michel Andre Pellegrin Quiroz on 21/05/24.
 //
-// testing branch protection
 
 import SwiftUI
 import SwiftData

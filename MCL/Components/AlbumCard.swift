@@ -17,7 +17,7 @@ struct AlbumCard: View {
     
     let album: Album
     
-    let screenWidth = UIScreen.main.bounds.width
+//    let screenWidth = UIScreen.main.bounds.width
     
     var body: some View {
         Spacer()
@@ -52,14 +52,12 @@ struct AlbumCard: View {
                 HStack {
 //                    Spacer()
                     Text(album.title)
-                        .truncationMode(.tail)
                         .font(.title)
                         .bold()
                         .shadow(color: Color.black.opacity(1), radius: 20)
                         .foregroundStyle(Color.white)
                         .padding()
                         .opacity(0.9)
-                        .frame(height: screenWidth / 7)
                     Spacer()
                 }
             }

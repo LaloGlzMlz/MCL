@@ -46,7 +46,6 @@ struct AlbumShelfView: View {
                                 }
                                 VStack {
                                     Text(album.title)
-                                        .truncationMode(.tail)
                                         .bold()
                                         .font(.title)
                                         .frame(width: screenWidth / 1.5 , height: screenWidth / 7)
