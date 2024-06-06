@@ -18,6 +18,8 @@ struct AlbumCard: View {
     let album: Album
     let isExpanded: Bool
     
+    let screenWidth = UIScreen.main.bounds.width
+    
     var body: some View {
         Spacer()
         ZStack {
@@ -51,12 +53,15 @@ struct AlbumCard: View {
                 HStack {
 //                    Spacer()
                     Text(album.title)
+                       
                         .font(.title)
                         .bold()
                         .shadow(color: Color.black.opacity(1), radius: 20)
                         .foregroundStyle(Color.white)
                         .padding()
                         .opacity(0.9)
+                        .multilineTextAlignment(.leading)
+                        
                     Spacer()
                 }
             }

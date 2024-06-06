@@ -121,9 +121,48 @@ struct BookletView: View {
                         }
                         .frame(width: UIScreen.main.bounds.width / 1.1)
                         
-                        Text(entry.entryText)
+                       /* Text(entry.entryText)
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
+
+                        //                        SwipeSongView(
+                        //                            content: {
+                        //                                if song.entries.isEmpty {
+                        //                                    SongCardCompact(song: song)
+                        //                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
+                        //                                } else {
+                        //                                    SongEntryCard(song: song)
+                        //                                }
+                        //                            },
+                        //                            right: {
+                        //                                HStack {
+                        //                                    ZStack {
+                        //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                        //                                        Button(action: {
+                        //                                            songForEntryView = song
+                        //                                        }) {
+                        //                                            Image(systemName: "plus")
+                        //                                                .foregroundColor(.black)
+                        //                                        }
+                        //                                    }
+                        //                                    ZStack{
+                        //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                        //                                        Button(action: {
+                        //                                            songToDelete = song
+                        //                                            showAlertForDeletingSong.toggle()
+                        //                                        }) {
+                        //                                            Image(systemName: "trash")
+                        //                                                .foregroundColor(.black)
+                        //                                        }
+                        //                                    }
+                        //                                }
+                        //                            },
+                        //                            itemHeight: 50
+                        //                        )
+                    }
+                    .sheet(item: $songForEntryView) { song in
+                        AddSongEntryView(song: song)
+*/
                     }
                 }
                 
@@ -213,6 +252,33 @@ struct BookletView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .opacity(navigationBarTitleOpacity)
+           /* .padding(.horizontal) // Add horizontal padding to the ScrollView content to prevent clipping by ScrollView
+        }
+        .navigationTitle(album.title)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Menu {
+                    Button(action: {
+                        showingEditAlbumSheet.toggle()
+                    }) {
+                        Label("Edit Album", systemImage: "pencil")
+                    }
+                    Button(action: {
+                        showSharePreview = true
+                    }) {
+                        Label("Share Album", systemImage: "square.and.arrow.up")
+                    }
+                } label: {
+                    Label("Options Menu", systemImage: "ellipsis.circle")
+                }
+            }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button(action: {
+                    showConfirmationDialog.toggle()
+                }) {
+                    Label("Options", systemImage: "plus")
+                }
+            }*/
         }
         .ignoresSafeArea()
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
@@ -230,6 +296,9 @@ struct BookletView: View {
         }
         .sheet(isPresented: $showingEditAlbumSheet) {
             EditAlbumView(album: album)
+        }
+        .sheet(isPresented: $showSharePreview) {
+            ContentView()
         }
         .confirmationDialog("", isPresented: $showAlertForDeletingSong, titleVisibility: .hidden) {
             Button(action: {
