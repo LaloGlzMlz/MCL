@@ -121,10 +121,11 @@ struct BookletView: View {
                         }
                         .frame(width: UIScreen.main.bounds.width / 1.1)
                         
-                       /* Text(entry.entryText)
+                       Text(entry.entryText)
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
 
+                        /* 
                         //                        SwipeSongView(
                         //                            content: {
                         //                                if song.entries.isEmpty {
