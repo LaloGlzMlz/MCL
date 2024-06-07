@@ -82,7 +82,7 @@ struct SwipeSongView<Content: View, Right: View>: View {
                     .offset(x: hoffset)
             }
         }
-        .frame(height: 70)
+       
         
     }
 }

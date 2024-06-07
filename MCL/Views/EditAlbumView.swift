@@ -71,7 +71,6 @@ struct EditAlbumView: View {
                                         Image(systemName: "camera.circle.fill")
                                             .resizable()
                                             .frame(width: UIScreen.main.bounds.width / 5, height: UIScreen.main.bounds.width / 5)
-                                            .foregroundStyle(Color.blue)
                                     }
                                 }
                             } else {

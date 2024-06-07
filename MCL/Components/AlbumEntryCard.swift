@@ -11,7 +11,7 @@ import SwiftData
 struct AlbumEntryCard: View {
     @Environment(\.modelContext) private var context
     
-    let entry: Entry
+    @Bindable var entry: Entry
     
     var body: some View {
         ZStack {
@@ -32,9 +32,10 @@ struct AlbumEntryCard: View {
                     Divider()
                         .padding(.horizontal)
                 }
-                Text(entry.entryText)
+                TextField("Album entry text", text: $entry.entryText,  axis: .vertical)
                     .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
             }
         }
     }
