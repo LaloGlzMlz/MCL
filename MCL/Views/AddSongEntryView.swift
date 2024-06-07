@@ -44,7 +44,11 @@ struct AddSongEntryView: View {
                                         prompt = promptsViewModel.getRandomSongPrompt()
                                     }
                                 }) {
-                                    Image(systemName: "lightbulb.max.fill")
+                                    if showingPrompt {
+                                        Image(systemName: "lightbulb.max.fill")
+                                    } else {
+                                        Image(systemName: "lightbulb.max")
+                                    }
                                 }
                             }
                         }
@@ -85,6 +89,7 @@ struct AddSongEntryView: View {
                         Text("Add")
                             .fontWeight(.medium)
                     }
+                    .disabled(entryText.isEmpty)
                 }
             }
         }

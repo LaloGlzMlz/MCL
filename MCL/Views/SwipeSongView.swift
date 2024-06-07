@@ -51,10 +51,10 @@ struct SwipeSongView<Content: View, Right: View>: View {
                 }
             }
             .onEnded{ value in
-                withAnimation{
-                    if rightPast{
+                withAnimation {
+                    if rightPast {
                         anchor = -anchorWidth  //l' ancoraggio rappresenta il punto di partenza dell'offset
-                    }else{
+                    } else{
                         anchor = 0
                     }
                     hoffset = anchor   //punto di partenza per ogni offset
@@ -82,7 +82,7 @@ struct SwipeSongView<Content: View, Right: View>: View {
                     .offset(x: hoffset)
             }
         }
-        .frame(height: 70)
+       
         
     }
 }

@@ -105,6 +105,9 @@
 		08F4D4912BF7A180001F7279 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
+				27D238162BFB84D6006D9BD4 /* SearchLocation.swift */,
+				27F3A64E2BF60A860029832D /* ImagePicker.swift */,
 				1764725D2C05D87700309424 /* SongCardCompact.swift */,
 				2E71E5572BF5110800F80405 /* MusicSearchBar.swift */,
 				2E1A209B2BFB8FA300B2C396 /* Shelf.swift */,
@@ -148,10 +151,7 @@
 			children = (
 				2EAC1CAD2C06201500AC9BD7 /* ViewModels */,
 				27F3A6502BF638CD0029832D /* Info.plist */,
-				27F3A64E2BF60A860029832D /* ImagePicker.swift */,
-				27D238102BFB4122006D9BD4 /* DocumentPicker.swift */,
 				2E8C797F2BF3803B008C13C3 /* MCLApp.swift */,
-				27D238162BFB84D6006D9BD4 /* SearchLocation.swift */,
 				08F4D4922BF7A19A001F7279 /* Models */,
 				08F4D4902BF7A142001F7279 /* Views */,
 				08F4D4912BF7A180001F7279 /* Components */,
@@ -426,7 +426,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide nearby places";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Needed to save your image ";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -463,7 +463,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Would you like to give permission to access Music data?";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to provide nearby places";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Needed to save your image ";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
