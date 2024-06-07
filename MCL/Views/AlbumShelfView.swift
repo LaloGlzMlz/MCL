@@ -116,7 +116,7 @@ struct AlbumShelfView: View {
                     }
                 }
             }
-            .navigationTitle("Albums")
+            //
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button(action: {

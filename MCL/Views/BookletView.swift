@@ -24,6 +24,8 @@ struct BookletView: View {
     @State private var showSharePreview = false
     @State private var averageColor: Color = .primary
     
+   
+    
     @State private var showingEditView = false
     @State private var showingNewAlbumEntryView = false
     @State private var songForEntryView: SongFromCatalog? = nil
@@ -42,6 +44,7 @@ struct BookletView: View {
     
     @State private var navigationBarColor: Color = .clear
     @State private var navigationBarTitleOpacity: Double = 0
+    
     
     @Bindable var album: Album
     
@@ -63,6 +66,7 @@ struct BookletView: View {
                                 withAnimation {
                                     navigationBarColor = .white
                                     navigationBarTitleOpacity = 1
+                                    
                                 }
                             } else {
                                 withAnimation {
@@ -111,152 +115,77 @@ struct BookletView: View {
                 Divider()
                     .padding()
                 
+                /*--- BOOKLET ENTRIES SECTION ---*/
                 ForEach(album.entries) { entry in
-                    ZStack {
-                        GeometryReader { geometry in
-                            RoundedRectangle(cornerRadius: 5)
-                                .foregroundColor(.white)
-                                .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                .frame(height: geometry.size.height)
-                        }
-                        .frame(width: UIScreen.main.bounds.width / 1.1)
-                        
-                       Text(entry.entryText)
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-
-                        /* 
-                        //                        SwipeSongView(
-                        //                            content: {
-                        //                                if song.entries.isEmpty {
-                        //                                    SongCardCompact(song: song)
-                        //                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
-                        //                                } else {
-                        //                                    SongEntryCard(song: song)
-                        //                                }
-                        //                            },
-                        //                            right: {
-                        //                                HStack {
-                        //                                    ZStack {
-                        //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                        //                                        Button(action: {
-                        //                                            songForEntryView = song
-                        //                                        }) {
-                        //                                            Image(systemName: "plus")
-                        //                                                .foregroundColor(.black)
-                        //                                        }
-                        //                                    }
-                        //                                    ZStack{
-                        //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                        //                                        Button(action: {
-                        //                                            songToDelete = song
-                        //                                            showAlertForDeletingSong.toggle()
-                        //                                        }) {
-                        //                                            Image(systemName: "trash")
-                        //                                                .foregroundColor(.black)
-                        //                                        }
-                        //                                    }
-                        //                                }
-                        //                            },
-                        //                            itemHeight: 50
-                        //                        )
-                    }
-                    .sheet(item: $songForEntryView) { song in
-                        AddSongEntryView(song: song)
-*/
-                    }
+                    AlbumEntryCard(entry: entry)
                 }
                 
+                //                        SwipeSongView(
+                                      //                            content: {
+                                      //                                if song.entries.isEmpty {
+                                      //                                    SongCardCompact(song: song)
+                                      //                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
+                                      //                                } else {
+                                      //                                    SongEntryCard(song: song)
+                                      //                                }
+                                      //                            },
+                                      //                            right: {
+                                      //                                HStack {
+                                      //                                    ZStack {
+                                      //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                      //                                        Button(action: {
+                                      //                                            songForEntryView = song
+                                      //                                        }) {
+                                      //                                            Image(systemName: "plus")
+                                      //                                                .foregroundColor(.black)
+                                      //                                        }
+                                      //                                    }
+                                      //                                    ZStack{
+                                      //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                      //                                        Button(action: {
+                                      //                                            songToDelete = song
+                                      //                                            showAlertForDeletingSong.toggle()
+                                      //                                        }) {
+                                      //                                            Image(systemName: "trash")
+                                      //                                                .foregroundColor(.black)
+                                      //                                        }
+                                      //                                    }
+                                      //                                }
+                                      //                            },
+                                      //                            itemHeight: 50
+                                      //                        )
+                
+                /*--- SONGS SECTION ---*/
                 ForEach($album.songs, id: \.id) { $song in
-                    //songHeight = calculateHeight(for: song)
-                    //SwipeSongView(
-                       // content: {
-                            if song.entries.isEmpty {
-                                SongCardCompact(song: song, showingAddEntryButton: true)
-                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                
-                            } else {
-                                
-                                SongEntryCard(song: song)
-                                
-                            }
-                           
-                       /* } ,
-                        right: {
-                            HStack {
-                                ZStack {
-                                    Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                    Button(action: {
-                                        songForEntryView = song
-                                    }) {
-                                        Image(systemName: "plus")
-                                            .foregroundColor(.black)
-                                    }
-                                }
-                                ZStack {
-                                    Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                    Button(action: {
-                                        songToDelete = song
-                                        showAlertForDeletingSong.toggle()
-                                    }) {
-                                        Image(systemName: "trash")
-                                            .foregroundColor(.black)
-                                    }
-                                }
-                            }
-                        },
-                        
-                        itemHeight: 50
-                    )*/
-                    
+                    if song.entries.isEmpty {
+                        SongCardCompact(song: song, showingAddEntryButton: true)
+                            .shadow(color: Color.black.opacity(0.15), radius: 20)
+                    } else {
+                        SongEntryCard(song: song)
+                    }
                 }
-                
                 .sheet(item: $songForEntryView) { song in
                     AddSongEntryView(song: song)
                 }
             }
             .padding(.horizontal)
             .padding(.top, 60)
-           
-
+            
+            
             
             Spacer()
             
-            .background(navigationBarColor)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "lessthan.circle.fill")
-                            .foregroundStyle(.white, .gray)
-                    }
-                }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button(action: {
-                        showingEditAlbumSheet = true
-                    }) {
-                        Label("Modifica", systemImage: "pencil.circle.fill")
-                    }
-                    .foregroundStyle(.white, .gray)
-                }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button(action: {
-                        showConfirmationDialog = true
-                    }) {
-                        Label("Opzioni", systemImage: "plus.circle.fill")
-                    }
-                    .foregroundStyle(.white, .gray)
-                }
-            }
-            .toolbarBackground(navigationBarColor.opacity(0.3), for: .navigationBar)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitleDisplayMode(.inline)
-            .opacity(navigationBarTitleOpacity)
-           /* .padding(.horizontal) // Add horizontal padding to the ScrollView content to prevent clipping by ScrollView
-        }
+                .background(navigationBarColor)
+                
+        }//.navigationTitle("Albums").accessibilityHidden(false)
         .navigationTitle(album.title)
+        .ignoresSafeArea()
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                           Text(album.title)
+                               .font(.headline)
+                               .opacity(navigationBarTitleOpacity)
+                       }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
                     Button(action: {
@@ -279,17 +208,17 @@ struct BookletView: View {
                 }) {
                     Label("Options", systemImage: "plus")
                 }
-            }*/
+            }
+            
         }
-        .ignoresSafeArea()
         .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
             Button(action: {
                 showingNewAlbumEntryView = true
             }) {
-                Text("Add Entry")
+                Text("Add entry")
             }
-            Button("Annulla", role: .cancel) {
-                // Azione di annullamento
+            Button("Cancel", role: .cancel) {
+                // Cancel action
             }
         }
         .sheet(isPresented: $showingNewAlbumEntryView) {
@@ -308,7 +237,7 @@ struct BookletView: View {
                     showToast.toggle()
                 }
             }) {
-                Text("Elimina canzone")
+                Text("Delete song")
             }
             Button("Annulla", role: .cancel) {
                 
@@ -350,5 +279,5 @@ struct BookletView: View {
             }
         }
     }
-   
+    
 }
