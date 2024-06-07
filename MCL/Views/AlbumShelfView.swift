@@ -36,7 +36,7 @@ struct AlbumShelfView: View {
                                 Spacer()
                                 NavigationLink(destination: BookletView(album: album)){
                                     VStack {
-                                        AlbumCard(album: album)
+                                        AlbumCard(album: album, isExpanded: false)
                                             .shadow(color: Color.black.opacity(0.15), radius: 20)
                                             .padding()
                                             .contextMenu(ContextMenu(menuItems: {
@@ -116,7 +116,7 @@ struct AlbumShelfView: View {
                     }
                 }
             }
-            .navigationTitle("Albums")
+            //
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button(action: {
