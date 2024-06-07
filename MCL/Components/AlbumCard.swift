@@ -68,17 +68,17 @@ struct AlbumCard: View {
             .frame(width: isExpanded ? UIScreen.main.bounds.width : UIScreen.main.bounds.width/1.3, height: isExpanded ? UIScreen.main.bounds.height * 0.6 : UIScreen.main.bounds.width/1.3, alignment: .bottomLeading)
 
             // Overlay to give album card a gradient to look more physical
-            RoundedRectangle(cornerRadius: 5)
-                .frame(width: frameSideMeasure, height: frameSideMeasure)
-                .opacity(0.1)
-                .foregroundStyle(LinearGradient(
-                    gradient: Gradient(stops: [
-                        .init(color: Color.white, location: 0.0),
-                        .init(color: Color.black, location: 1.5)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ))
+//            RoundedRectangle(cornerRadius: 5)
+//                .frame(width: frameSideMeasure, height: frameSideMeasure)
+//                .opacity(0.1)
+//                .foregroundStyle(LinearGradient(
+//                    gradient: Gradient(stops: [
+//                        .init(color: Color.white, location: 0.0),
+//                        .init(color: Color.black, location: 1.5)
+//                    ]),
+//                    startPoint: .topLeading,
+//                    endPoint: .bottomTrailing
+//                ))
         }
         Spacer()
     }
