@@ -20,6 +20,10 @@ struct AlbumShelfView: View {
     @State var offsetToCenter = UIScreen.main.bounds.width/9
     
     @State private var showingDeleteConfirmation = false
+    @State private var showingOptionsMenu = false
+    
+    @State private var showingEditAlbumSheet: Bool = false
+    @State private var showingDeleteAlert = false
 
     
     @Query(sort: \Album.dateCreated, order: .reverse) var albums: [Album]
@@ -92,7 +96,27 @@ struct AlbumShelfView: View {
                                                 .font(.footnote)
                                         }
                                     }
+                                    Menu {
+                                        Button(action: {
+                                            showingEditAlbumSheet.toggle()
+                                        }){
+                                            Label("Edit Album",systemImage: "pencil")
+                                        }
+                                        Divider()
+                                        Button(role: .destructive) {
+                                            showingDeleteConfirmation = true
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    } label: {
+                                        Image(systemName: "ellipsis.circle")
+                                    }
+                                    .sheet(isPresented: $showingEditAlbumSheet) {
+                                        EditAlbumView(album: album)
+                                    }
+                                    .padding(.top, 10)
                                     Spacer()
+                                        
                                 }
                             }
                             .scrollTransition (topLeading: .interactive, bottomTrailing: .interactive, axis: .horizontal) { effect, phase in
@@ -111,7 +135,6 @@ struct AlbumShelfView: View {
                 }
                 .scrollTargetBehavior(.viewAligned)
                 .scrollIndicators(.hidden)
-//                .offset(y: -offsetToCenter)
                 .overlay {
                     if albums.isEmpty {
                         ContentUnavailableView(label: {
@@ -146,6 +169,7 @@ struct AlbumShelfView: View {
             .navigationDestination(for: Album.self) { album in
                 BookletView(album: album)
             }
+            
         }
     }
 }
