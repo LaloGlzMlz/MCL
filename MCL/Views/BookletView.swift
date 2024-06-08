@@ -120,52 +120,48 @@ struct BookletView: View {
                     AlbumEntryCard(entry: entry)
                 }
                 
-                //                        SwipeSongView(
-                                      //                            content: {
-                                      //                                if song.entries.isEmpty {
-                                      //                                    SongCardCompact(song: song)
-                                      //                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                      //                                } else {
-                                      //                                    SongEntryCard(song: song)
-                                      //                                }
-                                      //                            },
-                                      //                            right: {
-                                      //                                HStack {
-                                      //                                    ZStack {
-                                      //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                      //                                        Button(action: {
-                                      //                                            songForEntryView = song
-                                      //                                        }) {
-                                      //                                            Image(systemName: "plus")
-                                      //                                                .foregroundColor(.black)
-                                      //                                        }
-                                      //                                    }
-                                      //                                    ZStack{
-                                      //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                      //                                        Button(action: {
-                                      //                                            songToDelete = song
-                                      //                                            showAlertForDeletingSong.toggle()
-                                      //                                        }) {
-                                      //                                            Image(systemName: "trash")
-                                      //                                                .foregroundColor(.black)
-                                      //                                        }
-                                      //                                    }
-                                      //                                }
-                                      //                            },
-                                      //                            itemHeight: 50
-                                      //                        )
+               
                 
                 /*--- SONGS SECTION ---*/
                 ForEach($album.songs, id: \.id) { $song in
-                    if song.entries.isEmpty {
-                        SongCardCompact(song: song, showingAddEntryButton: true)
-                            .shadow(color: Color.black.opacity(0.15), radius: 20)
-                    } else {
-                        SongEntryCard(song: song)
-                    }
+                    SwipeSongView(
+                        content: {
+                            if song.entries.isEmpty {
+                                SongCardCompact(song: song, showingAddEntryButton: true)
+                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                            } else {
+                                SongEntryCard(song: song)
+                            }
+                        },
+                        right: {
+                            HStack {
+                                ZStack {
+                                    Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                    Button(action: {
+                                        songForEntryView = song
+                                    }) {
+                                        Image(systemName: "plus")
+                                            .foregroundColor(.black)
+                                    }
+                                }
+                                ZStack{
+                                    Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                    Button(action: {
+                                        songToDelete = song
+                                        showAlertForDeletingSong.toggle()
+                                    }) {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.black)
+                                    }
+                                }
+                            }
+                        },
+                        itemHeight: UIScreen.main.bounds.height / 12
+                    )
                 }
                 .sheet(item: $songForEntryView) { song in
                     AddSongEntryView(song: song)
+                    
                 }
             }
             .padding(.horizontal)
@@ -177,8 +173,8 @@ struct BookletView: View {
             
                 .background(navigationBarColor)
                 
-        }//.navigationTitle("Albums").accessibilityHidden(false)
-        .navigationTitle(album.title)
+        }
+        
         .ignoresSafeArea()
         .toolbar {
             ToolbarItem(placement: .principal) {
