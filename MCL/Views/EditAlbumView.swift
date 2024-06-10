@@ -47,7 +47,14 @@ struct EditAlbumView: View {
     @State var selectedPhotoDataAux: Data?
     @State var sideMeasure = UIScreen.main.bounds.width / 1.5
     
+    @StateObject var locationManager: SearchLocation = .init()
+    @State private var isShowingLocationSheet = false
+    @State private var isLocationEnabeled = false
+    @State private var chosenLocation: String = ""
+    
     @FocusState private var nameIsFocused: Bool
+    
+    @State private var showAlertAlreadyAdded = false
     
     var body: some View {
         NavigationStack {
@@ -69,7 +76,6 @@ struct EditAlbumView: View {
                                         Image(systemName: "camera.circle.fill")
                                             .resizable()
                                             .frame(width: UIScreen.main.bounds.width / 5, height: UIScreen.main.bounds.width / 5)
-                                            .foregroundStyle(Color.blue)
                                     }
                                 }
                             } else {
@@ -148,8 +154,11 @@ struct EditAlbumView: View {
                                 }
                             }
                         }
-    //                    .onDelete(perform: deleteSong(song))
-                        AddedSongs(songStore: songStore)
+                        if let songToAdd = songStore.addedSongs.first(where: { song in
+                            !songAux.contains(where: { $0.name == song.name && $0.artist == song.artist })
+                        }) {
+                            AddedSongs(songStore: songStore)
+                        }
                     }
                     
                 } header: {
@@ -222,6 +231,54 @@ struct EditAlbumView: View {
                     }
                 }
                 
+                /*--- ALBUM LOCATION SECTION ---*/
+                Section {
+                    VStack {
+                        Toggle("Add location", isOn: $isLocationEnabeled)
+                            .onChange(of: isLocationEnabeled) {
+                                nameIsFocused = false
+                            }
+                        if isLocationEnabeled {
+                            Divider()
+                            HStack {
+                                Button(action: {
+                                    nameIsFocused = false
+                                    locationManager.requestUserLocation()
+                                    self.isShowingLocationSheet = true
+                                }) {
+                                    Label(chosenLocation == "" ? "Add Location" : chosenLocation, systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.top, 5)
+                                    /*Label(locationManager.selectedPlace?.name != nil ? "Add Location1" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.top, 5)*/
+                                }
+
+                                
+                                if chosenLocation != "" {
+                                    Button(action: {
+                                        //Reset position
+                                        locationManager.selectedPlace = nil
+                                        chosenLocation = ""
+                                        locationManager.searchText = ""
+                                    }) {
+                                        Image(systemName: "trash.circle.fill")
+                                            .foregroundColor(.red)
+                                            .imageScale(.large)
+                                    }
+                                    
+                                    .padding(.leading, 10)
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                            }
+                        }
+                    }
+                }
+                .listSectionSpacing(.compact)
+                
+                
             }// Close form
             
             .toolbar {
@@ -234,8 +291,13 @@ struct EditAlbumView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
-                        album.title = titleAux
-                        album.songs = songAux + songStore.addedSongs
+                        var titleWithNoWhiteSpace = titleAux.trimmingCharacters(in: .whitespaces)
+                        album.title = titleWithNoWhiteSpace
+                        for songCheck in songStore.addedSongs {
+                            if !songAux.contains(where: {$0.name == songCheck.name && $0.artist == songCheck.artist}){
+                                album.songs = songAux + songStore.addedSongs
+                            }
+                        }
                         album.shortDescription = shortDescriptionAux
                         album.coverImage = selectedPhotoDataAux
                         if isDateEnabeled == true && isEndDateEnabled == true {
@@ -258,6 +320,12 @@ struct EditAlbumView: View {
                             album.dateTo = nil
                             
                         }
+                        if isLocationEnabeled {
+                            chosenLocation = locationManager.selectedPlace?.name ?? ""
+                        } else {
+                            chosenLocation = ""
+                        }
+                        album.location = chosenLocation
                         dismiss()
                     }) {
                         Text("Save")
@@ -290,17 +358,31 @@ struct EditAlbumView: View {
                 isEndDateEnabled = false
             }
             selectedPhotoDataAux = album.coverImage
+            chosenLocation = album.location
+            isLocationEnabeled = !chosenLocation.isEmpty
+            if isLocationEnabeled {
+                locationManager.searchText = chosenLocation
+                //((locationManager.selectedPlace?.name) != nil) ? chosenLocation : ""
+                
+                print(chosenLocation)
+            }
+        }
+        .alert(isPresented: $showAlertAlreadyAdded) {
+            Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
         }
         .sheet(isPresented: $isShowingAddSongView) {
             MusicSearchBar(songStore: songStore)
         }
+        .sheet(isPresented: $isShowingLocationSheet) {
+            LocationView(locationManager: locationManager, isPresented: $isShowingLocationSheet)
+        }
     }
-//    private func deleteSongs(indexSet: IndexSet) {
-//        for index in indexSet {
-//            context.delete(album.songs[index])
-//            album.songs.remove(at: index)
-//        }
-//    }
+    //    private func deleteSongs(indexSet: IndexSet) {
+    //        for index in indexSet {
+    //            context.delete(album.songs[index])
+    //            album.songs.remove(at: index)
+    //        }
+    //    }
     private func deleteSong(_ song: SongFromCatalog) {
         if let index = songAux.firstIndex(where: { $0.id == song.id }) {
             songAux.remove(at: index)
