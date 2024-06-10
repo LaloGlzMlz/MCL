@@ -83,15 +83,6 @@ struct SongCardCompact: View {
                 
                 Spacer()
                 
-                if showingAddEntryButton {
-                    Button(action: {
-                        songForEntryView = song
-                    }) {
-                        Image(systemName: "plus.circle.fill")
-                            .padding()
-                            .foregroundColor(.white)
-                    }
-                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         }

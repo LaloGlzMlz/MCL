@@ -248,7 +248,7 @@ struct EditAlbumView: View {
                                     self.isShowingLocationSheet = true
                                 }) {
                                     Label(chosenLocation == "" ? "Add Location" : chosenLocation, systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.pink)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(.top, 5)
                                     /*Label(locationManager.selectedPlace?.name != nil ? "Add Location1" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")

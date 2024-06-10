@@ -82,11 +82,11 @@ struct LocationView: View {
                             HStack(spacing: 15) {
                                 Image(systemName: "mappin.circle.fill")
                                     .font(.title2)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.pink)
                                 VStack(alignment: .leading, spacing: 6) {
                                     Text(place.name ?? "")
                                         .font(.title3.bold())
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.pink)
                                     Text(place.locality ?? "")
                                         .font(.caption)
                                         //.foregroundColor(.gray)
