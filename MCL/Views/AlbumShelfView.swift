@@ -67,6 +67,15 @@ struct AlbumShelfView: View {
                                         .frame(width: screenWidth / 1.5)
                                         .multilineTextAlignment(.center)
                                     
+                                    
+                                    if album.dateFrom != nil || album.dateTo != nil {
+                                            Rectangle()
+                                                .frame(width: 272, height: 5)
+                                                .cornerRadius(15)
+                                                .foregroundColor(Color.pink)
+                                        }
+                                        
+                                        
                                     // Display dates if they exist
                                     if album.dateTo != nil {
                                         HStack {
