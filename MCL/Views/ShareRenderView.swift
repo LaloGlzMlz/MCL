@@ -12,8 +12,12 @@ struct ShareRenderView: View {
     let album: Album
     
     var body: some View {
+<<<<<<< HEAD
+        Text("\(album.title)")
+=======
         AlbumCard(album: album, isExpanded: true)
             .shadow(color: Color.black.opacity(0.15), radius: 20)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0))
+>>>>>>> develop
     }
 }

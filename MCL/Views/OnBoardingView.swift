@@ -2,8 +2,9 @@
 //  OnBoardingView.swift
 //  MCL
 //
-//  Created by Fernando Sensenhauser on 03/06/24.
+//  Created by Fernando Sensenhauser on 04/06/24.
 //
+
 import SwiftUI
 import Foundation
 
