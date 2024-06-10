@@ -237,6 +237,7 @@ struct EditAlbumView: View {
                         Toggle("Add location", isOn: $isLocationEnabeled)
                             .onChange(of: isLocationEnabeled) {
                                 nameIsFocused = false
+                                
                             }
                         if isLocationEnabeled {
                             Divider()
@@ -362,11 +363,12 @@ struct EditAlbumView: View {
             isLocationEnabeled = !chosenLocation.isEmpty
             if isLocationEnabeled {
                 locationManager.searchText = chosenLocation
-                //((locationManager.selectedPlace?.name) != nil) ? chosenLocation : ""
-                
                 print(chosenLocation)
             }
         }
+        .onChange(of: locationManager.selectedPlace) { newPlace in
+                    chosenLocation = newPlace?.name ?? ""
+                }
         .alert(isPresented: $showAlertAlreadyAdded) {
             Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
         }
