@@ -24,7 +24,7 @@ struct BookletView: View {
     @State private var showSharePreview = false
     @State private var averageColor: Color = .primary
     
-   
+    
     
     @State private var showingEditView = false
     @State private var showingNewAlbumEntryView = false
@@ -33,6 +33,7 @@ struct BookletView: View {
     @State var showAlertForDeletingSong: Bool = false
     @State private var showToast = false
     @State var songToDelete: SongFromCatalog?
+    
     
     var toastOptions = SimpleToastOptions(
         alignment: .bottom,
@@ -44,6 +45,9 @@ struct BookletView: View {
     
     @State private var navigationBarColor: Color = .clear
     @State private var navigationBarTitleOpacity: Double = 0
+    
+    @State private var entryToDelete: Entry?
+    @State private var showingDeleteConfirmation = false
     
     
     @Bindable var album: Album
@@ -118,9 +122,25 @@ struct BookletView: View {
                 /*--- BOOKLET ENTRIES SECTION ---*/
                 ForEach(album.entries) { entry in
                     AlbumEntryCard(entry: entry)
+                        .contextMenu (ContextMenu(menuItems: {
+                            Button("Delete", role: .destructive) {
+                                showingDeleteConfirmation = true
+                            }
+                        }))
+                        .alert(isPresented:$showingDeleteConfirmation) {
+                            Alert(
+                                title: Text("Are you sure you want to delete this entry?"),
+                                message: Text("There is no undo"),
+                                primaryButton: .destructive(Text("Delete")) {
+                                    deleteEntry(entry)
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
                 }
                 
-               
+                
+    
                 
                 /*--- SONGS SECTION ---*/
                 ForEach($album.songs, id: \.id) { $song in
@@ -172,16 +192,16 @@ struct BookletView: View {
             Spacer()
             
                 .background(navigationBarColor)
-                
+            
         }
         
         .ignoresSafeArea()
         .toolbar {
             ToolbarItem(placement: .principal) {
-                           Text(album.title)
-                               .font(.headline)
-                               .opacity(navigationBarTitleOpacity)
-                       }
+                Text(album.title)
+                    .font(.headline)
+                    .opacity(navigationBarTitleOpacity)
+            }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
                     Button(action: {
@@ -272,6 +292,13 @@ struct BookletView: View {
         withAnimation {
             if let index = album.songs.firstIndex(where: { $0.id == song.id }) {
                 album.songs.remove(at: index)
+            }
+        }
+    }
+    private func deleteEntry(_ entry: Entry) {
+        withAnimation {
+            if let index = album.entries.firstIndex(where: { $0.id == entry.id }) {
+                album.entries.remove(at: index)
             }
         }
     }

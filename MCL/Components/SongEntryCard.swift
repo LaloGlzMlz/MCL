@@ -14,6 +14,9 @@ struct SongEntryCard: View {
     
     @Bindable var song: SongFromCatalog
     
+    @State private var entryToDelete: Entry?
+    @State private var showingDeleteConfirmation = false
+    
     var body: some View {
         ZStack {
             /*--- WHITE CARD UNDER COLOR CARD ---*/
@@ -88,13 +91,6 @@ struct SongEntryCard: View {
                     
                     Spacer()
                     
-                    Button(action: {
-                        songForEntryView = song
-                    }) {
-                        Image(systemName: "plus.circle.fill")
-                            .padding()
-                            .foregroundColor(.white)
-                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
@@ -130,6 +126,23 @@ struct SongEntryCard: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     .multilineTextAlignment(.leading)
                             }
+                            .contextMenu {
+                                Button("Delete", role: .destructive) {
+                                    entryToDelete = song.entries[index]
+                                    showingDeleteConfirmation = true
+                                }
+                            }
+                            .alert(isPresented: $showingDeleteConfirmation) {
+                                Alert(
+                                    title: Text("Are you sure you want to delete this entry?"),
+                                    message: Text("There is no undo"),
+                                    primaryButton: .destructive(Text("Delete")) {
+                                        deleteEntry()
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
+                            
                         }
                     }
                 }
@@ -140,6 +153,11 @@ struct SongEntryCard: View {
         }
         .sheet(item: $songForEntryView) { song in
             AddSongEntryView(song: song)
+        }
+    }
+    private func deleteEntry() {
+        if let entry = entryToDelete {
+            song.entries.removeAll { $0.id == entry.id }
         }
     }
 }
