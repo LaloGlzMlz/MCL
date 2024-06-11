@@ -161,7 +161,7 @@ struct BookletView: View {
                                         songForEntryView = song
                                     }) {
                                         Image(systemName: "plus")
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.pink)
                                     }
                                 }
                                 ZStack{
@@ -171,7 +171,7 @@ struct BookletView: View {
                                         showAlertForDeletingSong.toggle()
                                     }) {
                                         Image(systemName: "trash")
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.pink)
                                     }
                                 }
                             }

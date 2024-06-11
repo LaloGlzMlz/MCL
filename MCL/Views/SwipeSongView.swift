@@ -48,6 +48,7 @@ struct SwipeSongView<Content: View, Right: View>: View {
                     }else{
                         rightPast = hoffset < -swipeThreshold
                     }
+                    
                 }
             }
             .onEnded{ value in
