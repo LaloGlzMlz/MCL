@@ -237,6 +237,7 @@ struct EditAlbumView: View {
                         Toggle("Add location", isOn: $isLocationEnabeled)
                             .onChange(of: isLocationEnabeled) {
                                 nameIsFocused = false
+                                
                             }
                         if isLocationEnabeled {
                             Divider()
@@ -247,7 +248,7 @@ struct EditAlbumView: View {
                                     self.isShowingLocationSheet = true
                                 }) {
                                     Label(chosenLocation == "" ? "Add Location" : chosenLocation, systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.pink)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(.top, 5)
                                     /*Label(locationManager.selectedPlace?.name != nil ? "Add Location1" : (locationManager.selectedPlace?.name ?? "Location"), systemImage: locationManager.selectedPlace == nil ? "location.circle.fill" : "mappin.circle.fill")
@@ -362,11 +363,12 @@ struct EditAlbumView: View {
             isLocationEnabeled = !chosenLocation.isEmpty
             if isLocationEnabeled {
                 locationManager.searchText = chosenLocation
-                //((locationManager.selectedPlace?.name) != nil) ? chosenLocation : ""
-                
                 print(chosenLocation)
             }
         }
+        .onChange(of: locationManager.selectedPlace) { newPlace in
+                    chosenLocation = newPlace?.name ?? ""
+                }
         .alert(isPresented: $showAlertAlreadyAdded) {
             Alert(title: Text("This song is already in your album."), dismissButton: .default(Text("OK")))
         }
