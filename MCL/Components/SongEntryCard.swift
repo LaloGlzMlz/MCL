@@ -111,14 +111,13 @@ struct SongEntryCard: View {
                                 .foregroundColor(.white)
                                 .opacity(0.1)
                             
-                            VStack {
+                            VStack(alignment: .leading){
                                 if song.entries[index].prompt != "" {
                                     Text(song.entries[index].prompt ?? "")
                                         .padding([.top, .leading, .trailing], 10)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .frame(maxHeight: .infinity, alignment: .leading)
                                         .foregroundStyle(Color.white)
                                         .bold()
-                                        .lineLimit(nil)
                                         .multilineTextAlignment(.leading)
                                     Divider()
                                         .padding(.horizontal)
@@ -143,3 +142,4 @@ struct SongEntryCard: View {
         }
     }
 }
+
