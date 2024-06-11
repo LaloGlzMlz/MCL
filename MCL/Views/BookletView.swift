@@ -196,11 +196,23 @@ struct BookletView: View {
         }
         
         .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(album.title)
                     .font(.headline)
                     .opacity(navigationBarTitleOpacity)
+            }
+            ToolbarItemGroup(placement: .topBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left.circle.fill")
+                            .foregroundColor(.black) // Change the color to black
+                            .opacity(0.65) // Change the opacity of the SF Symbol
+                    }
+                }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
@@ -215,28 +227,35 @@ struct BookletView: View {
                         Label("Share Album", systemImage: "square.and.arrow.up")
                     }
                 } label: {
-                    Label("Options Menu", systemImage: "ellipsis.circle")
+                        Image(systemName: "ellipsis.circle.fill")
+                            .foregroundColor(.black) // Color for the ellipsis
+                            .opacity(0.65) // Opacity for the ellipsis
                 }
             }
+
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    showConfirmationDialog.toggle()
+                    showingNewAlbumEntryView = true
                 }) {
-                    Label("Options", systemImage: "plus")
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundColor(.black) // Change the color to black
+                            .opacity(0.65) // Change the opacity of the SF Symbol
+                    }
                 }
             }
-            
+
         }
-        .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
-            Button(action: {
-                showingNewAlbumEntryView = true
-            }) {
-                Text("Add entry")
-            }
-            Button("Cancel", role: .cancel) {
-                // Cancel action
-            }
-        }
+//        .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
+//            Button(action: {
+//                showingNewAlbumEntryView = true
+//            }) {
+//                Text("Add entry")
+//            }
+//            Button("Cancel", role: .cancel) {
+//                // Cancel action
+//            }
+//        }
         .sheet(isPresented: $showingNewAlbumEntryView) {
             AddAlbumEntryView(album: album)
         }
