@@ -111,6 +111,7 @@ struct SongEntryCard: View {
                                 if song.entries[index].prompt != "" {
                                     Text(song.entries[index].prompt ?? "")
                                         .padding([.top, .leading, .trailing], 10)
+                                        .frame(maxHeight: .infinity, alignment: .leading)
                                         .foregroundStyle(Color.white)
                                         .bold()
                                         .multilineTextAlignment(.leading)
