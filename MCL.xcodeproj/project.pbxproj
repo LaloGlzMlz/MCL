@@ -26,8 +26,7 @@
 		27D238172BFB84D6006D9BD4 /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D238162BFB84D6006D9BD4 /* SearchLocation.swift */; };
 		27D2381B2BFCF6CB006D9BD4 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D2381A2BFCF6CB006D9BD4 /* LocationView.swift */; };
 		27F3A6492BF4E80D0029832D /* AddAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A6482BF4E80D0029832D /* AddAlbumView.swift */; };
-		2E1A209C2BFB8FA300B2C396 /* Shelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1A209B2BFB8FA300B2C396 /* Shelf.swift */; };
-		27F3A64F2BF60A860029832D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3A64E2BF60A860029832D /* ImagePicker.swift */; };
+		2E1A209C2BFB8FA300B2C396 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2E1A209E2BFB926400B2C396 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1A209D2BFB926400B2C396 /* AlbumModel.swift */; };
 		2E1A20A02BFCB71A00B2C396 /* AlbumCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1A209F2BFCB71A00B2C396 /* AlbumCard.swift */; };
 		2E6135E32C0A211B00371C15 /* AddSongEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6135E22C0A211B00371C15 /* AddSongEntryView.swift */; };
@@ -119,7 +118,6 @@
 				2E71E5572BF5110800F80405 /* MusicSearchBar.swift */,
 				171EA0E42C10E3EE00C2423A /* DocumentPicker.swift */,
 				171EA0E52C10E3EE00C2423A /* ImagePicker.swift */,
-				2E1A209B2BFB8FA300B2C396 /* Shelf.swift */,
 				08F4D4932BF8CBD7001F7279 /* AddedSongs.swift */,
 				2E1A209F2BFCB71A00B2C396 /* AlbumCard.swift */,
 				2E7FD6C92C051D3500D5B779 /* AlbumEntryCard.swift */,
@@ -282,7 +280,7 @@
 				171EA0DF2C0F953500C2423A /* ColorExstension.swift in Sources */,
 				2E8C79802BF3803B008C13C3 /* MCLApp.swift in Sources */,
 				2E7FD6C62C04D63A00D5B779 /* AddAlbumEntryView.swift in Sources */,
-				2E1A209C2BFB8FA300B2C396 /* Shelf.swift in Sources */,
+				2E1A209C2BFB8FA300B2C396 /* (null) in Sources */,
 				171EA0D92C0F94EA00C2423A /* OnBoardingData.swift in Sources */,
 				2EAC1CAF2C0A098B00AC9BD7 /* PromptsViewModel.swift in Sources */,
 				08F4D4942BF8CBD7001F7279 /* AddedSongs.swift in Sources */,
@@ -434,7 +432,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 8FW56V9S55;
+				DEVELOPMENT_TEAM = 3B6HLC87UZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
@@ -471,7 +469,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MCL/Preview Content\"";
-				DEVELOPMENT_TEAM = 8FW56V9S55;
+				DEVELOPMENT_TEAM = 3B6HLC87UZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCL/Info.plist;
