@@ -279,6 +279,13 @@ struct EditAlbumView: View {
                 }
                 .listSectionSpacing(.compact)
                 
+                Section{
+                    Button(action:{
+                        print("Album deleted")
+                    }){
+                        Text("Delete Album")
+                    }
+                }
                 
             }// Close form
             

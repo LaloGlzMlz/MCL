@@ -16,6 +16,7 @@ struct AlbumShelfView: View {
 
     @State private var path: [Album] = []
     @State private var newAlbum: Album?
+    @State private var currentEditingAlbum: Album?
 
     @State var offsetToCenter = UIScreen.main.bounds.width/9
     
@@ -38,8 +39,9 @@ struct AlbumShelfView: View {
                         ForEach(albums) { album in
                             VStack {
                                 Spacer()
-                                NavigationLink(destination: BookletView(album: album)){
-                                    VStack {
+                                ZStack {
+                                    NavigationLink(destination: BookletView(album: album)){
+                                        
                                         AlbumCard(album: album, isExpanded: false)
                                             .shadow(color: Color.black.opacity(0.15), radius: 20)
                                             .padding()
@@ -59,6 +61,24 @@ struct AlbumShelfView: View {
                                                 )
                                             }
                                     }
+                                        Menu {
+                                            Button(action: {
+                                                currentEditingAlbum = album
+                                            }){
+                                                Label("Edit Album",systemImage: "pencil")
+                                            }
+                                            Divider()
+                                            Button(role: .destructive) {
+                                                showingDeleteConfirmation = true
+                                            } label: {
+                                                Label("Delete", systemImage: "trash")
+                                            }
+                                        } label: {
+                                            Image(systemName: "ellipsis.circle.fill")
+                                                .foregroundStyle(.pink,.white.opacity(0.3))
+                                                .font(.system(size: 26))
+                                        }
+                                        .offset(x: 120, y: -120)
                                 }
                                 VStack {
                                     Text(album.title)
@@ -96,29 +116,13 @@ struct AlbumShelfView: View {
                                                 .font(.footnote)
                                         }
                                     }
-                                    Menu {
-                                        Button(action: {
-                                            showingEditAlbumSheet.toggle()
-                                        }){
-                                            Label("Edit Album",systemImage: "pencil")
-                                        }
-                                        Divider()
-                                        Button(role: .destructive) {
-                                            showingDeleteConfirmation = true
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
-                                        }
-                                    } label: {
-                                        Image(systemName: "ellipsis.circle")
-                                    }
-                                    .sheet(isPresented: $showingEditAlbumSheet) {
-                                        EditAlbumView(album: album)
-                                    }
-                                    .padding(.top, 10)
+
+                                    
                                     Spacer()
                                         
-                                }
+                                }.padding(.top, 10)
                             }
+                            .padding(.horizontal, -45)
                             .scrollTransition (topLeading: .interactive, bottomTrailing: .interactive, axis: .horizontal) { effect, phase in
                                 effect
                                     .scaleEffect(1 - abs(phase.value))
@@ -158,6 +162,12 @@ struct AlbumShelfView: View {
                     }
                 }
             }
+            .sheet(item: $currentEditingAlbum) { album in
+                            EditAlbumView(album: album)
+                                .onDisappear {
+                                    currentEditingAlbum = nil
+                                }
+                        }
             .sheet(isPresented: $showingAddAlbumSheet, onDismiss: {
                 if let album = newAlbum {
                     path.append(album)
