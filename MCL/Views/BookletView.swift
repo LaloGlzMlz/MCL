@@ -36,7 +36,7 @@ struct BookletView: View {
     
     @State private var buttonColor: Color = .white
     @State private var buttonTintColor: Color = .gray.opacity(0.65)
-    
+
     var toastOptions = SimpleToastOptions(
         alignment: .bottom,
         hideAfter: 1,
