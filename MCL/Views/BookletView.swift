@@ -34,7 +34,9 @@ struct BookletView: View {
     @State private var showToast = false
     @State var songToDelete: SongFromCatalog?
     
-    
+    @State private var buttonColor: Color = .white
+    @State private var buttonTintColor: Color = .gray.opacity(0.65)
+
     var toastOptions = SimpleToastOptions(
         alignment: .bottom,
         hideAfter: 1,
@@ -156,22 +158,22 @@ struct BookletView: View {
                         right: {
                             HStack {
                                 ZStack {
-                                    Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                    Circle().foregroundStyle(Color.gray.opacity(0.3))
                                     Button(action: {
                                         songForEntryView = song
                                     }) {
                                         Image(systemName: "plus")
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.pink)
                                     }
                                 }
                                 ZStack{
-                                    Circle().foregroundStyle(Color.gray.opacity(0.5))
+                                    Circle().foregroundStyle(Color.gray.opacity(0.3))
                                     Button(action: {
                                         songToDelete = song
                                         showAlertForDeletingSong.toggle()
                                     }) {
                                         Image(systemName: "trash")
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.pink)
                                     }
                                 }
                             }
@@ -209,8 +211,10 @@ struct BookletView: View {
                 }) {
                     HStack {
                         Image(systemName: "chevron.left.circle.fill")
-                            .foregroundColor(.black) // Change the color to black
-                            .opacity(0.65) // Change the opacity of the SF Symbol
+                            .foregroundStyle(
+                                buttonColor,
+                                buttonTintColor
+                            )
                     }
                 }
             }
@@ -228,8 +232,10 @@ struct BookletView: View {
                     }
                 } label: {
                         Image(systemName: "ellipsis.circle.fill")
-                            .foregroundColor(.black) // Color for the ellipsis
-                            .opacity(0.65) // Opacity for the ellipsis
+                        .foregroundStyle(
+                            buttonColor,
+                            buttonTintColor
+                        )
                 }
             }
 
@@ -239,23 +245,23 @@ struct BookletView: View {
                 }) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.black) // Change the color to black
-                            .opacity(0.65) // Change the opacity of the SF Symbol
+                            .foregroundStyle(
+                                buttonColor,
+                                buttonTintColor
+                            )
                     }
                 }
             }
 
+        }.onChange(of: navigationBarColor) { newColor in
+            if newColor == .white{
+                buttonColor = .pink
+                buttonTintColor = .gray.opacity(0.3)
+            }else{
+                buttonColor = .white
+                buttonTintColor = .gray.opacity(0.65)
+            }
         }
-//        .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
-//            Button(action: {
-//                showingNewAlbumEntryView = true
-//            }) {
-//                Text("Add entry")
-//            }
-//            Button("Cancel", role: .cancel) {
-//                // Cancel action
-//            }
-//        }
         .sheet(isPresented: $showingNewAlbumEntryView) {
             AddAlbumEntryView(album: album)
         }

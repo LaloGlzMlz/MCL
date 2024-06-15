@@ -25,11 +25,11 @@ struct MCLApp: App {
     
     var body: some Scene {
         WindowGroup {
-           // if isOnboarded ?? false {
-                 AlbumShelfView()
-         //   } else {
-          //  OnBoardingView()
-          //  }
+            if isOnboarded ?? false {
+           AlbumShelfView()
+            } else {
+            OnBoardingView()
+            }
         }
         .modelContainer(modelContainer)
     }
