@@ -1,25 +1,18 @@
 //
 //  ContentView.swift
-//  Flamingo
+//  MCL
 //
-//  Created by Fernando Sensenhauser on 13/05/24.
+//  Created by Eduardo Gonzalez Melgoza on 14/05/24.
 //
 
 import SwiftUI
 import SwiftData
-import MusicKit
-
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @State var songs = [SongFromCatalog]()
-    @State private var searchString: String = ""
+    @State private var showingSheet = false
     
     var body: some View {
-        NavigationStack {
-            FirstScreenView()
-//                .navigationTitle("Albums")
-//                .navigationBarTitleDisplayMode(.large)
-        }
+        Text("Nothing here (:")
     }
 }

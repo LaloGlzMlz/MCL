@@ -24,7 +24,7 @@ struct BookletView: View {
     @State private var showSharePreview = false
     @State private var averageColor: Color = .primary
     
-   
+    
     
     @State private var showingEditView = false
     @State private var showingNewAlbumEntryView = false
@@ -34,6 +34,9 @@ struct BookletView: View {
     @State private var showToast = false
     @State var songToDelete: SongFromCatalog?
     
+    @State private var buttonColor: Color = .white
+    @State private var buttonTintColor: Color = .gray.opacity(0.65)
+
     var toastOptions = SimpleToastOptions(
         alignment: .bottom,
         hideAfter: 1,
@@ -44,6 +47,9 @@ struct BookletView: View {
     
     @State private var navigationBarColor: Color = .clear
     @State private var navigationBarTitleOpacity: Double = 0
+    
+    @State private var entryToDelete: Entry?
+    @State private var showingDeleteConfirmation = false
     
     
     @Bindable var album: Album
@@ -118,54 +124,66 @@ struct BookletView: View {
                 /*--- BOOKLET ENTRIES SECTION ---*/
                 ForEach(album.entries) { entry in
                     AlbumEntryCard(entry: entry)
+                        .contextMenu (ContextMenu(menuItems: {
+                            Button("Delete", role: .destructive) {
+                                showingDeleteConfirmation = true
+                            }
+                        }))
+                        .alert(isPresented:$showingDeleteConfirmation) {
+                            Alert(
+                                title: Text("Are you sure you want to delete this entry?"),
+                                message: Text("There is no undo"),
+                                primaryButton: .destructive(Text("Delete")) {
+                                    deleteEntry(entry)
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
                 }
                 
-                //                        SwipeSongView(
-                                      //                            content: {
-                                      //                                if song.entries.isEmpty {
-                                      //                                    SongCardCompact(song: song)
-                                      //                                        .shadow(color: Color.black.opacity(0.15), radius: 20)
-                                      //                                } else {
-                                      //                                    SongEntryCard(song: song)
-                                      //                                }
-                                      //                            },
-                                      //                            right: {
-                                      //                                HStack {
-                                      //                                    ZStack {
-                                      //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                      //                                        Button(action: {
-                                      //                                            songForEntryView = song
-                                      //                                        }) {
-                                      //                                            Image(systemName: "plus")
-                                      //                                                .foregroundColor(.black)
-                                      //                                        }
-                                      //                                    }
-                                      //                                    ZStack{
-                                      //                                        Circle().foregroundStyle(Color.gray.opacity(0.5))
-                                      //                                        Button(action: {
-                                      //                                            songToDelete = song
-                                      //                                            showAlertForDeletingSong.toggle()
-                                      //                                        }) {
-                                      //                                            Image(systemName: "trash")
-                                      //                                                .foregroundColor(.black)
-                                      //                                        }
-                                      //                                    }
-                                      //                                }
-                                      //                            },
-                                      //                            itemHeight: 50
-                                      //                        )
+                
+    
                 
                 /*--- SONGS SECTION ---*/
                 ForEach($album.songs, id: \.id) { $song in
-                    if song.entries.isEmpty {
-                        SongCardCompact(song: song, showingAddEntryButton: true)
-                            .shadow(color: Color.black.opacity(0.15), radius: 20)
-                    } else {
-                        SongEntryCard(song: song)
-                    }
+                    SwipeSongView(
+                        content: {
+                            if song.entries.isEmpty {
+                                SongCardCompact(song: song, showingAddEntryButton: true)
+                                    .shadow(color: Color.black.opacity(0.15), radius: 20)
+                            } else {
+                                SongEntryCard(song: song)
+                            }
+                        },
+                        right: {
+                            HStack {
+                                ZStack {
+                                    Circle().foregroundStyle(Color.gray.opacity(0.3))
+                                    Button(action: {
+                                        songForEntryView = song
+                                    }) {
+                                        Image(systemName: "plus")
+                                            .foregroundColor(.pink)
+                                    }
+                                }
+                                ZStack{
+                                    Circle().foregroundStyle(Color.gray.opacity(0.3))
+                                    Button(action: {
+                                        songToDelete = song
+                                        showAlertForDeletingSong.toggle()
+                                    }) {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.pink)
+                                    }
+                                }
+                            }
+                        },
+                        itemHeight: UIScreen.main.bounds.height / 12
+                    )
                 }
                 .sheet(item: $songForEntryView) { song in
                     AddSongEntryView(song: song)
+                    
                 }
             }
             .padding(.horizontal)
@@ -176,16 +194,30 @@ struct BookletView: View {
             Spacer()
             
                 .background(navigationBarColor)
-                
-        }//.navigationTitle("Albums").accessibilityHidden(false)
-        .navigationTitle(album.title)
+            
+        }
+        
         .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                           Text(album.title)
-                               .font(.headline)
-                               .opacity(navigationBarTitleOpacity)
-                       }
+                Text(album.title)
+                    .font(.headline)
+                    .opacity(navigationBarTitleOpacity)
+            }
+            ToolbarItemGroup(placement: .topBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left.circle.fill")
+                            .foregroundStyle(
+                                buttonColor,
+                                buttonTintColor
+                            )
+                    }
+                }
+            }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
                     Button(action: {
@@ -199,26 +231,35 @@ struct BookletView: View {
                         Label("Share Album", systemImage: "square.and.arrow.up")
                     }
                 } label: {
-                    Label("Options Menu", systemImage: "ellipsis.circle")
+                        Image(systemName: "ellipsis.circle.fill")
+                        .foregroundStyle(
+                            buttonColor,
+                            buttonTintColor
+                        )
                 }
             }
+
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button(action: {
-                    showConfirmationDialog.toggle()
+                    showingNewAlbumEntryView = true
                 }) {
-                    Label("Options", systemImage: "plus")
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundStyle(
+                                buttonColor,
+                                buttonTintColor
+                            )
+                    }
                 }
             }
-            
-        }
-        .confirmationDialog("", isPresented: $showConfirmationDialog, titleVisibility: .hidden) {
-            Button(action: {
-                showingNewAlbumEntryView = true
-            }) {
-                Text("Add entry")
-            }
-            Button("Cancel", role: .cancel) {
-                // Cancel action
+
+        }.onChange(of: navigationBarColor) { newColor in
+            if newColor == .white{
+                buttonColor = .pink
+                buttonTintColor = .gray.opacity(0.3)
+            }else{
+                buttonColor = .white
+                buttonTintColor = .gray.opacity(0.65)
             }
         }
         .sheet(isPresented: $showingNewAlbumEntryView) {
@@ -276,6 +317,13 @@ struct BookletView: View {
         withAnimation {
             if let index = album.songs.firstIndex(where: { $0.id == song.id }) {
                 album.songs.remove(at: index)
+            }
+        }
+    }
+    private func deleteEntry(_ entry: Entry) {
+        withAnimation {
+            if let index = album.entries.firstIndex(where: { $0.id == entry.id }) {
+                album.entries.remove(at: index)
             }
         }
     }

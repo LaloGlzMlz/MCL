@@ -48,6 +48,7 @@ struct SwipeSongView<Content: View, Right: View>: View {
                     }else{
                         rightPast = hoffset < -swipeThreshold
                     }
+                    
                 }
             }
             .onEnded{ value in
@@ -64,7 +65,7 @@ struct SwipeSongView<Content: View, Right: View>: View {
     
     var body: some View {
         
-        GeometryReader { geometry in
+     
             
             ZStack {
                 HStack(spacing: 0) {
@@ -77,13 +78,10 @@ struct SwipeSongView<Content: View, Right: View>: View {
                 }
                 
                 content()
-                    .frame(width: geometry.size.width)
                     .gesture(drag)
                     .offset(x: hoffset)
             }
-        }
-       
-        
+
     }
 }
 

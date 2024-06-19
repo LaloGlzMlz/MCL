@@ -1,8 +1,8 @@
 //
-//  OnBoardingModel.swift
+//  OnBoardingItem.swift
 //  MCL
 //
-//  Created by Fernando Sensenhauser on 03/06/24.
+//  Created by Fernando Sensenhauser on 04/06/24.
 //
 
 import Foundation
